@@ -19,7 +19,7 @@
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@v0.119.0/build/three.module.js'
 import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@v0.119.0/examples/jsm/loaders/GLTFLoader.js'
 import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@v0.119.0/examples/jsm/controls/OrbitControls.js'
-import { LIGHT_COLORS } from './js/constants.js'
+import { LIGHT_COLORS, SHADOW_MAP } from './js/constants.js'
 
 const createRenderer = (canvas) => {
   const antialias = true
@@ -29,6 +29,9 @@ const createRenderer = (canvas) => {
     antialias,
     powerPreference
   })
+  renderer.shadowMap.enabled = true
+  renderer.shadowMap.type = THREE.VSMShadowMap
+
   renderer.toneMapping = THREE.ACESFilmicToneMapping
   renderer.toneMappingExposure = 1
   renderer.outputEncoding = THREE.sRGBEncoding
@@ -53,10 +56,18 @@ const loadDonut = async () => {
   const loader = new GLTFLoader()
   const model = await loader.loadAsync('assets/gltf/donut1.glb')
 
-  model.scene.traverse((node) => {
-    node.castShadow = true
-    node.receiveShadow = true
-  })
+  {
+    const donut = model.scene.getObjectByName('Donut')
+    donut.traverse((node) => {
+      node.castShadow = true
+      node.receiveShadow = true
+    })
+  }
+
+  {
+    const plane = model.scene.getObjectByName('Plane')
+    plane.receiveShadow = true
+  }
 
   console.log(model.scene)
 
@@ -94,8 +105,15 @@ const main = async () => {
 
   {
     const intensity = 1.5
-    const light = new THREE.DirectionalLight(LIGHT_COLORS.warm, intensity)
-    light.position.set(-1, 2, 4)
+    const light = new THREE.SpotLight(LIGHT_COLORS.warm, intensity)
+    light.castShadow = true
+    light.angle = 60
+    
+    light.shadow.mapSize.width = SHADOW_MAP.width
+    light.shadow.mapSize.height = SHADOW_MAP.height
+    light.shadow.radius = 16
+
+    light.position.set(-0.25, 0.5, 1)
     scene.add(light)
   }
 
