@@ -18,7 +18,8 @@
 <script type='module'>
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@v0.119.0/build/three.module.js'
 import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@v0.119.0/examples/jsm/loaders/GLTFLoader.js'
-import { OrbitControls } from "https://cdn.jsdelivr.net/npm/three@v0.119.0/examples/jsm/controls/OrbitControls.js"
+import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@v0.119.0/examples/jsm/controls/OrbitControls.js'
+import { LIGHT_COLORS } from './js/constants.js'
 
 const createRenderer = (canvas) => {
   const antialias = true
@@ -31,6 +32,7 @@ const createRenderer = (canvas) => {
   renderer.toneMapping = THREE.ACESFilmicToneMapping
   renderer.toneMappingExposure = 1
   renderer.outputEncoding = THREE.sRGBEncoding
+  renderer.physicallyCorrectLights = true
 
   return renderer
 }
@@ -55,6 +57,8 @@ const loadDonut = async () => {
     node.castShadow = true
     node.receiveShadow = true
   })
+
+  console.log(model.scene)
 
   return model.scene
 }
@@ -89,10 +93,15 @@ const main = async () => {
   scene.add(cube)
 
   {
-    const color = 0xFFFFFF
-    const intensity = 1
-    const light = new THREE.DirectionalLight(color, intensity)
+    const intensity = 1.5
+    const light = new THREE.DirectionalLight(LIGHT_COLORS.warm, intensity)
     light.position.set(-1, 2, 4)
+    scene.add(light)
+  }
+
+  {
+    const intensity = 0.6
+    const light = new THREE.AmbientLight(LIGHT_COLORS.warm, intensity)
     scene.add(light)
   }
 
