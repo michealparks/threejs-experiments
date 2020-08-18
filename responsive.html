@@ -1,0 +1,100 @@
+<style>
+  body {
+    margin: 0;
+    height: 100%;
+  }
+
+  canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+</style>
+
+<body>
+  <canvas></canvas>
+</body>
+
+<script type='module'>
+import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r119/three.module.js'
+
+const createRenderer = (canvas) => {
+  const antialias = true
+  const powerPreference = 'high-performance'
+  return new THREE.WebGLRenderer({
+    canvas,
+    antialias,
+    powerPreference
+  })
+}
+
+const createCamera = () => {
+  const fov = 75
+  const aspect = 2
+  const near = 0.1
+  const far = 5
+  return new THREE.PerspectiveCamera(fov, aspect, near, far)
+}
+
+const createCube = () => {
+  const boxSize = 1
+  const geo = new THREE.BoxBufferGeometry(boxSize, boxSize, boxSize)
+
+  const color = 0x44aa88
+  const mat = new THREE.MeshPhongMaterial({ color })
+
+  return new THREE.Mesh(geo, mat)
+}
+
+const renderToDisplaySize = (canvas, renderer, camera) => {
+  const pixelRatio = window.devicePixelRatio
+  const width = canvas.clientWidth * pixelRatio | 0
+  const height = canvas.clientHeight * pixelRatio | 0
+  
+  if (canvas.width === width && canvas.height === height) {
+    return
+  }
+
+  renderer.setSize(width, height, false)
+  camera.aspect = width / height
+  camera.updateProjectionMatrix()
+}
+
+const main = () => {
+  const canvas = document.querySelector('canvas')
+
+  const renderer = createRenderer(canvas)
+
+  const camera = createCamera()
+  camera.position.z = 2
+
+  const scene = new THREE.Scene()
+
+  const cube = createCube()
+  scene.add(cube)
+
+  {
+    const color = 0xFFFFFF
+    const intensity = 1
+    const light = new THREE.DirectionalLight(color, intensity)
+    light.position.set(-1, 2, 4)
+    scene.add(light)
+  }
+
+  const render = (time) => {
+    const seconds = time * 0.001
+
+    renderToDisplaySize(canvas, renderer, camera)
+
+    cube.rotation.x = seconds
+    cube.rotation.y = seconds
+
+    renderer.render(scene, camera)
+    requestAnimationFrame(render)
+  }
+
+  requestAnimationFrame(render)
+}
+
+main()
+</script>

@@ -1,0 +1,113 @@
+<style>
+  body {
+    margin: 0;
+    height: 100%;
+  }
+
+  canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+</style>
+
+<body>
+  <canvas></canvas>
+</body>
+
+<script type='module'>
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@v0.119.0/build/three.module.js'
+import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@v0.119.0/examples/jsm/loaders/GLTFLoader.js'
+import { OrbitControls } from "https://cdn.jsdelivr.net/npm/three@v0.119.0/examples/jsm/controls/OrbitControls.js"
+
+const createRenderer = (canvas) => {
+  const antialias = true
+  const powerPreference = 'high-performance'
+  const renderer = new THREE.WebGLRenderer({
+    canvas,
+    antialias,
+    powerPreference
+  })
+  renderer.toneMapping = THREE.ACESFilmicToneMapping
+  renderer.toneMappingExposure = 1
+  renderer.outputEncoding = THREE.sRGBEncoding
+
+  return renderer
+}
+
+const createCamera = () => {
+  const fov = 75
+  const aspect = 2
+  const near = 0.01
+  const far = 10
+  return new THREE.PerspectiveCamera(fov, aspect, near, far)
+}
+
+const createControls = (renderer, camera) => {
+  return new OrbitControls(camera, renderer.domElement)
+}
+
+const loadDonut = async () => {
+  const loader = new GLTFLoader()
+  const model = await loader.loadAsync('assets/gltf/donut1.glb')
+
+  model.scene.traverse((node) => {
+    node.castShadow = true
+    node.receiveShadow = true
+  })
+
+  return model.scene
+}
+
+const renderToDisplaySize = (canvas, renderer, camera) => {
+  const pixelRatio = window.devicePixelRatio
+  const width = canvas.clientWidth * pixelRatio | 0
+  const height = canvas.clientHeight * pixelRatio | 0
+  
+  if (canvas.width === width && canvas.height === height) {
+    return
+  }
+
+  renderer.setSize(width, height, false)
+  camera.aspect = width / height
+  camera.updateProjectionMatrix()
+}
+
+const main = async () => {
+  const canvas = document.querySelector('canvas')
+
+  const renderer = createRenderer(canvas)
+
+  const camera = createCamera()
+  camera.position.z = 2
+
+  const controls = createControls(renderer, camera)
+
+  const scene = new THREE.Scene()
+
+  const cube = await loadDonut()
+  scene.add(cube)
+
+  {
+    const color = 0xFFFFFF
+    const intensity = 1
+    const light = new THREE.DirectionalLight(color, intensity)
+    light.position.set(-1, 2, 4)
+    scene.add(light)
+  }
+
+  const render = (time) => {
+    const seconds = time * 0.001
+
+    renderToDisplaySize(canvas, renderer, camera)
+
+    controls.update()
+    renderer.render(scene, camera)
+    requestAnimationFrame(render)
+  }
+
+  requestAnimationFrame(render)
+}
+
+main()
+</script>
