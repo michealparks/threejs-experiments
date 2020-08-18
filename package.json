@@ -1,0 +1,24 @@
+{
+  "name": "threejs-experiments",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "gh-pages": "node ./scripts/gh-pages.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/michealparks/threejs-experiments.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/michealparks/threejs-experiments/issues"
+  },
+  "homepage": "https://github.com/michealparks/threejs-experiments#readme",
+  "devDependencies": {
+    "express": "^4.17.1",
+    "gh-pages": "^3.1.0"
+  }
+}
