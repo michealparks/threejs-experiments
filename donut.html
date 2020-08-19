@@ -4,18 +4,11 @@
 
 <script type='module'>
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@v0.119.0/build/three.module.js'
-import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@v0.119.0/examples/jsm/loaders/GLTFLoader.js'
-import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@v0.119.0/examples/jsm/controls/OrbitControls.js'
-import { createCore } from './js/core.js'
+import { createCore, createOrbitControls, loadGLTF } from './js/core.js'
 import { COLORS, SHADOW_MAP } from './js/constants.js'
 
-const createControls = (renderer, camera) => {
-  return new OrbitControls(camera, renderer.domElement)
-}
-
 const loadDonut = async () => {
-  const loader = new GLTFLoader()
-  const model = await loader.loadAsync('assets/gltf/donut1.glb')
+  const model = await loadGLTF('assets/gltf/donut1.glb')
 
   {
     const donut = model.scene.getObjectByName('Donut')
@@ -42,10 +35,7 @@ const main = async () => {
   
   camera.position.set(0.5, 0.4, 0.5)
 
-  const controls = createControls(renderer, camera)
-  controls.enableDamping = true
-  controls.dampingFactor = 0.05
-  controls.autoRotate = true
+  const controls = createOrbitControls({ renderer, camera })
 
   {
     const intensity = 1.5
