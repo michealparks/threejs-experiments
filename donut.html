@@ -6,34 +6,8 @@
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@v0.119.0/build/three.module.js'
 import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@v0.119.0/examples/jsm/loaders/GLTFLoader.js'
 import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@v0.119.0/examples/jsm/controls/OrbitControls.js'
-import { LIGHT_COLORS, SHADOW_MAP } from './js/constants.js'
-
-const createRenderer = (canvas) => {
-  const antialias = true
-  const powerPreference = 'high-performance'
-  const renderer = new THREE.WebGLRenderer({
-    canvas,
-    antialias,
-    powerPreference
-  })
-  renderer.shadowMap.enabled = true
-  renderer.shadowMap.type = THREE.VSMShadowMap
-
-  renderer.toneMapping = THREE.ACESFilmicToneMapping
-  renderer.toneMappingExposure = 1
-  renderer.outputEncoding = THREE.sRGBEncoding
-  renderer.physicallyCorrectLights = true
-
-  return renderer
-}
-
-const createCamera = () => {
-  const fov = 75
-  const aspect = 2
-  const near = 0.01
-  const far = 10
-  return new THREE.PerspectiveCamera(fov, aspect, near, far)
-}
+import { createCore } from './js/core.js'
+import { COLORS, SHADOW_MAP } from './js/constants.js'
 
 const createControls = (renderer, camera) => {
   return new OrbitControls(camera, renderer.domElement)
@@ -61,41 +35,24 @@ const loadDonut = async () => {
   return model.scene
 }
 
-const renderToDisplaySize = (canvas, renderer, camera) => {
-  const pixelRatio = window.devicePixelRatio
-  const width = canvas.clientWidth * pixelRatio | 0
-  const height = canvas.clientHeight * pixelRatio | 0
-  
-  if (canvas.width === width && canvas.height === height) {
-    return
-  }
-
-  renderer.setSize(width, height, false)
-  camera.aspect = width / height
-  camera.updateProjectionMatrix()
-}
-
 const main = async () => {
   const canvas = document.querySelector('canvas')
-
-  const renderer = createRenderer(canvas)
-
-  const camera = createCamera()
-  camera.position.z = 2
+  const core = createCore({ canvas })
+  const { renderer, camera, scene, setAnimationLoop } = core
+  
+  camera.position.set(0.5, 0.4, 0.5)
 
   const controls = createControls(renderer, camera)
-
-  const scene = new THREE.Scene()
-
-  const donut = await loadDonut()
-  scene.add(donut)
+  controls.enableDamping = true
+  controls.dampingFactor = 0.05
+  controls.autoRotate = true
 
   {
     const intensity = 1.5
-    const light = new THREE.SpotLight(LIGHT_COLORS.warm, intensity)
+    const light = new THREE.SpotLight(COLORS.warmLight, intensity)
     light.castShadow = true
     light.angle = 60
-    
+
     light.shadow.mapSize.width = SHADOW_MAP.width
     light.shadow.mapSize.height = SHADOW_MAP.height
     light.shadow.radius = 16
@@ -104,23 +61,12 @@ const main = async () => {
     scene.add(light)
   }
 
-  {
-    const intensity = 0.6
-    const light = new THREE.AmbientLight(LIGHT_COLORS.warm, intensity)
-    scene.add(light)
-  }
+  const donut = await loadDonut()
+  scene.add(donut)
 
-  const render = (time) => {
-    const seconds = time * 0.001
-
-    renderToDisplaySize(canvas, renderer, camera)
-
+  setAnimationLoop(() => {
     controls.update()
-    renderer.render(scene, camera)
-    requestAnimationFrame(render)
-  }
-
-  requestAnimationFrame(render)
+  })
 }
 
 main()

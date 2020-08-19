@@ -1,8 +1,9 @@
-export const LIGHT_COLORS = {
-  cool: 0xFFFFFF,
-  warm: 0xFFF5b6,
-  warmer: 0xEFC070,
-  warmest: 0xE47025
+export const COLORS = {
+  coolLight: 0xFFFFFF,
+  warmLight: 0xFFF5b6,
+  warmerLight: 0xEFC070,
+  warmestLight: 0xE47025,
+  black: 0x000000
 }
 
 export const SHADOW_MAP = {
