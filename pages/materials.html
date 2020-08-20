@@ -1,0 +1,26 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel='stylesheet' href='css/index.css' />
+
+<a class='button' href='/threejs-experiments'>Back</a>
+
+<canvas></canvas>
+
+<script type='module'>
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@v0.119.0/build/three.module.js'
+import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@v0.119.0/examples/jsm/loaders/GLTFLoader.js'
+import { createCore, createOrbitControls } from './js/core.js'
+import { COLORS, SHADOW_MAP } from './js/constants.js'
+
+const canvas = document.querySelector('canvas')
+const core = createCore({
+  canvas,
+  camera: { far: 1000, fov: 50 },
+  ambientLight: 0.0
+})
+
+const { renderer, camera, scene, setAnimationLoop } = core
+
+setAnimationLoop((time) => {
+
+})
+</script>
