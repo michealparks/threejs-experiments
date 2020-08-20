@@ -1,3 +1,4 @@
+<title>ThreeJS Experiments: Responsive Rendering | Micheal Parks</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel='stylesheet' href='css/index.css' />
 
@@ -7,35 +8,11 @@
 
 <script type='module'>
 import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r119/three.module.js'
+import { createRenderer, createCamera, createCube } from './core.js'
 
-const createRenderer = (canvas) => {
-  const antialias = true
-  const powerPreference = 'high-performance'
-  return new THREE.WebGLRenderer({
-    canvas,
-    antialias,
-    powerPreference
-  })
-}
-
-const createCamera = () => {
-  const fov = 75
-  const aspect = 2
-  const near = 0.1
-  const far = 5
-  return new THREE.PerspectiveCamera(fov, aspect, near, far)
-}
-
-const createCube = () => {
-  const boxSize = 1
-  const geo = new THREE.BoxBufferGeometry(boxSize, boxSize, boxSize)
-
-  const color = 0x44aa88
-  const mat = new THREE.MeshPhongMaterial({ color })
-
-  return new THREE.Mesh(geo, mat)
-}
-
+/**
+ * Introduced here. Found in core.js for future experiments.
+ */
 const renderToDisplaySize = (canvas, renderer, camera) => {
   const pixelRatio = window.devicePixelRatio
   const width = canvas.clientWidth * pixelRatio | 0

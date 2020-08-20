@@ -1,0 +1,59 @@
+<title>ThreeJS Experiments: Hello Shader! | Micheal Parks</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel='stylesheet' href='css/index.css' />
+
+<a class='button' href='/threejs-experiments'>Back</a>
+
+<canvas></canvas>
+
+<script type='module'>
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@v0.119.0/build/three.module.js'
+import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@v0.119.0/examples/jsm/loaders/GLTFLoader.js'
+import { createCore, createOrbitControls, createCube, loadGLSL } from './js/core.js'
+import { COLORS, SHADOW_MAP } from './js/constants.js'
+
+const core = createCore({ canvas: document.querySelector('canvas') })
+const { camera, scene, setAnimationLoop } = core
+camera.position.z = 2
+
+const main = async () => {
+  const uniforms = {
+    ...THREE.UniformsLib.lights,
+    time: { value: 0 },
+    resolution: { value: new THREE.Vector2() },
+  }
+
+  
+
+  const fragmentShader = await loadGLSL('shaders/hello-shader.frag.glsl')
+  const mat = new THREE.ShaderMaterial({
+    fragmentShader,
+    uniforms,
+    fog: true,
+    lights: true,
+  })
+  const cube = createCube({ size: 0.5, mat })
+  scene.add(cube)
+
+  {
+    const intensity = 1
+    const light = new THREE.PointLight(COLORS.warmLight, intensity)
+    light.position.set(-1, 2, 4)
+    light.lookAt(0, 0, 0)
+    scene.add(light)
+  }
+
+  setAnimationLoop((time, canvas) => {
+    const seconds = time * 0.001
+
+    uniforms.resolution.value.set(canvas.width, canvas.height)
+    uniforms.time.value = seconds
+
+    cube.rotation.x = seconds
+    cube.rotation.y = seconds
+  })
+}
+
+window.THREE = THREE
+main()
+</script>
