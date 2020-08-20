@@ -3,7 +3,23 @@ import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@v0.119.0/examp
 import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@v0.119.0/examples/jsm/loaders/GLTFLoader.js'
 import { COLORS } from './constants.js'
 
-const createRenderer = (canvas) => {
+const loader = new GLTFLoader()
+
+export const loadGLSL = async (src) => {
+  const response = await window.fetch(src)
+  const glsl = await response.text()
+  return glsl
+}
+
+export const loadGLTF = async (src) => {
+  const model = await loader.loadAsync(src)
+
+  // @TODO: some nice features like adding shadows, etc
+
+  return model
+}
+
+export const createRenderer = (canvas) => {
   const antialias = true
   const powerPreference = 'high-performance'
   const renderer = new THREE.WebGLRenderer({
@@ -22,7 +38,7 @@ const createRenderer = (canvas) => {
   return renderer
 }
 
-const createCamera = ({
+export const createCamera = ({
   fov = 75,
   aspect = 2,
   near = 0.01,
@@ -31,7 +47,7 @@ const createCamera = ({
   return new THREE.PerspectiveCamera(fov, aspect, near, far)
 }
 
-const renderToDisplaySize = (canvas, renderer, scene, camera) => {
+export const renderToDisplaySize = (canvas, renderer, scene, camera) => {
   const pixelRatio = window.devicePixelRatio
   const width = canvas.clientWidth * pixelRatio | 0
   const height = canvas.clientHeight * pixelRatio | 0
@@ -52,11 +68,11 @@ export const createCore = ({
   ambientLight = 0.6
 }) => {
   const renderer = createRenderer(canvas)
-  const camera = createCamera(cameraConfig || {})
+  const camera = createCamera(cameraConfig)
   const scene = new THREE.Scene()
 
   const render = (fn, time) => {
-    fn(time)
+    fn(time, canvas, renderer, scene, camera)
     renderToDisplaySize(canvas, renderer, scene, camera)
   }
 
@@ -84,8 +100,12 @@ export const createOrbitControls = ({ renderer, camera, rotate = true }) => {
   return controls
 }
 
-const loader = new GLTFLoader()
-export const loadGLTF = async (src) => {
-  const model = await loader.loadAsync(src)
-  return model
+export const createCube = (config = {}) => {
+  const {
+    size = 1,
+    color = 0x44aa88,
+    mat = new THREE.MeshPhongMaterial({ color })
+  } = config
+  const geo = new THREE.BoxBufferGeometry(size, size, size)
+  return new THREE.Mesh(geo, mat)
 }
