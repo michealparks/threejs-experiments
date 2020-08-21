@@ -8,7 +8,7 @@
 
 <script type='module'>
 import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r119/three.module.js'
-import { createRenderer, createCamera, createCube } from './core.js'
+import { createRenderer, createCamera, createCube } from './js/core.js'
 
 /**
  * Introduced here. Found in core.js for future experiments.
@@ -32,7 +32,7 @@ const main = () => {
 
   const renderer = createRenderer(canvas)
 
-  const camera = createCamera()
+  const camera = createCamera({})
   camera.position.z = 2
 
   const scene = new THREE.Scene()
