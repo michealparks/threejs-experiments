@@ -1,0 +1,97 @@
+<title>ThreeJS Experiments: Matrix | Micheal Parks</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel='stylesheet' href='css/index.css' />
+
+<a class='button' href='/threejs-experiments'>Back</a>
+
+<canvas></canvas>
+
+<script type='module'>
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@v0.119.0/build/three.module.js'
+import { createCore, createOrbitControls, createCube, loadGLSL } from './js/core.js'
+import { COLORS, SHADOW_MAP } from './js/constants.js'
+  
+const core = createCore({
+  canvas: document.querySelector('canvas'),
+  camera: { near: 1, far: 1000 }
+})
+const { camera, scene, setAnimationLoop } = core
+camera.position.set(0, 1, 10)
+
+const DISTANCE = 100
+const DECAY = 2
+
+const lights = [
+  {
+    intensity: 100,
+    position: [0, 3, 0]
+  }, {
+    intensity: 50,
+    position: [0, 3, 2]
+  }, {
+    intensity: 10,
+    position: [2, 1, 2]
+  }
+]
+
+for (const { intensity, position } of lights) {
+  const light = new THREE.PointLight(COLORS.warmLight, intensity, DISTANCE, DECAY)
+  light.position.set(...position)
+  light.target = new THREE.Vector3(0, 0, 0)
+  light.castShadow = true
+  light.angle = 60
+  light.shadow.mapSize.width = SHADOW_MAP.width
+  light.shadow.mapSize.height = SHADOW_MAP.height
+  light.shadow.radius = 16
+  scene.add(light)
+}
+
+const rotateFactor = 0.005
+
+const rotationMatrix = new THREE.Matrix4()
+  .makeRotationX(rotateFactor)
+  .multiply(new THREE.Matrix4().makeRotationY(rotateFactor))
+  .multiply(new THREE.Matrix4().makeRotationZ(rotateFactor))
+
+const translateMatrix = new THREE.Matrix4()
+
+const cubeTranslation = (i, n) => {
+  const x = ((i % 3) * n) - n
+  const y = (((i % 9) / 3 | 0) * n) - n
+  const z = ((i / 9 | 0) * n) - n
+  translateMatrix.makeTranslation(x, y, z)
+}
+
+const numCubes = 27
+const cubes = []
+let i = 0
+
+while (i < numCubes) {
+  const cube = createCube({ size: 1, color: COLORS.lightBlue })
+  cube.castShadow = true
+  cube.receiveShadow = true
+  cubes.push(cube)
+  scene.add(cube)
+
+  cubeTranslation(i, 1)
+  cube.applyMatrix4(translateMatrix)
+
+  i += 1
+}
+
+let x = 0
+
+setAnimationLoop((time) => {
+  x += 0.1
+
+  camera.applyMatrix4(rotationMatrix)
+
+  let i = 0
+  while (i < numCubes) {
+    cubeTranslation(i, Math.sin(x /2) * 0.01)
+    cubes[i].applyMatrix4(translateMatrix)
+
+    i += 1
+  }
+})
+</script>
