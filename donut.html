@@ -15,23 +15,19 @@ import * as THREE from 'https://cdn.jsdelivr.net/npm/three@v0.119.0/build/three.
 import { createCore, createOrbitControls, loadGLTF } from './js/core.js'
 import { COLORS, SHADOW_MAP } from './js/constants.js'
 
-const loadDonut = async () => {
-  const model = await loadGLTF('assets/gltf/donut1.glb')
+const loadModel = async (src, config = {}) => {
+  const { shadow = true } = config
+  const model = await loadGLTF(src)
+  const { scene } = model
 
-  {
-    const donut = model.scene.getObjectByName('Donut')
-    donut.traverse((node) => {
+  if (shadow) {
+    scene.traverse((node) => {
       node.castShadow = true
       node.receiveShadow = true
     })
   }
 
-  {
-    const plane = model.scene.getObjectByName('Plane')
-    plane.receiveShadow = true
-  }
-
-  return model.scene
+  return scene
 }
 
 const main = async () => {
@@ -57,8 +53,17 @@ const main = async () => {
     scene.add(light)
   }
 
-  const donut = await loadDonut()
+  const donut = await loadModel('assets/gltf/donut2.glb')
+  {
+    const plane = donut.getObjectByName('Plane')
+    plane.castShadow = false
+  }
   scene.add(donut)
+
+  const mug = await loadModel('assets/gltf/mug_high.glb')
+  mug.position.set(-0.1, 0.0, -0.15)
+  mug.rotation.set(0.0, -Math.PI / 4, 0.0)
+  scene.add(mug)
 
   setAnimationLoop(() => {
     controls.update()
