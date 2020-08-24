@@ -1,0 +1,67 @@
+<title>ThreeJS Experiments: Donut | Micheal Parks</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel='stylesheet' href='css/index.css' />
+
+<a id='back' class='button' href='/threejs-experiments'>Back</a>
+
+<script type='module'>
+  if (window !== window.top) window.back.style.display = 'none'
+</script>
+
+<canvas></canvas>
+
+<script type='module'>
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@v0.119.0/build/three.module.js'
+import { createCore, createOrbitControls, loadGLTF } from './js/core.js'
+import { COLORS, SHADOW_MAP } from './js/constants.js'
+
+const loadModel = async (src, config = {}) => {
+  const { shadow = true } = config
+  const model = await loadGLTF(src)
+  const { scene } = model
+
+  if (shadow) {
+    scene.traverse((node) => {
+      node.castShadow = true
+      node.receiveShadow = true
+    })
+  }
+
+  return scene
+}
+
+const main = async () => {
+  const canvas = document.querySelector('canvas')
+  const core = createCore({ canvas, camera: { near: 0.1, far: 100 } })
+  const { renderer, camera, scene, setAnimationLoop } = core
+  
+  camera.position.set(3.5, 5.0, 7.0)
+
+  const controls = createOrbitControls({ renderer, camera, rotate: false })
+
+  {
+    const intensity = 1.5
+    const light = new THREE.SpotLight(COLORS.warmLight, intensity)
+    light.castShadow = true
+    light.angle = 60
+
+    light.shadow.mapSize.width = SHADOW_MAP.width
+    light.shadow.mapSize.height = SHADOW_MAP.height
+    light.shadow.radius = 16
+
+    light.position.set(-0.25, 0.5, 1)
+    scene.add(light)
+  }
+
+  const mug = await loadModel('assets/gltf/construction_fliers_1.glb')
+  mug.position.set(-0.1, 0.0, -0.15)
+  mug.rotation.set(0.0, -Math.PI / 4, 0.0)
+  scene.add(mug)
+
+  setAnimationLoop(() => {
+    controls.update()
+  })
+}
+
+main()
+</script>
