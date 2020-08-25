@@ -35,17 +35,17 @@ const main = async () => {
   const core = createCore({ canvas, camera: { near: 0.1, far: 100 } })
   const { renderer, camera, scene, setAnimationLoop } = core
   
-  camera.position.set(3.5, 5.0, 7.0)
-
   const controls = createOrbitControls({ renderer, camera, rotate: false })
 
-  const mug = await loadModel('assets/gltf/construction_fliers_1.glb')
-  mug.position.set(-0.1, 0.0, -0.15)
-  mug.rotation.set(0.0, -Math.PI / 4, 0.0)
-  scene.add(mug)
+  const wall = await loadModel('assets/gltf/construction_fliers_1.glb')
+  wall.position.set(-0.1, 0.0, -0.15)
+  wall.rotation.set(0.0, -Math.PI / 4, 0.0)
+  scene.add(wall)
+
+  camera.position.set(7, 5, 2)
 
   {
-    const intensity = 6.0
+    const intensity = 10.0
     const light = new THREE.SpotLight(COLORS.warmLight, intensity)
     light.castShadow = true
     light.angle = 60
@@ -54,8 +54,9 @@ const main = async () => {
     light.shadow.mapSize.height = SHADOW_MAP.height
     light.shadow.radius = 16
 
-    light.position.set(10, 10, 10)
+    light.position.set(5, 10, 10)
     scene.add(light)
+
   }
 
   setAnimationLoop(() => {
