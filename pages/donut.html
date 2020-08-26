@@ -23,6 +23,8 @@ const loadModel = async (src, config = {}) => {
     scene.traverse((node) => {
       node.castShadow = true
       node.receiveShadow = true
+      node.matrixAutoUpdate = false
+      node.updateMatrix()
     })
   }
 
@@ -62,6 +64,7 @@ const main = async () => {
   const mug = await loadModel('assets/gltf/mug_high.glb')
   mug.position.set(-0.2, 0.0, -0.25)
   mug.rotation.set(0.0, -Math.PI / 4, 0.0)
+  mug.updateMatrix()
   scene.add(mug)
 
   setAnimationLoop(() => {
