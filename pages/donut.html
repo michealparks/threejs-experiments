@@ -11,8 +11,7 @@
 <canvas></canvas>
 
 <script type='module'>
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@v0.119.0/build/three.module.js'
-import { createCore, createOrbitControls, loadGLTF } from './js/core.js'
+import { THREE, createCore, createOrbitControls, loadGLTF } from './js/core.js'
 import { COLORS, SHADOW_MAP } from './js/constants.js'
 
 const loadModel = async (src, config = {}) => {
