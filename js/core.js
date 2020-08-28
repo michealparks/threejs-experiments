@@ -1,5 +1,6 @@
 
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@v0.120.0/build/three.module.js'
+import { UnrealBloomPass } from 'https://cdn.jsdelivr.net/npm/three@v0.120.0/examples/jsm/postprocessing/UnrealBloomPass.js'
 import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@v0.120.0/examples/jsm/controls/OrbitControls.js'
 import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@v0.120.0/examples/jsm/loaders/GLTFLoader.js'
 import { COLORS } from './constants.js'
@@ -14,12 +15,32 @@ export const loadGLSL = async (src) => {
   return glsl
 }
 
-export const loadGLTF = async (src) => {
-  const model = await loader.loadAsync(src)
+export const loadGLTF = (src) => {
+  return loader.loadAsync(src)
+}
 
-  // @TODO: some nice features like adding shadows, etc
+export const loadModel = async (src, config = {}) => {
+  const {
+    shadows = true,
+    matrixAutoUpdate = false
+  } = config
 
-  return model
+  const model = await loadGLTF(src)
+  const { scene } = model
+
+  scene.traverse((node) => {
+    if (shadows) {
+      node.castShadow = true
+      node.receiveShadow = true
+    }
+
+    if (matrixAutoUpdate === false) {
+      node.matrixAutoUpdate = false
+      node.updateMatrix()
+    }
+  })
+
+  return scene
 }
 
 export const createRenderer = (canvas) => {
