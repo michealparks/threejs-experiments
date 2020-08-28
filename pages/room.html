@@ -1,4 +1,4 @@
-<title>ThreeJS Experiments: Donut | Micheal Parks</title>
+<title>ThreeJS Experiments: Room | Micheal Parks</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel='stylesheet' href='css/index.css' />
 
@@ -16,39 +16,34 @@ import { COLORS, SHADOW_MAP } from './js/constants.js'
 
 const main = async () => {
   const canvas = document.querySelector('canvas')
-  const core = createCore({ canvas })
+  const core = createCore({
+    canvas,
+    ambientLight: 0.5,
+    camera: { near: 0.1, far: 100.0 }
+  })
   const { renderer, camera, scene, setAnimationLoop } = core
   
-  camera.position.set(0.5, 0.4, 0.5)
+  camera.position.set(3.5, 3.4, 3.5)
 
-  const controls = createOrbitControls({ renderer, camera })
+  const controls = createOrbitControls({ renderer, camera, rotate: false })
 
   {
-    const intensity = 1.5
+    const intensity = 3.0
     const light = new THREE.SpotLight(COLORS.warmLight, intensity)
     light.castShadow = true
-    light.angle = 60
+    light.angle = 0.8
+    light.penumbra = 1.0
 
     light.shadow.mapSize.width = SHADOW_MAP.width
     light.shadow.mapSize.height = SHADOW_MAP.height
     light.shadow.radius = 16
 
-    light.position.set(-0.25, 0.5, 1)
+    light.position.set(1, 4, 1)
     scene.add(light)
   }
 
-  const donut = await loadModel('assets/gltf/donut2.glb')
-  {
-    const plane = donut.getObjectByName('Plane')
-    plane.castShadow = false
-  }
-  scene.add(donut)
-
-  const mug = await loadModel('assets/gltf/mug_high.glb')
-  mug.position.set(-0.2, 0.0, -0.25)
-  mug.rotation.set(0.0, -Math.PI / 4, 0.0)
-  mug.updateMatrix()
-  scene.add(mug)
+  const room = await loadModel('assets/gltf/room_1.glb')
+  scene.add(room)
 
   setAnimationLoop(() => {
     controls.update()
