@@ -23,7 +23,7 @@ const main = async () => {
   })
   const { renderer, camera, scene, setAnimationLoop } = core
   
-  camera.position.set(3.5, 3.4, 3.5)
+  camera.position.set(15, 15, 15)
 
   const controls = createOrbitControls({ renderer, camera, rotate: false })
 
@@ -45,7 +45,16 @@ const main = async () => {
   const room = await loadModel('assets/gltf/room_1.glb')
   scene.add(room)
 
+  let force = 0.5
+
   setAnimationLoop(() => {
+    const { x, y, z } = camera.position
+
+    if (force >= 0.001) {
+      camera.position.set(x - force, y - force, z - force)
+      force /= 1.05
+    }
+
     controls.update()
   })
 }
