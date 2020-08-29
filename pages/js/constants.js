@@ -29,6 +29,6 @@ export const COLORS = {
 }
 
 export const SHADOW_MAP = {
-  width: 2 ** 10,
-  height: 2 ** 10
+  width: 2 ** 13,
+  height: 2 ** 13
 }

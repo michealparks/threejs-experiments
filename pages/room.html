@@ -25,19 +25,23 @@ const main = async () => {
   
   camera.position.set(15, 15, 15)
 
-  const controls = createOrbitControls({ renderer, camera, rotate: false })
+  const controls = createOrbitControls({ renderer, camera })
+  controls.autoRotate = false
+  controls.enableZoom = false
+  controls.enablePan = false
 
   {
     const intensity = 3.0
     const light = new THREE.SpotLight(COLORS.warmLight, intensity)
-    light.castShadow = true
     light.angle = 0.8
     light.penumbra = 1.0
 
+    light.castShadow = true
+    light.shadow.radius = 16
+    light.shadow.bias = -0.0001
     light.shadow.mapSize.width = SHADOW_MAP.width
     light.shadow.mapSize.height = SHADOW_MAP.height
-    light.shadow.radius = 16
-
+    
     light.position.set(1, 4, 1)
     scene.add(light)
   }
