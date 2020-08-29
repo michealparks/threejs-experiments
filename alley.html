@@ -44,9 +44,11 @@ const main = async () => {
 
   }
 
-  setAnimationLoop(() => {
+  const frame = () => {
     controls.update()
-  })
+  }
+
+  setAnimationLoop({ frame })
 }
 
 main()

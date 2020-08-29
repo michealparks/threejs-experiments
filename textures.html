@@ -26,9 +26,11 @@ const main = async () => {
   const cube = createCube({ mat })
   scene.add(cube)
 
-  setAnimationLoop((time) => {
+  const frame = (time) => {
     controls.update()
-  })
+  }
+
+  setAnimationLoop({ frame })
 }
 
 main()

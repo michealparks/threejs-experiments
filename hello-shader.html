@@ -12,7 +12,7 @@ import { COLORS, SHADOW_MAP } from './js/constants.js'
 
 const core = createCore({ canvas: document.querySelector('canvas') })
 const { camera, scene, setAnimationLoop } = core
-camera.position.z = 2
+camera.position.set(0, 0, 2)
 
 const main = async () => {
   const uniforms = {
@@ -41,7 +41,7 @@ const main = async () => {
     scene.add(light)
   }
 
-  setAnimationLoop((time, canvas) => {
+  const frame = (time, canvas) => {
     const seconds = time * 0.001
 
     uniforms.resolution.value.set(canvas.width, canvas.height)
@@ -49,7 +49,9 @@ const main = async () => {
 
     cube.rotation.x = seconds
     cube.rotation.y = seconds
-  })
+  }
+
+  setAnimationLoop({ frame })
 }
 
 window.THREE = THREE

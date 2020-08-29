@@ -80,7 +80,7 @@ while (i < numCubes) {
 
 let x = 0
 
-setAnimationLoop((time) => {
+const frame = (time) => {
   x += 0.1
 
   camera.applyMatrix4(rotationMatrix)
@@ -92,5 +92,7 @@ setAnimationLoop((time) => {
 
     i += 1
   }
-})
+}
+
+setAnimationLoop({ frame })
 </script>
