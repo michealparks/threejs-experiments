@@ -8,6 +8,16 @@
   if (window !== window.top) window.back.style.display = 'none'
 </script>
 
+<style>
+  button {
+    position: fixed;
+    bottom: 15px;
+    left: 15px;
+  }
+</style>
+
+<button id='postprocessing'>postprocessing</button>
+
 <canvas></canvas>
 
 <script type='module'>
@@ -22,7 +32,7 @@ const main = async () => {
     ambientLight: 0.5,
     camera: { near: 0.1, far: 100.0 }
   })
-  const { renderer, camera, scene, setAnimationLoop } = core
+  const { renderer, camera, scene } = core
 
   const composer = postprocessing.createComposer(renderer, scene, camera)
   postprocessing.setBloomPass(composer)
@@ -67,7 +77,16 @@ const main = async () => {
     controls.update()
   }
 
-  setAnimationLoop({ frame, composer })
+  let postProcessingOn = false
+
+  const btn = document.querySelector('#postprocessing')
+  btn.addEventListener('click', () => {
+    postProcessingOn = !postProcessingOn
+    core.stopAnimationLoop()
+    core.setAnimationLoop({ frame, composer: postProcessingOn ? composer : null })
+  })
+
+  core.setAnimationLoop({ frame })
 }
 
 main()
