@@ -21,7 +21,9 @@ const main = async () => {
   
   const controls = createOrbitControls({ renderer, camera, rotate: false })
 
-  const wall = await loadModel('assets/gltf/construction_fliers_1.glb')
+  const wall = await loadModel('assets/gltf/construction_fliers_1.glb', {
+    anisotropy: renderer.capabilities.getMaxAnisotropy()
+  })
   wall.rotation.set(0.0, -Math.PI / 4, 0.0)
   scene.add(wall)
 
