@@ -133,14 +133,12 @@ export const createCore = (config = {}) => {
   let rafid, callback, composer
 
   const render = (time) => {
-    console.log('render')
     rafid = window.requestAnimationFrame(render)
     callback(time, canvas, renderer, scene, camera)
     renderToDisplaySize(canvas, renderer, scene, camera)
   }
 
   const renderComposer = (time) => {
-    console.log('renderComposer')
     rafid = window.requestAnimationFrame(renderComposer)
     callback(time)
     renderComposerToDisplaySize(canvas, renderer, composer, scene, camera)
