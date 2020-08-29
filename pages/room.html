@@ -12,6 +12,7 @@
 
 <script type='module'>
 import { THREE, createCore, createOrbitControls, loadModel } from './js/core.js'
+import { postprocessing } from './js/postprocessing.js'
 import { COLORS, SHADOW_MAP } from './js/constants.js'
 
 const main = async () => {
@@ -22,6 +23,10 @@ const main = async () => {
     camera: { near: 0.1, far: 100.0 }
   })
   const { renderer, camera, scene, setAnimationLoop } = core
+
+  const composer = postprocessing.createComposer(renderer, scene, camera)
+  postprocessing.setBloomPass(composer)
+  postprocessing.setFxaaPass(composer)
   
   camera.position.set(15, 15, 15)
 
@@ -51,7 +56,7 @@ const main = async () => {
 
   let force = 0.5
 
-  setAnimationLoop(() => {
+  const frame = (time) => {
     const { x, y, z } = camera.position
 
     if (force >= 0.001) {
@@ -60,7 +65,9 @@ const main = async () => {
     }
 
     controls.update()
-  })
+  }
+
+  setAnimationLoop({ frame, composer })
 }
 
 main()

@@ -1,6 +1,5 @@
 
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@v0.120.0/build/three.module.js'
-import { UnrealBloomPass } from 'https://cdn.jsdelivr.net/npm/three@v0.120.0/examples/jsm/postprocessing/UnrealBloomPass.js'
 import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@v0.120.0/examples/jsm/controls/OrbitControls.js'
 import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@v0.120.0/examples/jsm/loaders/GLTFLoader.js'
 import { COLORS } from './constants.js'
@@ -75,13 +74,19 @@ export const createRenderer = (canvas) => {
   return renderer
 }
 
-export const createCamera = ({
-  fov = 75,
-  aspect = 2,
-  near = 0.01,
-  far = 10
-}) => {
-  return new THREE.PerspectiveCamera(fov, aspect, near, far)
+export const createCamera = (config = {}) => {
+  const {
+    fov = 75,
+    aspect = 2,
+    near = 0.01,
+    far = 10,
+    position = { x: 1, y: 2, z: 2.5 }
+  } = config
+
+  const camera = new THREE.PerspectiveCamera(fov, aspect, near, far)
+  camera.position.set(position.x, position.y, position.z)
+
+  return camera
 }
 
 export const renderToDisplaySize = (canvas, renderer, scene, camera) => {
@@ -99,26 +104,58 @@ export const renderToDisplaySize = (canvas, renderer, scene, camera) => {
   renderer.render(scene, camera)
 }
 
-export const createCore = ({
-  canvas,
-  camera: cameraConfig = {},
-  ambientLight = 0.6
-}) => {
-  const renderer = createRenderer(canvas)
-  const camera = createCamera(cameraConfig)
-  const { position = { x: 1, y: 2, z: 2.5 } } = cameraConfig
-  camera.position.set(position.x, position.y, position.z)
+export const renderComposerToDisplaySize = (canvas, renderer, composer, scene, camera) => {
+  const pixelRatio = window.devicePixelRatio
+  const width = canvas.clientWidth * pixelRatio | 0
+  const height = canvas.clientHeight * pixelRatio | 0
 
+  if (canvas.width === width && canvas.height === height) {
+    return composer.render(scene, camera)
+  }
+
+  renderer.setSize(width, height, false)
+  composer.setSize(width, height, false)
+  camera.aspect = width / height
+  camera.updateProjectionMatrix()
+  composer.render(scene, camera)
+}
+
+export const createCore = (config = {}) => {
+  const {
+    canvas,
+    ambientLight = 0.6
+  } = config
+
+  const renderer = createRenderer(canvas)
+  const camera = createCamera(config.camera)
   const scene = new THREE.Scene()
 
-  const render = (fn, time) => {
-    fn(time, canvas, renderer, scene, camera)
+  let rafid, callback, composer
+
+  const render = (time) => {
+    console.log('render')
+    rafid = window.requestAnimationFrame(render)
+    callback(time, canvas, renderer, scene, camera)
     renderToDisplaySize(canvas, renderer, scene, camera)
   }
 
-  const setAnimationLoop = (fn) => {
-    renderer.setAnimationLoop(fn === undefined ? null : render.bind(undefined, fn))
+  const renderComposer = (time) => {
+    console.log('renderComposer')
+    rafid = window.requestAnimationFrame(renderComposer)
+    callback(time)
+    renderComposerToDisplaySize(canvas, renderer, composer, scene, camera)
   }
+
+  const setAnimationLoop = (config) => {
+    callback = config.frame
+    composer = config.composer
+    rafid = window.requestAnimationFrame(composer ? renderComposer : render)
+  }
+
+  const stopAnimationLoop = () => {
+    window.cancelAnimationFrame(rafid)
+  }
+
   if (ambientLight > 0.0) {
     const light = new THREE.AmbientLight(COLORS.warmLight, ambientLight)
     scene.add(light)
@@ -128,7 +165,8 @@ export const createCore = ({
     renderer,
     camera,
     scene,
-    setAnimationLoop
+    setAnimationLoop,
+    stopAnimationLoop
   }
 }
 
@@ -146,6 +184,7 @@ export const createCube = (config = {}) => {
     color = 0x44aa88,
     mat = new THREE.MeshPhongMaterial({ color })
   } = config
+
   const geo = new THREE.BoxBufferGeometry(size, size, size)
   return new THREE.Mesh(geo, mat)
 }
