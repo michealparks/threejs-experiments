@@ -7,7 +7,9 @@ import { COLORS } from './constants.js'
 
 export { THREE }
 
-const loader = new GLTFLoader()
+const loadingManager = new THREE.LoadingManager()
+const gltfLoader = new GLTFLoader()
+const textureLoader = new THREE.TextureLoader()
 
 export const loadGLSL = async (src) => {
   const response = await window.fetch(src)
@@ -15,14 +17,19 @@ export const loadGLSL = async (src) => {
   return glsl
 }
 
+export const loadTexture = (src) => {
+  return textureLoader.loadAsync(src)
+}
+
 export const loadGLTF = (src) => {
-  return loader.loadAsync(src)
+  return gltfLoader.loadAsync(src)
 }
 
 export const loadModel = async (src, config = {}) => {
   const {
     shadows = true,
-    matrixAutoUpdate = false
+    matrixAutoUpdate = false,
+    anisotropy = 0
   } = config
 
   const model = await loadGLTF(src)
@@ -37,6 +44,12 @@ export const loadModel = async (src, config = {}) => {
     if (matrixAutoUpdate === false) {
       node.matrixAutoUpdate = false
       node.updateMatrix()
+    }
+
+    // TODO: We should only set anisotropy on elements that
+    // are flagged to have textures that will benefit from it.
+    if (anisotropy !== 0 && node.material !== undefined) {
+      node.material.map.anisotropy = anisotropy
     }
   })
 
@@ -93,6 +106,9 @@ export const createCore = ({
 }) => {
   const renderer = createRenderer(canvas)
   const camera = createCamera(cameraConfig)
+  const { position = { x: 1, y: 2, z: 2.5 } } = cameraConfig
+  camera.position.set(position.x, position.y, position.z)
+
   const scene = new THREE.Scene()
 
   const render = (fn, time) => {
