@@ -149,7 +149,16 @@ export const createCore = (config = {}) => {
   const setAnimationLoop = (config) => {
     callback = config.frame
     composer = config.composer
-    rafid = window.requestAnimationFrame(composer ? renderComposer : render)
+
+    if (composer) {
+      const pixelRatio = window.devicePixelRatio
+      const width = canvas.clientWidth * pixelRatio | 0
+      const height = canvas.clientHeight * pixelRatio | 0
+      composer.setSize(width, height, false)
+      rafid = window.requestAnimationFrame(renderComposer)
+    } else {
+      rafid = window.requestAnimationFrame(render)
+    }
   }
 
   const stopAnimationLoop = () => {
