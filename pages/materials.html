@@ -19,7 +19,9 @@ const core = createCore({
 
 const { renderer, camera, scene, setAnimationLoop } = core
 
-setAnimationLoop((time) => {
+const frame = (time) => {
 
-})
+}
+
+setAnimationLoop({ frame })
 </script>

@@ -28,14 +28,10 @@ const renderToDisplaySize = (canvas, renderer, camera) => {
 
 const main = () => {
   const canvas = document.querySelector('canvas')
-
   const renderer = createRenderer(canvas)
-
-  const camera = createCamera({})
-  camera.position.z = 2
-
+  const camera = createCamera()
+  camera.position.set(0, 0, 2)
   const scene = new THREE.Scene()
-
   const cube = createCube()
   scene.add(cube)
 

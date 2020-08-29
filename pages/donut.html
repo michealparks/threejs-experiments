@@ -50,9 +50,11 @@ const main = async () => {
   mug.updateMatrix()
   scene.add(mug)
 
-  setAnimationLoop(() => {
+  const frame = () => {
     controls.update()
-  })
+  }
+
+  setAnimationLoop({ frame })
 }
 
 main()

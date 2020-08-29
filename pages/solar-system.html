@@ -182,7 +182,7 @@ for (const { name, scale, color, emissive, distance, moons } of planets) {
 let t = 0.0
 let dt = 0.0
 
-setAnimationLoop((time) => {
+const frame = (time) => {
   dt = time - t
   t = time
 
@@ -194,7 +194,9 @@ setAnimationLoop((time) => {
     mesh.rotation.y += dt * 0.001 * (1.1 - (i / l))
     i++
   }
-})
+}
+
+setAnimationLoop({ frame })
 
 document.querySelector('#btn-top').addEventListener('click', () => {
   camera.position.set(0, CAMERA_DISTANCE, 0)
