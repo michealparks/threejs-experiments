@@ -12,14 +12,25 @@
 
 <script type='module'>
 import { THREE, createCore, createOrbitControls, loadModel } from './js/core.js'
+import { postprocessing } from './js/postprocessing.js'
 import { COLORS, SHADOW_MAP } from './js/constants.js'
 
 const main = async () => {
   const canvas = document.querySelector('canvas')
-  const core = createCore({ canvas })
+  const core = createCore({ canvas, ambientLight: 0.8 })
   const { renderer, camera, scene, setAnimationLoop } = core
   
-  camera.position.set(0.5, 0.4, 0.5)
+  const composer = postprocessing.createComposer(renderer, scene, camera)
+  const bloomPass = postprocessing.setBloomPass({
+    composer,
+    threshold: 0,
+    strength: 0.3,
+    radius: 0.5
+  })
+  postprocessing.setFxaaPass(composer)
+
+
+  camera.position.set(1.0, 0.9, 1.0)
 
   const controls = createOrbitControls({ renderer, camera })
 
@@ -31,9 +42,10 @@ const main = async () => {
 
     light.shadow.mapSize.width = SHADOW_MAP.width
     light.shadow.mapSize.height = SHADOW_MAP.height
-    light.shadow.radius = 16
+    light.shadow.radius = 8
+    light.shadow.bias = -0.0001
 
-    light.position.set(-0.25, 0.5, 1)
+    light.position.set(-0.25, 0.5, 0.8)
     scene.add(light)
   }
 
@@ -54,7 +66,7 @@ const main = async () => {
     controls.update()
   }
 
-  setAnimationLoop({ frame })
+  setAnimationLoop({ frame, composer })
 }
 
 main()
