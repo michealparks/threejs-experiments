@@ -7,7 +7,7 @@ import { FXAAShader } from 'https://cdn.jsdelivr.net/npm/three@v0.120.0/examples
 
 let isWebGL2
 
-const createComposer = (renderer, scene, camera) => {
+const createComposer = (renderer, scene, camera, MXAA) => {
   isWebGL2 = renderer.capabilities.isWebGL2
 
   let composer
@@ -32,27 +32,26 @@ const createComposer = (renderer, scene, camera) => {
   return composer
 }
 
-const setBloomPass = (composer) => {
+const setBloomPass = ({ composer, strength = 1.5, radius = 0.4, threshold = 0.85 }) => {
   const bloomPass = new UnrealBloomPass(
     new THREE.Vector2(window.innerWidth, window.innerHeight),
-    1.5,
-    0.4,
-    0.85
+    strength,
+    radius,
+    threshold
   )
-  bloomPass.threshold = 0.0
-  bloomPass.strength = 1.0
-  bloomPass.radius = 0.75
 
   composer.addPass(bloomPass)
+
+  return bloomPass
 }
 
 const setFxaaPass = (composer) => {
-  if (isWebGL2) return
-
   const fxaaPass = new ShaderPass(FXAAShader)
   fxaaPass.material.uniforms.resolution.value.x = 1 / (window.innerWidth * window.devicePixelRatio)
   fxaaPass.material.uniforms.resolution.value.y = 1 / (window.innerHeight * window.devicePixelRatio)
   composer.addPass(fxaaPass)
+
+  return fxaaPass
 }
 
 export const postprocessing = {

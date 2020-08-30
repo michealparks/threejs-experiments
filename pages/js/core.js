@@ -55,8 +55,7 @@ export const loadModel = async (src, config = {}) => {
   return scene
 }
 
-export const createRenderer = (canvas) => {
-  const antialias = true
+export const createRenderer = (canvas, antialias) => {
   const powerPreference = 'high-performance'
   const renderer = new THREE.WebGLRenderer({
     canvas,
@@ -123,10 +122,11 @@ export const renderComposerToDisplaySize = (canvas, renderer, composer, scene, c
 export const createCore = (config = {}) => {
   const {
     canvas,
+    antialias = true,
     ambientLight = 0.6
   } = config
 
-  const renderer = createRenderer(canvas)
+  const renderer = createRenderer(canvas, antialias)
   const camera = createCamera(config.camera)
   const scene = new THREE.Scene()
 
