@@ -40,6 +40,13 @@ export const loadGLTF = (src) => {
   return gltfLoader.loadAsync(src)
 }
 
+export const loadModels = async (srcs, config = {}, onProgress) => {
+  const promises = []
+  gltfManager.onProgress = onProgress
+  for (const src of srcs) promises.push(loadModel(src, config))
+  return Promise.all(promises)
+}
+
 export const loadModel = async (src, config = {}) => {
   const {
     shadows = true,
