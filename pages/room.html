@@ -20,6 +20,7 @@
 
 <script type='module'>
 import { THREE, createCore, createOrbitControls } from './js/core.js'
+import { initXR } from './js/xr.js'
 import { loadModel } from './js/loaders.js'
 import { postprocessing } from './js/postprocessing.js'
 import { COLORS, SHADOW_MAP } from './js/constants.js'
@@ -92,6 +93,7 @@ const main = async () => {
     bloomPass.strength = e.target.value
   }
 
+  initXR()
   core.setAnimationLoop({ frame, composer })
 }
 
