@@ -1,0 +1,79 @@
+<title>ThreeJS Experiments: Donut | Micheal Parks</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel='stylesheet' href='css/index.css' />
+
+<a id='back' class='button' href='/threejs-experiments'>Back</a>
+
+<script type='module'>
+  if (window !== window.top) window.back.style.display = 'none'
+</script>
+
+<canvas></canvas>
+
+<script type='module'>
+import { THREE, createCore, createOrbitControls } from './js/core.js'
+import { loadModels } from './js/loaders.js'
+import { postprocessing } from './js/postprocessing.js'
+import { COLORS, SHADOW_MAP } from './js/constants.js'
+import { RGBELoader } from 'https://cdn.jsdelivr.net/npm/three@0.120.0/examples/jsm/loaders/RGBELoader.js'
+
+const loadRGBE = (url) => {
+  return new Promise((resolve) => {
+    return new RGBELoader()
+      .setDataType(THREE.UnsignedByteType)
+      .load(url, resolve)
+  })
+}
+
+const randNum = (range) => {
+  return Math.random() * range * 2 - range
+}
+
+const init = async () => {
+  const canvas = document.querySelector('canvas')
+  const core = createCore({
+    canvas,
+    ambientLight: 0.5,
+    camera: { near: 0.1, far: 1000 }
+  })
+  const { renderer, camera, scene, setAnimationLoop } = core
+  const texture = await loadRGBE('https://threejs.org/examples/textures/equirectangular/royal_esplanade_1k.hdr')
+  const pmremGenerator = new THREE.PMREMGenerator(renderer)
+	pmremGenerator.compileEquirectangularShader()
+	const envMap = pmremGenerator.fromEquirectangular(texture).texture
+
+  scene.background = envMap
+  scene.environment = envMap
+
+  texture.dispose()
+  pmremGenerator.dispose()
+
+  const controls = createOrbitControls({ renderer, camera })
+
+  const [mug] = await loadModels([
+    'assets/gltf/mug.glb'
+  ])
+
+  const n = 500
+  const mesh = mug.getObjectByName('Mug')
+  const instancedMesh = new THREE.InstancedMesh( mesh.geometry, mesh.material, n)
+  const matrix = new THREE.Matrix4()
+
+  let i = 0
+  while (i < n) {
+    matrix.setPosition(randNum(4), randNum(4), randNum(4))
+    instancedMesh.setMatrixAt(i, matrix)
+    i += 1
+  }
+
+  scene.add( instancedMesh );
+
+  const frame = () => {
+    controls.update()
+  }
+
+  setAnimationLoop({ frame })
+}
+
+init()
+</script>

@@ -18,7 +18,11 @@ import { COLORS, SHADOW_MAP } from './js/constants.js'
 
 const main = async () => {
   const canvas = document.querySelector('canvas')
-  const core = createCore({ canvas, ambientLight: 0.8 })
+  const core = createCore({
+    canvas,
+    ambientLight: 0.5,
+    camera: { near: 0.1, far: 1000 }
+  })
   const { renderer, camera, scene, setAnimationLoop } = core
   
   const composer = postprocessing.createComposer(renderer, scene, camera)
@@ -31,40 +35,40 @@ const main = async () => {
   postprocessing.setFxaaPass(composer)
 
 
-  camera.position.set(1.0, 0.9, 1.0)
+  camera.position.set(15.0, 15.0, 15.0)
 
   const controls = createOrbitControls({ renderer, camera })
 
   
 
-  const [donut, mug] = await loadModels([
-    'assets/gltf/donut2.glb',
-    'assets/gltf/mug_high.glb'
+  const [gltf] = await loadModels([
+    'assets/gltf/FloatingRockScene.glb',
   ])
 
-  {
-    const plane = donut.getObjectByName('Plane')
-    plane.castShadow = false
-  }
-  scene.add(donut)
-
-  mug.position.set(-0.2, 0.0, -0.25)
-  mug.rotation.set(0.0, -Math.PI / 4, 0.0)
-  mug.updateMatrix()
-  scene.add(mug)
+  scene.add(gltf)
 
   {
     const intensity = 5.0
-    const light = new THREE.SpotLight(COLORS.warmLight, intensity)
+    const light = new THREE.PointLight(COLORS.warmLight, intensity)
     light.castShadow = true
-    light.angle = 50
-    light.penumbra = 1
-
+    light.position.copy(gltf.getObjectByName('Fire').position)
+    light.position.y = 1.4
+    light.shadow.mapSize.width = SHADOW_MAP.width
+    light.shadow.mapSize.height = SHADOW_MAP.height
     light.shadow.radius = 8
     light.shadow.bias = -0.0001
+    scene.add(light)
+  }
 
-    light.position.set(1.2, 1, 1.2)
-    light.target = donut.getObjectByName('Legs')
+  {
+    const intensity = 30.0
+    const light = new THREE.SpotLight(COLORS.warmLight, intensity)
+    light.angle = 70
+    light.penumbra = 1
+
+    
+
+    light.position.set(...Array(3).fill(30))
     scene.add(light)
   }
 
