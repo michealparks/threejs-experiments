@@ -197,7 +197,7 @@ const frame = (time) => {
   }
 }
 
-initXR()
+initXR({ renderer })
 setAnimationLoop({ frame })
 
 document.querySelector('#btn-top').addEventListener('click', () => {
