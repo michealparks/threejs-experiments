@@ -93,7 +93,7 @@ const main = async () => {
     bloomPass.strength = e.target.value
   }
 
-  initXR()
+  initXR({ renderer })
   core.setAnimationLoop({ frame, composer })
 }
 
