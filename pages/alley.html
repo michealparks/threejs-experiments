@@ -12,6 +12,7 @@
 
 <script type='module'>
 import { THREE, createCore, createOrbitControls } from './js/core.js'
+import { initXR } from './js/xr.js'
 import { loadModel } from './js/loaders.js'
 import { COLORS, SHADOW_MAP } from './js/constants.js'
 
@@ -49,6 +50,7 @@ const main = async () => {
     controls.update()
   }
 
+  initXR({ renderer })
   setAnimationLoop({ frame })
 }
 
