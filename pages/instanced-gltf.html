@@ -15,6 +15,7 @@ import { THREE, createCore, createOrbitControls } from './js/core.js'
 import { initXR } from './js/xr.js'
 import { loadModels } from './js/loaders.js'
 import { postprocessing } from './js/postprocessing.js'
+import { randNum } from './js/util.js'
 import { COLORS, SHADOW_MAP } from './js/constants.js'
 import { RGBELoader } from 'https://cdn.jsdelivr.net/npm/three@0.120.0/examples/jsm/loaders/RGBELoader.js'
 
@@ -24,10 +25,6 @@ const loadRGBE = (url) => {
       .setDataType(THREE.UnsignedByteType)
       .load(url, resolve)
   })
-}
-
-const randNum = (range) => {
-  return Math.random() * range * 2 - range
 }
 
 const main = async () => {
@@ -57,7 +54,7 @@ const main = async () => {
 
   const n = 500
   const mesh = mug.getObjectByName('Mug')
-  const instancedMesh = new THREE.InstancedMesh( mesh.geometry, mesh.material, n)
+  const instancedMesh = new THREE.InstancedMesh(mesh.geometry, mesh.material, n)
   const matrix = new THREE.Matrix4()
 
   let i = 0

@@ -159,7 +159,7 @@ export const createSkySphere = (config = {}) => {
   const {
     size = 80,
     segments = 4,
-    mat = new THREE.MeshBasicMaterial({ color: 0x29B6F6 })
+    mat = new THREE.MeshPhongMaterial({ color: 0x29B6F6 })
   } = config
 
   mat.side = THREE.BackSide

@@ -1,9 +1,9 @@
 import { THREE, GLTFLoader } from './core.js'
 
+const { TextureLoader, AnimationMixer } = THREE
 const manager = THREE.DefaultLoadingManager
-
 const gltfLoader = new GLTFLoader()
-const textureLoader = new THREE.TextureLoader()
+const textureLoader = new TextureLoader()
 
 export const loadGLSLs = async (srcs) => {
   const promises = []
@@ -39,22 +39,23 @@ export const loadGLTF = (src) => {
   return gltfLoader.loadAsync(src)
 }
 
-export const loadModels = async (srcs, config = {}, onProgress) => {
+export const loadModels = async (srcs, configs = [], onProgress) => {
   const promises = []
   if (onProgress !== undefined) manager.onProgress = onProgress
-  for (const src of srcs) promises.push(loadModel(src, config))
+  let i = 0
+  for (const src of srcs) promises.push(loadModel(src, configs[i++]))
   return Promise.all(promises)
 }
 
 export const loadModel = async (src, config = {}) => {
   const {
-    shadows = true,
+    shadows = false,
     matrixAutoUpdate = false,
     anisotropy = 0
   } = config
 
-  const model = await loadGLTF(src)
-  const { scene } = model
+  const gltf = await loadGLTF(src)
+  const { scene } = gltf
 
   scene.traverse((node) => {
     if (shadows) {
@@ -73,6 +74,29 @@ export const loadModel = async (src, config = {}) => {
       node.material.map.anisotropy = anisotropy
     }
   })
+
+  console.log(gltf.animations)
+  if (gltf.animations.length > 0) {
+    scene.mixer = new AnimationMixer(scene)
+    scene.clips = {}
+
+    for (const animation of gltf.animations) {
+      scene.clips[animation.name] = scene.mixer.clipAction(animation)
+    }
+
+    scene.setAnimation = (name) => {
+      const last = scene.clip
+
+      if (last) {
+        last.fadeOut(0.3).stop()
+      }
+
+      const clip = scene.clips[name]
+      clip.fadeIn(0.3).play()
+      scene.clip = clip
+      scene.clipName = name
+    }
+  }
 
   return scene
 }
