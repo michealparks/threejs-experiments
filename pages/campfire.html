@@ -4,6 +4,11 @@
 
 <a id='back' class='button' href='/threejs-experiments'>Back</a>
 
+<style>
+  body {
+    background: linear-gradient(to bottom,  #11e8bb 0%,#8200c9 100%);
+  }
+</style>
 <script type='module'>
   if (window !== window.top) window.back.style.display = 'none'
 </script>
@@ -11,7 +16,7 @@
 <canvas></canvas>
 
 <script type='module'>
-import { THREE, createCore, createOrbitControls } from './js/core.js'
+import { THREE, createCore, createOrbitControls, createSkySphere } from './js/core.js'
 import { initXR } from './js/xr.js'
 import { loadModels } from './js/loaders.js'
 import { postprocessing } from './js/postprocessing.js'
@@ -20,17 +25,18 @@ import { COLORS, SHADOW_MAP } from './js/constants.js'
 const main = async () => {
   const canvas = document.querySelector('canvas')
   const core = createCore({
+    alpha: true,
     canvas,
-    ambientLight: 0.5,
+    ambientLight: 0.8,
     camera: { near: 0.1, far: 1000 }
   })
   const { renderer, camera, scene, setAnimationLoop } = core
-  
+
   const composer = postprocessing.createComposer(renderer, scene, camera)
   const bloomPass = postprocessing.setBloomPass({
     composer,
     threshold: 0,
-    strength: 0.3,
+    strength: 0.0,
     radius: 0.5
   })
   postprocessing.setFxaaPass(composer)
@@ -40,11 +46,13 @@ const main = async () => {
 
   const controls = createOrbitControls({ renderer, camera })
 
-  
+  const handleProgress = (...args) => {
+    console.log(args)
+  }
 
   const [gltf] = await loadModels([
     'assets/gltf/FloatingRockScene.glb',
-  ])
+  ], {}, handleProgress)
 
   scene.add(gltf)
 
@@ -58,6 +66,24 @@ const main = async () => {
     light.shadow.mapSize.height = SHADOW_MAP.height
     light.shadow.radius = 8
     light.shadow.bias = -0.0001
+    // scene.add(light)
+  }
+
+  {
+    const intensity = 0.6
+    const light = new THREE.HemisphereLight(COLORS.white, intensity)
+    light.color.setHSL(0.6, 1, 0.6)
+    light.groundColor.setHSL(0.095, 1, 0.75)
+    light.position.set(0, 50, 0)
+    scene.add(light)
+  }
+
+  {
+    const intensity = 1.0
+    const light = new THREE.DirectionalLight(COLORS.white, intensity)
+    light.color.setHSL(0.1, 1, 0.95)
+    light.position.set(-1, 1.75, 1)
+    light.position.multiplyScalar(30)
     scene.add(light)
   }
 
@@ -67,10 +93,13 @@ const main = async () => {
     light.angle = 70
     light.penumbra = 1
 
-    
-
     light.position.set(...Array(3).fill(30))
-    scene.add(light)
+    // scene.add(light)
+  }
+
+  {
+    const sphere = createSkySphere({ segments: 64 })
+    scene.add(sphere)
   }
 
   const frame = () => {

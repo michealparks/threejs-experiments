@@ -1,10 +1,9 @@
 import { THREE, GLTFLoader } from './core.js'
 
-export const gltfManager = new THREE.LoadingManager()
-export const textureManager = new THREE.LoadingManager()
+const manager = THREE.DefaultLoadingManager
 
-const gltfLoader = new GLTFLoader(gltfManager)
-const textureLoader = new THREE.TextureLoader(textureManager)
+const gltfLoader = new GLTFLoader()
+const textureLoader = new THREE.TextureLoader()
 
 export const loadGLSLs = async (srcs) => {
   const promises = []
@@ -18,10 +17,10 @@ export const loadGLSL = async (src) => {
   return glsl
 }
 
-export const loadTextures = async (srcs, onProgress) => {
+export const loadTextures = async (urls, onProgress) => {
   const promises = []
-  textureManager.onProgress = onProgress
-  for (const src of srcs) promises.push(loadTexture(src))
+  if (onProgress !== undefined) manager.onProgress = onProgress
+  for (const url of urls) promises.push(loadTexture(url))
   return Promise.all(promises)
 }
 
@@ -31,7 +30,7 @@ export const loadTexture = (src) => {
 
 export const loadGLTFs = (srcs, onProgress) => {
   const promises = []
-  gltfManager.onProgress = onProgress
+  if (onProgress !== undefined) manager.onProgress = onProgress
   for (const src of srcs) promises.push(loadGLTF(src))
   return Promise.all(promises)
 }
@@ -42,7 +41,7 @@ export const loadGLTF = (src) => {
 
 export const loadModels = async (srcs, config = {}, onProgress) => {
   const promises = []
-  gltfManager.onProgress = onProgress
+  if (onProgress !== undefined) manager.onProgress = onProgress
   for (const src of srcs) promises.push(loadModel(src, config))
   return Promise.all(promises)
 }

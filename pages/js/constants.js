@@ -25,7 +25,9 @@ export const COLORS = {
   darkCyan: 0x0097A7,
 
   lightIndigo: 0x5C6BC0,
-  darkIndigo: 0x303F9F
+  darkIndigo: 0x303F9F,
+
+  white: 0xFFFFFF
 }
 
 export const SHADOW_MAP = {
