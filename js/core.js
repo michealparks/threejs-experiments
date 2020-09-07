@@ -12,11 +12,12 @@ export {
   VRButton
 }
 
-export const createRenderer = (canvas) => {
+export const createRenderer = (canvas, alpha) => {
   const antialias = true
   const powerPreference = 'high-performance'
   const renderer = new THREE.WebGLRenderer({
     canvas,
+    alpha,
     antialias,
     powerPreference
   })
@@ -80,11 +81,11 @@ export const renderComposerToDisplaySize = (canvas, renderer, composer, scene, c
 export const createCore = (config = {}) => {
   const {
     canvas,
-    antialias = true,
+    alpha = false,
     ambientLight = 0.6
   } = config
 
-  const renderer = createRenderer(canvas, antialias)
+  const renderer = createRenderer(canvas, alpha)
   const camera = createCamera(config.camera)
   const scene = new THREE.Scene()
 
@@ -151,5 +152,18 @@ export const createCube = (config = {}) => {
   } = config
 
   const geo = new THREE.BoxBufferGeometry(size, size, size)
+  return new THREE.Mesh(geo, mat)
+}
+
+export const createSkySphere = (config = {}) => {
+  const {
+    size = 80,
+    segments = 4,
+    mat = new THREE.MeshPhongMaterial({ color: 0x29B6F6 })
+  } = config
+
+  mat.side = THREE.BackSide
+
+  const geo = new THREE.SphereGeometry(size, segments, segments)
   return new THREE.Mesh(geo, mat)
 }
