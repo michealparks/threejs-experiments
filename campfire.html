@@ -21,8 +21,6 @@ import { COLORS, SHADOW_MAP } from './js/constants.js'
 const fire = {
   num: 100,
   dummy: new THREE.Object3D(),
-  matrix: new THREE.Matrix4(),
-  scaleMatrix: new THREE.Matrix4(),
   embers: [],
   plane: null,
   speed: 0.5,
@@ -87,7 +85,6 @@ const fire = {
       while (i < num) {
         const ii = i * 3
 
-        
         s[i] += sv[i]
 
         if (s[i] <= 0.0) {
@@ -126,11 +123,10 @@ const main = async () => {
   const bloomPass = postprocessing.setBloomPass({
     composer,
     threshold: 0,
-    strength: 0.0,
+    strength: 0.1,
     radius: 0.3
   })
   postprocessing.setFxaaPass(composer)
-
 
   camera.position.set(15.0, 15.0, 15.0)
 
