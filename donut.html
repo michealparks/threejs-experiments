@@ -36,11 +36,9 @@ const main = async () => {
 
   const controls = createOrbitControls({ renderer, camera })
 
-  
-
   const [donut, mug] = await loadModels([
-    'assets/gltf/donut2.glb',
-    'assets/gltf/mug_high.glb'
+    { src: 'assets/gltf/donut2.glb', shadows: true },
+    { src: 'assets/gltf/mug_high.glb', shadows: true }
   ])
 
   {

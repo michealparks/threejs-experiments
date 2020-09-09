@@ -123,7 +123,7 @@ const main = async () => {
   const bloomPass = postprocessing.setBloomPass({
     composer,
     threshold: 0,
-    strength: 0.1,
+    strength: 0.3,
     radius: 0.3
   })
   postprocessing.setFxaaPass(composer)
@@ -137,9 +137,10 @@ const main = async () => {
   }
 
   const [gltf] = await loadModels([
-    'assets/gltf/FloatingRockScene.glb',
-  ], [
-    { shadows: true }
+    {
+      src: 'assets/gltf/FloatingRockScene.glb',
+      shadows: true
+    }
   ], handleProgress)
 
   fire.init(
