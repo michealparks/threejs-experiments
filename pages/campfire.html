@@ -196,17 +196,33 @@ const main = async () => {
     // scene.add(light)
   }
 
-  {
-    const sphere = createSkySphere({ segments: 64 })
-    scene.add(sphere)
-  }
+  const sky = createSkySphere({ segments: 64 })
+  scene.add(sky)
+
+  const color = new THREE.Color()
+  sky.material.color.getHSL(color)
+  let l = color.l
+
+  console.log(color)
 
   let lastTime = performance.now()
   let dt = 0.0
+  let idl = 0.0001
+  let dl = 0.0001
   const frame = (time) => {
     dt = time - lastTime
     lastTime = time
 
+    l -= dl
+
+    if (l < 0.0 || l > 1.0) {
+      idl = -idl
+      dl = idl
+      if (l <= 0.0) l = 0.0
+      if (l >= 1.0) l = 1.0
+    }
+
+    sky.material.color.setHSL(color.h, color.s, l)
     fire.update(dt)
     controls.update()
   }
