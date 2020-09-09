@@ -67,7 +67,11 @@ const main = async () => {
     scene.add(light)
   }
 
-  const room = await loadModel('assets/gltf/room_1.glb', { shadows: true })
+  const room = await loadModel({
+    src: 'assets/gltf/room_1.glb',
+    shadows: true
+  })
+
   scene.add(room)
 
   let force = 0.5

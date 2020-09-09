@@ -39,20 +39,20 @@ export const loadGLTF = (src) => {
   return gltfLoader.loadAsync(src)
 }
 
-export const loadModels = async (srcs, configs = [], onProgress) => {
+export const loadModels = async (models, onProgress) => {
   const promises = []
   if (onProgress !== undefined) manager.onProgress = onProgress
-  let i = 0
-  for (const src of srcs) promises.push(loadModel(src, configs[i++]))
+  for (const model of models) promises.push(loadModel(model))
   return Promise.all(promises)
 }
 
-export const loadModel = async (src, config = {}) => {
+export const loadModel = async (props) => {
   const {
+    src,
     shadows = false,
     matrixAutoUpdate = false,
     anisotropy = 0
-  } = config
+  } = props
 
   const gltf = await loadGLTF(src)
   const { scene } = gltf
@@ -75,7 +75,6 @@ export const loadModel = async (src, config = {}) => {
     }
   })
 
-  console.log(gltf.animations)
   if (gltf.animations.length > 0) {
     scene.mixer = new AnimationMixer(scene)
     scene.clips = {}
