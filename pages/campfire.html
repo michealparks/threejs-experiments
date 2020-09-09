@@ -117,7 +117,7 @@ const main = async () => {
     ambientLight: 0.2,
     camera: { near: 0.1, far: 1000 }
   })
-  const { renderer, camera, scene, setAnimationLoop } = core
+  const { renderer, camera, scene, setAnimationLoop, ambientLight } = core
 
   const composer = postprocessing.createComposer(renderer, scene, camera)
   const bloomPass = postprocessing.setBloomPass({
@@ -128,7 +128,7 @@ const main = async () => {
   })
   postprocessing.setFxaaPass(composer)
 
-  camera.position.set(15.0, 15.0, 15.0)
+  camera.position.set(22.0, 4.0, 20.0)
 
   const controls = createOrbitControls({ renderer, camera, rotate: false })
 
@@ -214,7 +214,6 @@ const main = async () => {
     lastTime = time
 
     l -= dl
-
     if (l < 0.0 || l > 1.0) {
       idl = -idl
       dl = idl
@@ -222,6 +221,7 @@ const main = async () => {
       if (l >= 1.0) l = 1.0
     }
 
+    ambientLight.intensity = l
     sky.material.color.setHSL(color.h, color.s, l)
     fire.update(dt)
     controls.update()

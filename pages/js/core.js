@@ -81,8 +81,7 @@ export const renderComposerToDisplaySize = (canvas, renderer, composer, scene, c
 export const createCore = (config = {}) => {
   const {
     canvas,
-    alpha = false,
-    ambientLight = 0.6
+    alpha = false
   } = config
 
   const renderer = createRenderer(canvas, alpha)
@@ -122,12 +121,14 @@ export const createCore = (config = {}) => {
     window.cancelAnimationFrame(rafid)
   }
 
-  if (ambientLight > 0.0) {
-    const light = new THREE.AmbientLight(COLORS.warmLight, ambientLight)
-    scene.add(light)
-  }
+  const ambientLight = new THREE.AmbientLight(
+    COLORS.warmLight,
+    config.ambientLight
+  )
+  scene.add(ambientLight)
 
   return {
+    ambientLight,
     renderer,
     camera,
     scene,
