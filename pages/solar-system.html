@@ -43,16 +43,12 @@ import { COLORS, SHADOW_MAP } from './js/constants.js'
 const SIZES = { sun: 8 }
 const CAMERA_DISTANCE = 90
 
-const canvas = document.querySelector('canvas')
-const core = createCore({
-  canvas,
-  camera: { far: 1000, fov: 50 },
-  ambientLight: 0.0
-})
+const core = createCore({ ambientLight: 0.0 })
 const { renderer, camera, scene, setAnimationLoop } = core
-
+camera.fov = 50
+camera.far = 1000.0
 camera.position.set(0, 0, CAMERA_DISTANCE)
-camera.lookAt(0, 0, 0)
+camera.lookAt(new THREE.Vector3())
 
 {
   const intensity = 50
@@ -64,9 +60,6 @@ camera.lookAt(0, 0, 0)
 }
 
 const objects = []
-
-
-
 const radius = 1
 const segments = 40
 const geo = new THREE.SphereBufferGeometry(radius, segments, segments)

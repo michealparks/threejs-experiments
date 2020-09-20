@@ -7,12 +7,11 @@
 <canvas></canvas>
 
 <script type='module'>
-import { THREE, createCore, createOrbitControls, createCube } from './js/core.js'
+import { THREE, camera, scene, setAnimationLoop, createOrbitControls } from './js/core.js'
 import { loadGLSL } from './js/loaders.js'
+import { createCube } from './js/objects.js'
 import { COLORS, SHADOW_MAP } from './js/constants.js'
 
-const core = createCore({ canvas: document.querySelector('canvas') })
-const { camera, scene, setAnimationLoop } = core
 camera.position.set(0, 0, 2)
 
 const main = async () => {
@@ -21,8 +20,6 @@ const main = async () => {
     time: { value: 0 },
     resolution: { value: new THREE.Vector2() },
   }
-
-  
 
   const fragmentShader = await loadGLSL('shaders/hello-shader.frag.glsl')
   const mat = new THREE.ShaderMaterial({
@@ -55,6 +52,5 @@ const main = async () => {
   setAnimationLoop({ frame })
 }
 
-window.THREE = THREE
 main()
 </script>

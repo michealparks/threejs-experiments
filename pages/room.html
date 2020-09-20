@@ -19,54 +19,46 @@
 <input type='range' id='range2' min='0' max='10' value='1' step='0.1'>
 
 <script type='module'>
-import { THREE, createCore, createOrbitControls } from './js/core.js'
+import { THREE, renderer, camera, scene, ambientLight, postprocessing, setAnimationLoop, createOrbitControls } from './js/core.js'
 import { initXR } from './js/xr.js'
 import { loadModel } from './js/loaders.js'
-import { postprocessing } from './js/postprocessing.js'
 import { COLORS, SHADOW_MAP } from './js/constants.js'
 
-const main = async () => {
-  const canvas = document.querySelector('canvas')
-  const core = createCore({
-    canvas,
-    antialias: false,
-    ambientLight: 0.5,
-    camera: { near: 0.1, far: 100.0 }
-  })
-  const { renderer, camera, scene } = core
+ambientLight.intensity = 0.5
 
-  const composer = postprocessing.createComposer(renderer, scene, camera)
-  const bloomPass = postprocessing.setBloomPass({
-    composer,
-    threshold: 0.1,
-    strength: 0.8,
-    radius: 0.5
-  })
-  postprocessing.setFxaaPass(composer)
+camera.near = 0.1
+camera.far = 100.0
+camera.position.set(15, 15, 15)
+
+postprocessing.setBloomPass({
+  threshold: 0.1,
+  strength: 0.8,
+  radius: 0.5
+})
+postprocessing.setFxaaPass()
+
+const controls = createOrbitControls({ renderer, camera })
+controls.autoRotate = false
+controls.enableZoom = false
+controls.enablePan = false
+
+{
+  const intensity = 3.0
+  const light = new THREE.SpotLight(COLORS.warmLight, intensity)
+  light.angle = 0.8
+  light.penumbra = 1.0
+
+  light.castShadow = true
+  light.shadow.radius = 16
+  light.shadow.bias = -0.0001
+  light.shadow.mapSize.width = SHADOW_MAP.width
+  light.shadow.mapSize.height = SHADOW_MAP.height
   
-  camera.position.set(15, 15, 15)
+  light.position.set(1, 4, 1)
+  scene.add(light)
+}
 
-  const controls = createOrbitControls({ renderer, camera })
-  controls.autoRotate = false
-  controls.enableZoom = false
-  controls.enablePan = false
-
-  {
-    const intensity = 3.0
-    const light = new THREE.SpotLight(COLORS.warmLight, intensity)
-    light.angle = 0.8
-    light.penumbra = 1.0
-
-    light.castShadow = true
-    light.shadow.radius = 16
-    light.shadow.bias = -0.0001
-    light.shadow.mapSize.width = SHADOW_MAP.width
-    light.shadow.mapSize.height = SHADOW_MAP.height
-    
-    light.position.set(1, 4, 1)
-    scene.add(light)
-  }
-
+const main = async () => {
   const room = await loadModel({
     src: 'assets/gltf/room_1.glb',
     shadows: true
@@ -98,7 +90,7 @@ const main = async () => {
   }
 
   initXR({ renderer })
-  core.setAnimationLoop({ frame, composer })
+  setAnimationLoop({ frame, postprocessing: true })
 }
 
 main()

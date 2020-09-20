@@ -7,18 +7,18 @@
 <canvas></canvas>
 
 <script type='module'>
-import { THREE, createCore, createOrbitControls, createCube } from './js/core.js'
+import { THREE, createCore, createOrbitControls } from './js/core.js'
 import { initXR } from './js/xr.js'
 import { loadTexture } from './js/loaders.js'
+import { createCube } from './js/objects.js'
 import { COLORS, SHADOW_MAP } from './js/constants.js'
 
-const canvas = document.querySelector('canvas')
-const core = createCore({
-  canvas,
-  camera: { near: 0.1, far: 1000, fov: 50 },
-  ambientLight: 0.6
-})
+const core = createCore({ ambientLight: 0.6 })
 const { renderer, camera, scene, setAnimationLoop } = core
+camera.near = 0.1
+camera.far = 1000.0
+camera.fov = 50
+
 const controls = createOrbitControls({ renderer, camera, rotate: false })
 
 const main = async () => {
