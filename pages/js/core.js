@@ -2,7 +2,6 @@
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@v0.120.0/build/three.module.js'
 import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@v0.120.0/examples/jsm/loaders/GLTFLoader.js'
 import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@v0.120.0/examples/jsm/controls/OrbitControls.js'
-import { VRButton } from 'https://cdn.jsdelivr.net/npm/three@v0.120.0/examples/jsm/webxr/VRButton.js'
 import { EffectComposer } from 'https://cdn.jsdelivr.net/npm/three@v0.120.0/examples/jsm/postprocessing/EffectComposer.js'
 import { RenderPass } from 'https://cdn.jsdelivr.net/npm/three@v0.120.0/examples/jsm/postprocessing/RenderPass.js'
 import { UnrealBloomPass } from 'https://cdn.jsdelivr.net/npm/three@v0.120.0/examples/jsm/postprocessing/UnrealBloomPass.js'
@@ -10,6 +9,7 @@ import { ShaderPass } from 'https://cdn.jsdelivr.net/npm/three@v0.120.0/examples
 import { FXAAShader } from 'https://cdn.jsdelivr.net/npm/three@v0.120.0/examples/jsm/shaders/FXAAShader.js'
 
 import { COLORS, LIGHTS, CAMERA } from './constants.js'
+import { createXRButton } from './xr.js'
 
 export {
   THREE,
@@ -171,7 +171,7 @@ const initXR = async () => {
   }
 
   renderer.xr.enabled = true
-  const xrButton = VRButton.createButton(renderer)
+  const xrButton = createXRButton(renderer)
   
   document.body.appendChild(xrButton)
 
