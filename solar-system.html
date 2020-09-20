@@ -36,15 +36,15 @@
 </section>
 
 <script type='module'>
-import { THREE, createCore, createOrbitControls } from './js/core.js'
+import { THREE, renderer, camera, scene, ambientLight, setAnimationLoop, createOrbitControls } from './js/core.js'
 import { initXR } from './js/xr.js'
 import { COLORS, SHADOW_MAP } from './js/constants.js'
 
 const SIZES = { sun: 8 }
 const CAMERA_DISTANCE = 90
 
-const core = createCore({ ambientLight: 0.0 })
-const { renderer, camera, scene, setAnimationLoop } = core
+ambientLight.intensity = 0.0
+
 camera.fov = 50
 camera.far = 1000.0
 camera.position.set(0, 0, CAMERA_DISTANCE)
