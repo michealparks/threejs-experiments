@@ -27,7 +27,6 @@ a.button {
 }
 
 .xr-button {
-  display: none;
   position: absolute;
   cursor: pointer;
 	left: calc(50% - 50px);
