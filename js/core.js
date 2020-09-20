@@ -175,6 +175,11 @@ const initXR = async () => {
   xrButton.addEventListener('click', () => {
     if (isPostprocessing === false) return
 
+    scene.traverse((object3D) => {
+      object3D.castShadow = false
+      object3D.receiveShadow = false
+    })
+
     let fn = frame
     setAnimationLoop(null)
     setAnimationLoop({ frame: fn, postprocessing: false })
