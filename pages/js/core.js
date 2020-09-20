@@ -175,6 +175,8 @@ const initXR = async () => {
   xrButton.addEventListener('click', () => {
     if (isPostprocessing === false) return
 
+    camera.position.set(0, 1.6, 1)
+
     scene.traverse((object3D) => {
       object3D.castShadow = false
       object3D.receiveShadow = false
