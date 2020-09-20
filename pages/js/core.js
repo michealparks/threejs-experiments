@@ -3,7 +3,13 @@ import * as THREE from 'https://cdn.jsdelivr.net/npm/three@v0.120.0/build/three.
 import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@v0.120.0/examples/jsm/loaders/GLTFLoader.js'
 import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@v0.120.0/examples/jsm/controls/OrbitControls.js'
 import { VRButton } from 'https://cdn.jsdelivr.net/npm/three@v0.120.0/examples/jsm/webxr/VRButton.js'
-import { COLORS } from './constants.js'
+import { EffectComposer } from 'https://cdn.jsdelivr.net/npm/three@v0.120.0/examples/jsm/postprocessing/EffectComposer.js'
+import { RenderPass } from 'https://cdn.jsdelivr.net/npm/three@v0.120.0/examples/jsm/postprocessing/RenderPass.js'
+import { UnrealBloomPass } from 'https://cdn.jsdelivr.net/npm/three@v0.120.0/examples/jsm/postprocessing/UnrealBloomPass.js'
+import { ShaderPass } from 'https://cdn.jsdelivr.net/npm/three@v0.120.0/examples/jsm/postprocessing/ShaderPass.js'
+import { FXAAShader } from 'https://cdn.jsdelivr.net/npm/three@v0.120.0/examples/jsm/shaders/FXAAShader.js'
+
+import { COLORS, LIGHTS, CAMERA } from './constants.js'
 
 export {
   THREE,
@@ -12,42 +18,74 @@ export {
   VRButton
 }
 
-export const createRenderer = (canvas, alpha) => {
-  const antialias = true
-  const powerPreference = 'high-performance'
-  const renderer = new THREE.WebGLRenderer({
-    canvas,
-    alpha,
-    antialias,
-    powerPreference
-  })
-  renderer.shadowMap.enabled = true
-  renderer.shadowMap.type = THREE.VSMShadowMap
+let frame
 
-  renderer.toneMapping = THREE.ACESFilmicToneMapping
-  renderer.toneMappingExposure = 1
-  renderer.outputEncoding = THREE.sRGBEncoding
-  renderer.physicallyCorrectLights = true
+const canvas = document.querySelector('canvas')
+const antialias = true
+const powerPreference = 'high-performance'
+const renderer = new THREE.WebGLRenderer({
+  canvas,
+  antialias,
+  powerPreference
+})
 
-  return renderer
+renderer.shadowMap.enabled = true
+renderer.shadowMap.type = THREE.VSMShadowMap
+renderer.toneMapping = THREE.ACESFilmicToneMapping
+renderer.toneMappingExposure = 1
+renderer.outputEncoding = THREE.sRGBEncoding
+renderer.physicallyCorrectLights = true
+
+const camera = new THREE.PerspectiveCamera(
+  CAMERA.fov,
+  CAMERA.aspect,
+  CAMERA.near,
+  CAMERA.farad)
+
+camera.position.set(
+  CAMERA.position.x,
+  CAMERA.position.y,
+  CAMERA.position.z
+)
+
+const scene = new THREE.Scene()
+
+const size = renderer.getDrawingBufferSize(new THREE.Vector2())
+const renderTarget = new THREE.WebGLMultisampleRenderTarget(
+  size.width,
+  size.height,
+  { format: THREE.RGBFormat, stencilBuffer: false }
+)
+
+renderTarget.samples = 16
+
+const composer = new EffectComposer(renderer, renderTarget)
+const renderPass = new RenderPass(scene, camera)
+composer.addPass(renderPass)
+
+const setBloomPass = ({ strength = 1.5, radius = 0.4, threshold = 0.85 }) => {
+  const bloomPass = new UnrealBloomPass(
+    new THREE.Vector2(window.innerWidth, window.innerHeight),
+    strength,
+    radius,
+    threshold
+  )
+
+  composer.addPass(bloomPass)
+
+  return bloomPass
 }
 
-export const createCamera = (config = {}) => {
-  const {
-    fov = 75,
-    aspect = 2,
-    near = 0.01,
-    far = 10,
-    position = { x: 1, y: 2, z: 2.5 }
-  } = config
+const setFxaaPass = () => {
+  const fxaaPass = new ShaderPass(FXAAShader)
+  fxaaPass.material.uniforms.resolution.value.x = 1 / (window.innerWidth * window.devicePixelRatio)
+  fxaaPass.material.uniforms.resolution.value.y = 1 / (window.innerHeight * window.devicePixelRatio)
+  composer.addPass(fxaaPass)
 
-  const camera = new THREE.PerspectiveCamera(fov, aspect, near, far)
-  camera.position.set(position.x, position.y, position.z)
-
-  return camera
+  return fxaaPass
 }
 
-export const renderToDisplaySize = (canvas, renderer, scene, camera) => {
+const renderToDisplaySize = (canvas, renderer, scene, camera) => {
   const pixelRatio = window.devicePixelRatio
   const width = canvas.clientWidth * pixelRatio | 0
   const height = canvas.clientHeight * pixelRatio | 0
@@ -64,80 +102,57 @@ export const renderToDisplaySize = (canvas, renderer, scene, camera) => {
 
 export const renderComposerToDisplaySize = (canvas, renderer, composer, scene, camera) => {
   const pixelRatio = window.devicePixelRatio
-  const width = canvas.clientWidth * pixelRatio | 0
-  const height = canvas.clientHeight * pixelRatio | 0
+  const { clientWidth, clientHeight } = canvas
+  const width = clientWidth * pixelRatio | 0
+  const height = clientHeight * pixelRatio | 0
 
   if (canvas.width === width && canvas.height === height) {
     return composer.render(scene, camera)
   }
 
-  renderer.setSize(width, height, false)
-  composer.setSize(width, height, false)
+  renderer.setSize(clientWidth, clientHeight, false)
+  composer.setSize(clientWidth, clientHeight, false)
   camera.aspect = width / height
   camera.updateProjectionMatrix()
   composer.render(scene, camera)
 }
 
-export const createCore = (config = {}) => {
-  const {
-    canvas,
-    alpha = false
-  } = config
+const render = (time) => {
+  frame(time, canvas, renderer, scene, camera)
+  renderToDisplaySize(canvas, renderer, scene, camera)
+}
 
-  const renderer = createRenderer(canvas, alpha)
-  const camera = createCamera(config.camera)
-  const scene = new THREE.Scene()
+const renderComposer = (time) => {
+  frame(time)
+  renderComposerToDisplaySize(canvas, renderer, composer, scene, camera)
+}
 
-  let rafid, callback, composer
+const setAnimationLoop = (config) => {
+  frame = config.frame
 
-  const render = (time) => {
-    rafid = window.requestAnimationFrame(render)
-    callback(time, canvas, renderer, scene, camera)
-    renderToDisplaySize(canvas, renderer, scene, camera)
+  if (frame === null) {
+    return renderer.setAnimationLoop(null)
   }
 
-  const renderComposer = (time) => {
-    rafid = window.requestAnimationFrame(renderComposer)
-    callback(time)
-    renderComposerToDisplaySize(canvas, renderer, composer, scene, camera)
-  }
-
-  const setAnimationLoop = (config) => {
-    callback = config.frame
-    composer = config.composer
-
-    if (composer) {
-      const pixelRatio = window.devicePixelRatio
-      const width = canvas.clientWidth * pixelRatio | 0
-      const height = canvas.clientHeight * pixelRatio | 0
-      composer.setSize(width, height, false)
-      rafid = window.requestAnimationFrame(renderComposer)
-    } else {
-      rafid = window.requestAnimationFrame(render)
-    }
-  }
-
-  const stopAnimationLoop = () => {
-    window.cancelAnimationFrame(rafid)
-  }
-
-  const ambientLight = new THREE.AmbientLight(
-    COLORS.warmLight,
-    config.ambientLight
-  )
-  scene.add(ambientLight)
-
-  return {
-    ambientLight,
-    renderer,
-    camera,
-    scene,
-    setAnimationLoop,
-    stopAnimationLoop
+  if (config.postprocessing) {
+    const pixelRatio = window.devicePixelRatio
+    const width = canvas.clientWidth * pixelRatio | 0
+    const height = canvas.clientHeight * pixelRatio | 0
+    composer.setSize(width, height, false)
+    renderer.setAnimationLoop(renderComposer)
+  } else {
+    renderer.setAnimationLoop(render)
   }
 }
 
-export const createOrbitControls = ({ renderer, camera, rotate = true }) => {
+const ambientLight = new THREE.AmbientLight(
+  COLORS.warmLight,
+  LIGHTS.ambient.intensity
+)
+
+scene.add(ambientLight)
+
+const createOrbitControls = ({ renderer, camera, rotate = true }) => {
   const controls = new OrbitControls(camera, renderer.domElement)
   controls.enableDamping = true
   controls.dampingFactor = 0.05
@@ -145,26 +160,17 @@ export const createOrbitControls = ({ renderer, camera, rotate = true }) => {
   return controls
 }
 
-export const createCube = (config = {}) => {
-  const {
-    size = 1,
-    color = 0x44aa88,
-    mat = new THREE.MeshPhongMaterial({ color })
-  } = config
-
-  const geo = new THREE.BoxBufferGeometry(size, size, size)
-  return new THREE.Mesh(geo, mat)
+const postprocessing = {
+  setBloomPass,
+  setFxaaPass
 }
 
-export const createSkySphere = (config = {}) => {
-  const {
-    size = 80,
-    segments = 4,
-    mat = new THREE.MeshPhongMaterial({ color: 0x29B6F6 })
-  } = config
-
-  mat.side = THREE.BackSide
-
-  const geo = new THREE.SphereGeometry(size, segments, segments)
-  return new THREE.Mesh(geo, mat)
+export {
+  renderer,
+  camera,
+  scene,
+  ambientLight,
+  postprocessing,
+  setAnimationLoop,
+  createOrbitControls
 }

@@ -11,127 +11,31 @@
 <canvas></canvas>
 
 <script type='module'>
-import { THREE, createCore, createOrbitControls, createSkySphere } from './js/core.js'
+import { THREE, renderer, camera, scene, ambientLight, postprocessing, setAnimationLoop, createOrbitControls } from './js/core.js'
 import { initXR } from './js/xr.js'
 import { loadModels } from './js/loaders.js'
-import { postprocessing } from './js/postprocessing.js'
 import { randNumInRange, randomPointInCircle } from './js/util.js'
+import { createSkySphere } from './js/objects.js'
 import { COLORS, SHADOW_MAP } from './js/constants.js'
+import { fire } from './js/fire.js'
 
-const fire = {
-  num: 100,
-  dummy: new THREE.Object3D(),
-  embers: [],
-  plane: null,
-  speed: 0.5,
+camera.near = 0.1
+camera.far = 200.0
+camera.position.set(20.0, 4.0, 18.0)
 
-  init (scene, plane, embers) {
-    const { num } = this
+postprocessing.setBloomPass({
+  threshold: 0,
+  strength: 0.3,
+  radius: 0.3
+})
 
-    this.plane = plane
-    
+postprocessing.setFxaaPass()
 
-    for (const ember of embers) {
-      ember.matrixAutoUpdate = true
-      ember.position.set(0, 0, 0)
-      const mesh = new THREE.InstancedMesh(ember.geometry.clone(), ember.material.clone(), num)
-      const obj = {
-        mesh,
-        p: new Float32Array(num * 3),
-        r: new Float32Array(num * 3),
-        s: new Float32Array(num),
-        pv: new Float32Array(num * 3),
-        sv: new Float32Array(num * 3)
-      }
+const controls = createOrbitControls({ renderer, camera })
+controls.autoRotate = false
 
-      mesh.position.set(0, 0.5, 0)
-
-      let i = 0
-      while (i < num) {
-        this.setPropsAtIndex(i, obj)
-        i += 1
-      }
-
-      this.embers.push(obj)
-      plane.add(mesh)
-    }
-  },
-
-  setPropsAtIndex (i, ember) {
-    const ii = i * 3
-
-    const [px, py] = randomPointInCircle(1.25)
-
-    ember.p[ii + 0] = px
-    ember.p[ii + 1] = randNumInRange(0.1, 0.75)
-    ember.p[ii + 2] = py
-
-    ember.s[i] = 1.0
-    ember.sv[i] = randNumInRange(-0.1, -0.03)
-
-    ember.pv[ii + 0] = randNumInRange(-0.01, 0.05)
-    ember.pv[ii + 1] = randNumInRange(0.01, 0.05)
-    ember.pv[ii + 2] = randNumInRange(-0.01, 0.05)
-  },
-
-  update (dt) {
-    const { plane, embers, matrix, scaleMatrix, num, dummy } = this
-
-    const d = dt / 1000
-
-    for (const ember of embers) {
-      const { mesh, p, r, s, pv, rv, sv } = ember
-      let i = 0
-      while (i < num) {
-        const ii = i * 3
-
-        s[i] += sv[i]
-
-        if (s[i] <= 0.0) {
-          this.setPropsAtIndex(i, ember)
-        }
-
-        p[ii + 0] += pv[ii + 0]
-        p[ii + 1] += pv[ii + 1]
-        p[ii + 2] += pv[ii + 2]
-
-        dummy.position.set(p[ii], p[ii + 1], p[ii + 2])
-        dummy.scale.set(s[i], s[i], s[i])
-        dummy.updateMatrix()
-
-        mesh.setMatrixAt(i, dummy.matrix)
-        i += 1
-      }
-
-      mesh.instanceMatrix.needsUpdate = true
-    }
-    
-  }
-}
 
 const main = async () => {
-  const canvas = document.querySelector('canvas')
-  const core = createCore({
-    alpha: true,
-    canvas,
-    ambientLight: 0.2,
-    camera: { near: 0.1, far: 1000 }
-  })
-  const { renderer, camera, scene, setAnimationLoop, ambientLight } = core
-
-  const composer = postprocessing.createComposer(renderer, scene, camera)
-  const bloomPass = postprocessing.setBloomPass({
-    composer,
-    threshold: 0,
-    strength: 0.3,
-    radius: 0.3
-  })
-  postprocessing.setFxaaPass(composer)
-
-  camera.position.set(20.0, 4.0, 18.0)
-
-  const controls = createOrbitControls({ renderer, camera, rotate: false })
-
   const handleProgress = (...args) => {
     console.log(args)
   }
@@ -144,7 +48,6 @@ const main = async () => {
   ], handleProgress)
 
   fire.init(
-    scene,
     gltf.getObjectByName('Fire'),
     [
       gltf.getObjectByName('Ember1'),
@@ -203,8 +106,6 @@ const main = async () => {
   sky.material.color.getHSL(color)
   let l = color.l
 
-  console.log(color)
-
   let lastTime = performance.now()
   let dt = 0.0
   let idl = 0.0001
@@ -228,7 +129,7 @@ const main = async () => {
   }
 
   initXR({ renderer })
-  setAnimationLoop({ frame, composer })
+  setAnimationLoop({ frame, postprocessing: true })
 }
 
 main()

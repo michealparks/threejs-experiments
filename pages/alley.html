@@ -11,17 +11,18 @@
 <canvas></canvas>
 
 <script type='module'>
-import { THREE, createCore, createOrbitControls } from './js/core.js'
+import { THREE, renderer, camera, scene, setAnimationLoop, createOrbitControls } from './js/core.js'
 import { initXR } from './js/xr.js'
 import { loadModel } from './js/loaders.js'
 import { COLORS, SHADOW_MAP } from './js/constants.js'
 
 const main = async () => {
-  const canvas = document.querySelector('canvas')
-  const core = createCore({ canvas, camera: { near: 0.1, far: 100 } })
-  const { renderer, camera, scene, setAnimationLoop } = core
+  camera.near = 0.1
+  camera.far = 50.0
+  camera.position.set(7, 5, 2)
   
-  const controls = createOrbitControls({ renderer, camera, rotate: false })
+  const controls = createOrbitControls({ renderer, camera })
+  controls.autoRotate = false
 
   const wall = await loadModel({
     src: 'assets/gltf/construction_fliers_1.glb',
@@ -29,8 +30,6 @@ const main = async () => {
   })
   wall.rotation.set(0.0, -Math.PI / 4, 0.0)
   scene.add(wall)
-
-  camera.position.set(7, 5, 2)
 
   {
     const intensity = 10.0

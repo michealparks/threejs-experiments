@@ -7,14 +7,12 @@
 <canvas></canvas>
 
 <script type='module'>
-import { THREE, createCore, createOrbitControls, createCube } from './js/core.js'
+import { THREE, camera, scene, setAnimationLoop } from './js/core.js'
+import { createCube } from './js/objects.js'
 import { COLORS, SHADOW_MAP } from './js/constants.js'
-  
-const core = createCore({
-  canvas: document.querySelector('canvas'),
-  camera: { near: 1, far: 1000 }
-})
-const { camera, scene, setAnimationLoop } = core
+
+camera.near = 1.0
+camera.far = 1000.0
 camera.position.set(0, 1, 10)
 
 const DISTANCE = 100
