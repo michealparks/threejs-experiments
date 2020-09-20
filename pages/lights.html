@@ -1,0 +1,28 @@
+<title>ThreeJS Experiments: Materials | Micheal Parks</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel='stylesheet' href='css/index.css' />
+
+<a class='button' href='/threejs-experiments'>Back</a>
+
+<canvas></canvas>
+
+<script type='module'>
+import { THREE, createCore, createOrbitControls } from './js/core.js'
+import { COLORS, SHADOW_MAP } from './js/constants.js'
+
+const core = createCore({
+  camera: { far: 1000, fov: 50 },
+  ambientLight: 0.0
+})
+const { renderer, camera, scene, setAnimationLoop } = core
+
+createOrbitControls({ scene, camera, renderer })
+
+
+
+const frame = (time) => {
+
+}
+
+setAnimationLoop({ frame })
+</script>
