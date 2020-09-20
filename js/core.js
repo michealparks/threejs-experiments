@@ -172,6 +172,9 @@ const initXR = async () => {
 
   renderer.xr.enabled = true
   const xrButton = VRButton.createButton(renderer)
+  
+  document.body.appendChild(xrButton)
+
   xrButton.addEventListener('click', () => {
     if (isPostprocessing === false) return
 
@@ -186,7 +189,6 @@ const initXR = async () => {
     setAnimationLoop(null)
     setAnimationLoop({ frame: fn, postprocessing: false })
   })
-  document.body.appendChild(xrButton)
 }
 
 const postprocessing = {
