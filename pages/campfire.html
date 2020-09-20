@@ -11,8 +11,18 @@
 <canvas></canvas>
 
 <script type='module'>
-import { THREE, renderer, camera, scene, ambientLight, postprocessing, setAnimationLoop, createOrbitControls } from './js/core.js'
-import { initXR } from './js/xr.js'
+import {
+  THREE,
+  renderer,
+  camera,
+  scene,
+  ambientLight,
+  postprocessing,
+  setAnimationLoop,
+  initXR,
+  orbitControls
+} from './js/core.js'
+
 import { loadModels } from './js/loaders.js'
 import { randNumInRange, randomPointInCircle } from './js/util.js'
 import { createSkySphere } from './js/objects.js'
@@ -31,7 +41,7 @@ postprocessing.setBloomPass({
 
 postprocessing.setFxaaPass()
 
-const controls = createOrbitControls({ renderer, camera })
+const controls = orbitControls()
 controls.autoRotate = false
 
 
@@ -128,7 +138,7 @@ const main = async () => {
     controls.update()
   }
 
-  initXR({ renderer })
+  initXR()
   setAnimationLoop({ frame, postprocessing: true })
 }
 

@@ -19,6 +19,7 @@ export {
 }
 
 let frame
+let isPostprocessing = false
 
 const canvas = document.querySelector('canvas')
 const antialias = true
@@ -140,8 +141,10 @@ const setAnimationLoop = (config) => {
     const height = canvas.clientHeight * pixelRatio | 0
     composer.setSize(width, height, false)
     renderer.setAnimationLoop(renderComposer)
+    isPostprocessing = true
   } else {
     renderer.setAnimationLoop(render)
+    isPostprocessing = false
   }
 }
 
@@ -152,12 +155,29 @@ const ambientLight = new THREE.AmbientLight(
 
 scene.add(ambientLight)
 
-const createOrbitControls = ({ renderer, camera, rotate = true }) => {
+const orbitControls = () => {
   const controls = new OrbitControls(camera, renderer.domElement)
   controls.enableDamping = true
   controls.dampingFactor = 0.05
-  controls.autoRotate = rotate
+  controls.autoRotate = true
   return controls
+}
+
+const initXR = async () => {
+  if (await navigator.xr.isSessionSupported('immersive-vr') === false) {
+    return
+  }
+
+  renderer.xr.enabled = true
+  const xrButton = VRButton.createButton(renderer)
+  xrButton.addEventListener('click', () => {
+    if (isPostprocessing === false) return
+
+    let fn = frame
+    setAnimationLoop(null)
+    setAnimationLoop({ frame: fn, postprocessing: false })
+  })
+  document.body.appendChild(xrButton)
 }
 
 const postprocessing = {
@@ -172,5 +192,6 @@ export {
   ambientLight,
   postprocessing,
   setAnimationLoop,
-  createOrbitControls
+  orbitControls,
+  initXR
 }

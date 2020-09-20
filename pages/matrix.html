@@ -7,7 +7,14 @@
 <canvas></canvas>
 
 <script type='module'>
-import { THREE, camera, scene, setAnimationLoop } from './js/core.js'
+import {
+  THREE,
+  camera,
+  scene,
+  setAnimationLoop,
+  initXR
+} from './js/core.js'
+
 import { createCube } from './js/objects.js'
 import { COLORS, SHADOW_MAP } from './js/constants.js'
 
@@ -92,5 +99,6 @@ const frame = (time) => {
   }
 }
 
+initXR()
 setAnimationLoop({ frame })
 </script>

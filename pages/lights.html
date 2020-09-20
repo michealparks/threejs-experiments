@@ -7,22 +7,30 @@
 <canvas></canvas>
 
 <script type='module'>
-import { THREE, createCore, createOrbitControls } from './js/core.js'
+import {
+  THREE,
+  renderer,
+  camera,
+  scene,
+  ambientLight,
+  setAnimationLoop,
+  orbitControls,
+  initXR
+} from './js/core.js'
+
 import { COLORS, SHADOW_MAP } from './js/constants.js'
 
-const core = createCore({
-  camera: { far: 1000, fov: 50 },
-  ambientLight: 0.0
-})
-const { renderer, camera, scene, setAnimationLoop } = core
+camera.far = 1000
+camera.fov = 50
 
-createOrbitControls({ scene, camera, renderer })
+ambientLight.intensity = 0.0
 
-
+orbitControls()
 
 const frame = (time) => {
 
 }
 
+initXR()
 setAnimationLoop({ frame })
 </script>

@@ -7,7 +7,16 @@
 <canvas></canvas>
 
 <script type='module'>
-import { THREE, renderer, camera, scene, ambientLight, setAnimationLoop, createOrbitControls } from './js/core.js'
+import {
+  THREE,
+  renderer,
+  camera,
+  scene,
+  ambientLight,
+  setAnimationLoop,
+  orbitControls
+} from './js/core.js'
+
 import { COLORS, SHADOW_MAP } from './js/constants.js'
 
 ambientLight.intensity = 0.0

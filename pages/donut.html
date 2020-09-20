@@ -11,8 +11,18 @@
 <canvas></canvas>
 
 <script type='module'>
-import { THREE, renderer, camera, scene, ambientLight, setAnimationLoop, postprocessing, createOrbitControls } from './js/core.js'
-import { initXR } from './js/xr.js'
+import {
+  THREE,
+  renderer,
+  camera,
+  scene,
+  ambientLight,
+  setAnimationLoop,
+  initXR,
+  postprocessing,
+  orbitControls
+} from './js/core.js'
+
 import { loadModels } from './js/loaders.js'
 import { COLORS, SHADOW_MAP } from './js/constants.js'
 
@@ -27,7 +37,7 @@ postprocessing.setFxaaPass()
 
 camera.position.set(1.0, 0.9, 1.0)
 
-const controls = createOrbitControls({ renderer, camera })
+const controls = orbitControls()
 
 const main = async () => {
   const [donut, mug] = await loadModels([
@@ -65,7 +75,7 @@ const main = async () => {
     controls.update()
   }
 
-  initXR({ renderer })
+  initXR()
   setAnimationLoop({ frame, postprocessing: true })
 }
 

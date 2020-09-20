@@ -19,8 +19,18 @@
 <input type='range' id='range2' min='0' max='10' value='1' step='0.1'>
 
 <script type='module'>
-import { THREE, renderer, camera, scene, ambientLight, postprocessing, setAnimationLoop, createOrbitControls } from './js/core.js'
-import { initXR } from './js/xr.js'
+import {
+  THREE,
+  renderer,
+  camera,
+  scene,
+  ambientLight,
+  postprocessing,
+  setAnimationLoop,
+  initXR,
+  orbitControls
+} from './js/core.js'
+
 import { loadModel } from './js/loaders.js'
 import { COLORS, SHADOW_MAP } from './js/constants.js'
 
@@ -37,7 +47,7 @@ postprocessing.setBloomPass({
 })
 postprocessing.setFxaaPass()
 
-const controls = createOrbitControls({ renderer, camera })
+const controls = orbitControls()
 controls.autoRotate = false
 controls.enableZoom = false
 controls.enablePan = false
@@ -89,7 +99,7 @@ const main = async () => {
     bloomPass.strength = e.target.value
   }
 
-  initXR({ renderer })
+  initXR()
   setAnimationLoop({ frame, postprocessing: true })
 }
 

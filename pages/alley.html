@@ -11,8 +11,16 @@
 <canvas></canvas>
 
 <script type='module'>
-import { THREE, renderer, camera, scene, setAnimationLoop, createOrbitControls } from './js/core.js'
-import { initXR } from './js/xr.js'
+import {
+  THREE,
+  renderer,
+  camera,
+  scene,
+  setAnimationLoop,
+  orbitControls,
+  initXR
+} from './js/core.js'
+
 import { loadModel } from './js/loaders.js'
 import { COLORS, SHADOW_MAP } from './js/constants.js'
 
@@ -21,7 +29,7 @@ const main = async () => {
   camera.far = 50.0
   camera.position.set(7, 5, 2)
   
-  const controls = createOrbitControls({ renderer, camera })
+  const controls = orbitControls()
   controls.autoRotate = false
 
   const wall = await loadModel({
@@ -50,7 +58,7 @@ const main = async () => {
     controls.update()
   }
 
-  initXR({ renderer })
+  initXR()
   setAnimationLoop({ frame })
 }
 
