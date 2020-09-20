@@ -36,8 +36,17 @@
 </section>
 
 <script type='module'>
-import { THREE, renderer, camera, scene, ambientLight, setAnimationLoop, createOrbitControls } from './js/core.js'
-import { initXR } from './js/xr.js'
+import {
+  THREE,
+  renderer,
+  camera,
+  scene,
+  ambientLight,
+  setAnimationLoop,
+  initXR,
+  orbitControls
+} from './js/core.js'
+
 import { COLORS, SHADOW_MAP } from './js/constants.js'
 
 const SIZES = { sun: 8 }
@@ -190,7 +199,7 @@ const frame = (time) => {
   }
 }
 
-initXR({ renderer })
+initXR()
 setAnimationLoop({ frame })
 
 document.querySelector('#btn-top').addEventListener('click', () => {

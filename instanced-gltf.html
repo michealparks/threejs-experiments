@@ -11,8 +11,17 @@
 <canvas></canvas>
 
 <script type='module'>
-import { THREE, renderer, camera, scene, ambientLight, setAnimationLoop, createOrbitControls } from './js/core.js'
-import { initXR } from './js/xr.js'
+import {
+  THREE,
+  renderer,
+  camera,
+  scene,
+  ambientLight,
+  setAnimationLoop,
+  initXR,
+  orbitControls
+} from './js/core.js'
+
 import { loadModels } from './js/loaders.js'
 import { randNum } from './js/util.js'
 import { COLORS, SHADOW_MAP } from './js/constants.js'
@@ -43,13 +52,13 @@ const main = async () => {
   texture.dispose()
   pmremGenerator.dispose()
 
-  const controls = createOrbitControls({ renderer, camera })
+  const controls = orbitControls()
 
   const [mug] = await loadModels([
     { src: 'assets/gltf/mug.glb' }
   ])
 
-  const n = 400
+  const n = 300
   const mesh = mug.getObjectByName('Mug')
   const instancedMesh = new THREE.InstancedMesh(mesh.geometry, mesh.material, n)
   const matrix = new THREE.Matrix4()
@@ -67,7 +76,7 @@ const main = async () => {
     controls.update()
   }
 
-  initXR({ renderer })
+  initXR()
   setAnimationLoop({ frame })
 }
 

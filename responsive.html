@@ -7,7 +7,7 @@
 <canvas></canvas>
 
 <script type='module'>
-import { THREE, createRenderer, createCamera } from './js/core.js'
+import { THREE, renderer, camera } from './js/core.js'
 import { createCube } from './js/objects.js'
 
 /**
@@ -27,38 +27,31 @@ const renderToDisplaySize = (canvas, renderer, camera) => {
   camera.updateProjectionMatrix()
 }
 
-const main = () => {
-  const canvas = document.querySelector('canvas')
-  const renderer = createRenderer(canvas)
-  const camera = createCamera()
-  camera.position.set(0, 0, 2)
+camera.position.set(0, 0, 2)
 
-  const scene = new THREE.Scene()
-  const cube = createCube()
-  scene.add(cube)
+const scene = new THREE.Scene()
+const cube = createCube()
+scene.add(cube)
 
-  {
-    const color = 0xFFFFFF
-    const intensity = 1
-    const light = new THREE.DirectionalLight(color, intensity)
-    light.position.set(-1, 2, 4)
-    scene.add(light)
-  }
+{
+  const color = 0xFFFFFF
+  const intensity = 1
+  const light = new THREE.DirectionalLight(color, intensity)
+  light.position.set(-1, 2, 4)
+  scene.add(light)
+}
 
-  const render = (time) => {
-    const seconds = time * 0.001
+const render = (time) => {
+  const seconds = time * 0.001
 
-    renderToDisplaySize(canvas, renderer, camera)
+  renderToDisplaySize(canvas, renderer, camera)
 
-    cube.rotation.x = seconds
-    cube.rotation.y = seconds
+  cube.rotation.x = seconds
+  cube.rotation.y = seconds
 
-    renderer.render(scene, camera)
-    requestAnimationFrame(render)
-  }
-
+  renderer.render(scene, camera)
   requestAnimationFrame(render)
 }
 
-main()
+requestAnimationFrame(render)
 </script>

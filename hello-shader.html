@@ -7,7 +7,15 @@
 <canvas></canvas>
 
 <script type='module'>
-import { THREE, camera, scene, setAnimationLoop, createOrbitControls } from './js/core.js'
+import {
+  THREE,
+  camera,
+  scene,
+  setAnimationLoop,
+  createOrbitControls,
+  initXR
+} from './js/core.js'
+
 import { loadGLSL } from './js/loaders.js'
 import { createCube } from './js/objects.js'
 import { COLORS, SHADOW_MAP } from './js/constants.js'
@@ -49,6 +57,7 @@ const main = async () => {
     cube.rotation.y = seconds
   }
 
+  initXR()
   setAnimationLoop({ frame })
 }
 

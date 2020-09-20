@@ -7,8 +7,17 @@
 <canvas></canvas>
 
 <script type='module'>
-import { THREE, renderer, camera, scene, ambientLight, setAnimationLoop, createOrbitControls } from './js/core.js'
-import { initXR } from './js/xr.js'
+import {
+  THREE,
+  renderer,
+  camera,
+  scene,
+  ambientLight,
+  setAnimationLoop,
+  initXR,
+  orbitControls
+} from './js/core.js'
+
 import { loadTexture } from './js/loaders.js'
 import { createCube } from './js/objects.js'
 import { COLORS, SHADOW_MAP } from './js/constants.js'
@@ -19,7 +28,7 @@ camera.near = 0.1
 camera.far = 1000.0
 camera.fov = 50
 
-const controls = createOrbitControls({ renderer, camera })
+const controls = orbitControls()
 controls.autoRotate = false
 
 const main = async () => {
@@ -33,7 +42,7 @@ const main = async () => {
     controls.update()
   }
 
-  initXR({ renderer })
+  initXR()
   setAnimationLoop({ frame })
 }
 

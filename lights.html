@@ -14,18 +14,23 @@ import {
   scene,
   ambientLight,
   setAnimationLoop,
-  orbitControls
+  orbitControls,
+  initXR
 } from './js/core.js'
 
 import { COLORS, SHADOW_MAP } from './js/constants.js'
 
-ambientLight.intensity = 0.0
+camera.far = 1000
 camera.fov = 50
-camera.far = 1000.0
+
+ambientLight.intensity = 0.0
+
+orbitControls()
 
 const frame = (time) => {
 
 }
 
+initXR()
 setAnimationLoop({ frame })
 </script>
