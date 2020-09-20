@@ -34,3 +34,15 @@ export const SHADOW_MAP = {
   width: 2 ** 10,
   height: 2 ** 10
 }
+
+export const CAMERA = {
+  fov: 75,
+  aspect: 2.0,
+  near: 0.01,
+  far: 10.0,
+  position: { x: 1.0, y: 2.0, z: 2.5 }
+}
+
+export const LIGHTS = {
+  ambient: { intensity: 0.6 }
+}

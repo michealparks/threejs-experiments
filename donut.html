@@ -11,31 +11,25 @@
 <canvas></canvas>
 
 <script type='module'>
-import { THREE, createCore, createOrbitControls } from './js/core.js'
+import { THREE, renderer, camera, scene, ambientLight, setAnimationLoop, postprocessing, createOrbitControls } from './js/core.js'
 import { initXR } from './js/xr.js'
 import { loadModels } from './js/loaders.js'
-import { postprocessing } from './js/postprocessing.js'
 import { COLORS, SHADOW_MAP } from './js/constants.js'
 
+ambientLight.intensity = 0.8
+
+postprocessing.setBloomPass({
+  threshold: 0,
+  strength: 0.3,
+  radius: 0.5
+})
+postprocessing.setFxaaPass()
+
+camera.position.set(1.0, 0.9, 1.0)
+
+const controls = createOrbitControls({ renderer, camera })
+
 const main = async () => {
-  const canvas = document.querySelector('canvas')
-  const core = createCore({ canvas, ambientLight: 0.8 })
-  const { renderer, camera, scene, setAnimationLoop } = core
-  
-  const composer = postprocessing.createComposer(renderer, scene, camera)
-  const bloomPass = postprocessing.setBloomPass({
-    composer,
-    threshold: 0,
-    strength: 0.3,
-    radius: 0.5
-  })
-  postprocessing.setFxaaPass(composer)
-
-
-  camera.position.set(1.0, 0.9, 1.0)
-
-  const controls = createOrbitControls({ renderer, camera })
-
   const [donut, mug] = await loadModels([
     { src: 'assets/gltf/donut2.glb', shadows: true },
     { src: 'assets/gltf/mug_high.glb', shadows: true }
@@ -72,7 +66,7 @@ const main = async () => {
   }
 
   initXR({ renderer })
-  setAnimationLoop({ frame, composer })
+  setAnimationLoop({ frame, postprocessing: true })
 }
 
 main()

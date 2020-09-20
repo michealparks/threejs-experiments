@@ -7,7 +7,8 @@
 <canvas></canvas>
 
 <script type='module'>
-import { THREE, createRenderer, createCamera, createCube } from './js/core.js'
+import { THREE, createRenderer, createCamera } from './js/core.js'
+import { createCube } from './js/objects.js'
 
 /**
  * Introduced here. Found in core.js for future experiments.
@@ -31,6 +32,7 @@ const main = () => {
   const renderer = createRenderer(canvas)
   const camera = createCamera()
   camera.position.set(0, 0, 2)
+
   const scene = new THREE.Scene()
   const cube = createCube()
   scene.add(cube)
