@@ -1,12 +1,12 @@
 
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@v0.120.0/build/three.module.js'
-import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@v0.120.0/examples/jsm/loaders/GLTFLoader.js'
-import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@v0.120.0/examples/jsm/controls/OrbitControls.js'
-import { EffectComposer } from 'https://cdn.jsdelivr.net/npm/three@v0.120.0/examples/jsm/postprocessing/EffectComposer.js'
-import { RenderPass } from 'https://cdn.jsdelivr.net/npm/three@v0.120.0/examples/jsm/postprocessing/RenderPass.js'
-import { UnrealBloomPass } from 'https://cdn.jsdelivr.net/npm/three@v0.120.0/examples/jsm/postprocessing/UnrealBloomPass.js'
-import { ShaderPass } from 'https://cdn.jsdelivr.net/npm/three@v0.120.0/examples/jsm/postprocessing/ShaderPass.js'
-import { FXAAShader } from 'https://cdn.jsdelivr.net/npm/three@v0.120.0/examples/jsm/shaders/FXAAShader.js'
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@v0.120.1/build/three.module.js'
+import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@v0.120.1/examples/jsm/loaders/GLTFLoader.js'
+import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@v0.120.1/examples/jsm/controls/OrbitControls.js'
+import { EffectComposer } from 'https://cdn.jsdelivr.net/npm/three@v0.120.1/examples/jsm/postprocessing/EffectComposer.js'
+import { RenderPass } from 'https://cdn.jsdelivr.net/npm/three@v0.120.1/examples/jsm/postprocessing/RenderPass.js'
+import { UnrealBloomPass } from 'https://cdn.jsdelivr.net/npm/three@v0.120.1/examples/jsm/postprocessing/UnrealBloomPass.js'
+import { ShaderPass } from 'https://cdn.jsdelivr.net/npm/three@v0.120.1/examples/jsm/postprocessing/ShaderPass.js'
+import { FXAAShader } from 'https://cdn.jsdelivr.net/npm/three@v0.120.1/examples/jsm/shaders/FXAAShader.js'
 
 import { COLORS, LIGHTS, CAMERA } from './constants.js'
 import { createXRButton } from './xr.js'
@@ -14,8 +14,7 @@ import { createXRButton } from './xr.js'
 export {
   THREE,
   GLTFLoader,
-  OrbitControls,
-  VRButton
+  OrbitControls
 }
 
 let frame
@@ -128,12 +127,12 @@ const renderComposer = (time) => {
   renderComposerToDisplaySize(canvas, renderer, composer, scene, camera)
 }
 
-const setAnimationLoop = async (config) => {
-  frame = config.frame
-
-  if (frame === null) {
+const setAnimationLoop = async (config = {}) => {
+  if (config === null) {
     return renderer.setAnimationLoop(null)
   }
+
+  frame = config.frame
 
   const isXR = await navigator.xr.isSessionSupported('immersive-vr')
 
@@ -176,7 +175,7 @@ const initXR = async () => {
   document.body.appendChild(xrButton)
 
   xrButton.addEventListener('click', () => {
-    if (isPostprocessing === false) return
+    console.log('test!')
 
     camera.position.set(0, 1.6, 1)
 

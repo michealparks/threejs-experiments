@@ -1,11 +1,13 @@
 const createXRButton = (renderer) => {
-  const button = document.createElement('button')
-  button.id = 'VRButton'
-
   const TEXT = {
     enter: 'ENTER VR',
     exit: 'EXIT VR'
   }
+
+  const button = document.createElement('button')
+  button.id = 'XRButton'
+  button.className = 'xr-button'
+  button.textContent = TEXT.enter
 
   let currentSession = null
 
@@ -14,8 +16,10 @@ const createXRButton = (renderer) => {
     currentSession = null
   }
 
-  button.onClick = async () => {
+  button.onclick = async () => {
+    console.log(currentSession)
     if (currentSession === null) {
+      console.log('here')
       // WebXR's requestReferenceSpace only works if the corresponding feature
       // was requested at session creation time. For simplicity, just ask for
       // the interesting ones as optional features, but be aware that the
