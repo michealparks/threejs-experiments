@@ -175,8 +175,6 @@ const initXR = async () => {
   document.body.appendChild(xrButton)
 
   xrButton.addEventListener('click', () => {
-    console.log('test!')
-
     camera.position.set(0, 1.6, 1)
 
     scene.traverse((object3D) => {
@@ -184,9 +182,8 @@ const initXR = async () => {
       object3D.receiveShadow = false
     })
 
-    let fn = frame
     setAnimationLoop(null)
-    setAnimationLoop({ frame: fn, postprocessing: false })
+    setAnimationLoop({ frame, postprocessing: false })
   })
 }
 
