@@ -28,6 +28,7 @@ const renderer = new THREE.WebGLRenderer({
   antialias,
   powerPreference
 })
+const { isWebGL2 } = renderer.capabilities
 
 renderer.shadowMap.enabled = true
 renderer.shadowMap.type = THREE.VSMShadowMap
@@ -50,16 +51,23 @@ camera.position.set(
 
 const scene = new THREE.Scene()
 
-const size = renderer.getDrawingBufferSize(new THREE.Vector2())
-const renderTarget = new THREE.WebGLMultisampleRenderTarget(
-  size.width,
-  size.height,
-  { format: THREE.RGBFormat, stencilBuffer: false }
-)
+let composer
 
-renderTarget.samples = 16
+if (isWebGL2 === false) {
+  composer = new EffectComposer(renderer)
+} else {
+  const size = renderer.getDrawingBufferSize(new THREE.Vector2())
+  const renderTarget = new THREE.WebGLMultisampleRenderTarget(
+    size.width,
+    size.height,
+    { format: THREE.RGBFormat, stencilBuffer: false }
+  )
 
-const composer = new EffectComposer(renderer, renderTarget)
+  renderTarget.samples = 16
+
+  composer = new EffectComposer(renderer, renderTarget)
+}
+
 const renderPass = new RenderPass(scene, camera)
 composer.addPass(renderPass)
 
@@ -171,7 +179,7 @@ const initXR = async () => {
 
   renderer.xr.enabled = true
   const xrButton = createXRButton(renderer, scene)
-  
+
   document.body.appendChild(xrButton)
 
   xrButton.addEventListener('click', () => {
