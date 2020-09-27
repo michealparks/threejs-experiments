@@ -170,7 +170,7 @@ const initXR = async () => {
   }
 
   renderer.xr.enabled = true
-  const xrButton = createXRButton(renderer)
+  const xrButton = createXRButton(renderer, scene)
   
   document.body.appendChild(xrButton)
 
