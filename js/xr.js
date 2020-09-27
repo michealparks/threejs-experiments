@@ -7,7 +7,7 @@ const xrEnabled = () => {
 
 const initControls = (renderer, scene) => {
   const controllerModelFactory = new XRControllerModelFactory()
-  const handModelFactory = new XRHandModelFactory().setPath('../assets/fbx/')
+  const handModelFactory = new XRHandModelFactory().setPath('/assets/fbx/')
 
   for (const i of [0, 1]) {
     const controllerGrip = renderer.xr.getControllerGrip(i)
