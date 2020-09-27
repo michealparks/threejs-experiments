@@ -108,7 +108,7 @@ const renderToDisplaySize = (canvas, renderer, scene, camera) => {
   renderer.render(scene, camera)
 }
 
-export const renderComposerToDisplaySize = (canvas, renderer, composer, scene, camera) => {
+const renderComposerToDisplaySize = (canvas, renderer, composer, scene, camera) => {
   const pixelRatio = window.devicePixelRatio
   const { clientWidth, clientHeight } = canvas
   const width = clientWidth * pixelRatio | 0
@@ -142,9 +142,7 @@ const setAnimationLoop = async (config = {}) => {
 
   frame = config.frame
 
-  const isXR = await navigator.xr.isSessionSupported('immersive-vr')
-
-  if (isXR === false && config.postprocessing) {
+  if (await xrEnabled() === false && config.postprocessing === true) {
     const pixelRatio = window.devicePixelRatio
     const width = canvas.clientWidth * pixelRatio | 0
     const height = canvas.clientHeight * pixelRatio | 0
