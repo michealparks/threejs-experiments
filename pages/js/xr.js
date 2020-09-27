@@ -1,8 +1,28 @@
+import { XRControllerModelFactory } from 'https://cdn.jsdelivr.net/npm/three@v0.120.1/examples/jsm/webxr/XRControllerModelFactory.js'
+import { XRHandModelFactory } from 'https://cdn.jsdelivr.net/npm/three@v0.120.1/examples/jsm/webxr/XRHandModelFactory.js'
+
 const xrEnabled = () => {
   return navigator.xr && navigator.xr.isSessionSupported('immersive-vr')
 }
 
-const createXRButton = (renderer) => {
+const initControls = () => {
+  const controllerModelFactory = new XRControllerModelFactory()
+  const handModelFactory = new XRHandModelFactory().setPath('../assets/fbx/')
+
+  for (const i of [0, 1]) {
+    const controllerGrip = renderer.xr.getControllerGrip(i)
+    controllerGrip.add(controllerModelFactory.createControllerModel(controllerGrip))
+    scene.add(controllerGrip)
+
+    const hand = renderer.xr.getHand(i)
+    scene.add(hand)
+
+    const model = handModelFactory.createHandModel(hand, "oculus", { model: "lowpoly" })
+    hand.add(model)
+  }
+}
+
+const createXRButton = (renderer, scene) => {
   const TEXT = {
     enter: 'ENTER VR',
     exit: 'EXIT VR'
@@ -39,6 +59,8 @@ const createXRButton = (renderer) => {
       button.textContent = TEXT.enter
 
       currentSession = session
+
+      initControls(renderer, scene)
     } else {
       currentSession.end()
     }
