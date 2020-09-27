@@ -51,7 +51,7 @@ export const loadModel = async (props) => {
     src,
     shadows = false,
     matrixAutoUpdate = false,
-    anisotropy = 0
+    anisotropy = 0,
   } = props
 
   const gltf = await loadGLTF(src)
@@ -76,7 +76,7 @@ export const loadModel = async (props) => {
   })
 
   if (gltf.animations.length > 0) {
-    scene.mixer = new AnimationMixer(scene)
+    scene.mixer = new THREE.AnimationMixer(scene)
     scene.clips = {}
 
     for (const animation of gltf.animations) {
