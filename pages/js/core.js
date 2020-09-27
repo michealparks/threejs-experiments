@@ -9,7 +9,7 @@ import { ShaderPass } from 'https://cdn.jsdelivr.net/npm/three@v0.120.1/examples
 import { FXAAShader } from 'https://cdn.jsdelivr.net/npm/three@v0.120.1/examples/jsm/shaders/FXAAShader.js'
 
 import { COLORS, LIGHTS, CAMERA } from './constants.js'
-import { createXRButton } from './xr.js'
+import { createXRButton, xrEnabled } from './xr.js'
 
 export {
   THREE,
@@ -165,7 +165,7 @@ const orbitControls = () => {
 }
 
 const initXR = async () => {
-  if (await navigator.xr.isSessionSupported('immersive-vr') === false) {
+  if (await xrEnabled() === false) {
     return
   }
 
