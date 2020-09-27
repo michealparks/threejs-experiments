@@ -5,7 +5,7 @@ const xrEnabled = () => {
   return navigator.xr && navigator.xr.isSessionSupported('immersive-vr')
 }
 
-const initControls = () => {
+const initControls = (renderer, scene) => {
   const controllerModelFactory = new XRControllerModelFactory()
   const handModelFactory = new XRHandModelFactory().setPath('../assets/fbx/')
 
