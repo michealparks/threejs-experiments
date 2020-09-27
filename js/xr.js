@@ -1,3 +1,7 @@
+const xrEnabled = () => {
+  return navigator.xr && navigator.xr.isSessionSupported('immersive-vr')
+}
+
 const createXRButton = (renderer) => {
   const TEXT = {
     enter: 'ENTER VR',
@@ -17,9 +21,7 @@ const createXRButton = (renderer) => {
   }
 
   button.onclick = async () => {
-    console.log(currentSession)
     if (currentSession === null) {
-      console.log('here')
       // WebXR's requestReferenceSpace only works if the corresponding feature
       // was requested at session creation time. For simplicity, just ask for
       // the interesting ones as optional features, but be aware that the
@@ -45,4 +47,7 @@ const createXRButton = (renderer) => {
   return button
 }
 
-export { createXRButton }
+export {
+  xrEnabled,
+  createXRButton
+}
