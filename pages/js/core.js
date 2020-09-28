@@ -8,7 +8,7 @@ import { UnrealBloomPass } from 'https://cdn.jsdelivr.net/npm/three@v0.120.1/exa
 import { ShaderPass } from 'https://cdn.jsdelivr.net/npm/three@v0.120.1/examples/jsm/postprocessing/ShaderPass.js'
 import { FXAAShader } from 'https://cdn.jsdelivr.net/npm/three@v0.120.1/examples/jsm/shaders/FXAAShader.js'
 
-import { COLORS, LIGHTS, CAMERA } from './constants.js'
+import { COLORS, LIGHTS, CAMERA, VR_OPTIONS } from './constants.js'
 import { createXRButton, xrEnabled } from './xr.js'
 
 export {
@@ -183,10 +183,12 @@ const initXR = async () => {
   xrButton.addEventListener('click', () => {
     camera.position.set(0, 1.6, 1)
 
-    scene.traverse((object3D) => {
-      object3D.castShadow = false
-      object3D.receiveShadow = false
-    })
+    if (VR_OPTIONS.shadows === false) {
+      scene.traverse((object3D) => {
+        object3D.castShadow = false
+        object3D.receiveShadow = false
+      })
+    }
 
     setAnimationLoop(null)
     setAnimationLoop({ frame, postprocessing: false })
