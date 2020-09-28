@@ -53,3 +53,7 @@ export const HDR = {
   spot: 'https://threejs.org/examples/textures/equirectangular/spot1Lux.hdr',
   sunset: 'https://threejs.org/examples/textures/equirectangular/venice_sunset_1k.hdr'
 }
+
+export const VR_OPTIONS = {
+  shadows: true
+}
