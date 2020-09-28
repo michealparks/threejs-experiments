@@ -24,7 +24,7 @@ import {
 
 import { loadModels } from './js/loaders.js'
 import { randNum } from './js/util.js'
-import { COLORS, SHADOW_MAP } from './js/constants.js'
+import { COLORS, SHADOW_MAP, HDR } from './js/constants.js'
 import { RGBELoader } from 'https://cdn.jsdelivr.net/npm/three@0.120.0/examples/jsm/loaders/RGBELoader.js'
 
 const loadRGBE = (url) => {
@@ -41,7 +41,7 @@ camera.near = 0.1
 camera.far = 1000.0
 
 const main = async () => {
-  const texture = await loadRGBE('https://threejs.org/examples/textures/equirectangular/royal_esplanade_1k.hdr')
+  const texture = await loadRGBE(HDR.sunset)
   const pmremGenerator = new THREE.PMREMGenerator(renderer)
 	pmremGenerator.compileEquirectangularShader()
 	const envMap = pmremGenerator.fromEquirectangular(texture).texture
@@ -54,9 +54,7 @@ const main = async () => {
 
   const controls = orbitControls()
 
-  const [mug] = await loadModels([
-    { src: 'assets/gltf/mug.glb' }
-  ])
+  const [mug] = await loadModels([ { src: 'assets/gltf/mug.glb' } ])
 
   const n = 300
   const mesh = mug.getObjectByName('Mug')

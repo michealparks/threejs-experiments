@@ -46,3 +46,10 @@ export const CAMERA = {
 export const LIGHTS = {
   ambient: { intensity: 0.6 }
 }
+
+export const HDR = {
+  overpass: 'https://threejs.org/examples/textures/equirectangular/pedestrian_overpass_1k.hdr',
+  quarry: 'https://threejs.org/examples/textures/equirectangular/quarry_01_1k.hdr',
+  spot: 'https://threejs.org/examples/textures/equirectangular/spot1Lux.hdr',
+  sunset: 'https://threejs.org/examples/textures/equirectangular/venice_sunset_1k.hdr'
+}
