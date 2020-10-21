@@ -1,0 +1,70 @@
+<title>ThreeJS Experiments: Donut | Micheal Parks</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel='stylesheet' href='css/index.css' />
+
+<a id='back' class='button' href='/threejs-experiments'>Back</a>
+
+<script type='module'>
+  if (window !== window.top) window.back.style.display = 'none'
+</script>
+
+<canvas></canvas>
+
+<script type='module'>
+import {
+  THREE,
+  renderer,
+  camera,
+  scene,
+  ambientLight,
+  postprocessing,
+  setAnimationLoop,
+  initXR,
+  orbitControls
+} from './js/core.js'
+
+import { loadModels } from './js/loaders.js'
+import { randNumInRange, randomPointInCircle } from './js/util.js'
+import { createSkySphere } from './js/objects.js'
+import { COLORS, SHADOW_MAP } from './js/constants.js'
+import { fire } from './js/fire.js'
+
+camera.near = 0.1
+camera.far = 200.0
+camera.position.set(1, 2, 1)
+
+
+ambientLight.intensity = 4
+
+const controls = orbitControls()
+controls.autoRotate = false
+
+const main = async () => {
+  const handleProgress = (...args) => {
+    console.log(args)
+  }
+
+  const [gltf] = await loadModels([
+    {
+      src: 'assets/gltf/chair.glb',
+      shadows: false,
+      anisotropy: renderer.capabilities.getMaxAnisotropy()
+    }
+  ], handleProgress)
+
+  scene.add(gltf)
+
+  gltf.position.set(0, 0, 1)
+  gltf.updateMatrix()
+
+  
+  const frame = () => {
+    controls.update()
+  }
+
+  initXR()
+  setAnimationLoop({ frame, postprocessing: false })
+}
+
+main()
+</script>
