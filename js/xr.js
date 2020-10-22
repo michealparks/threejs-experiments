@@ -1,5 +1,5 @@
-import { XRControllerModelFactory } from 'https://cdn.jsdelivr.net/npm/three@v0.120.1/examples/jsm/webxr/XRControllerModelFactory.js'
-import { XRHandModelFactory } from 'https://cdn.jsdelivr.net/npm/three@v0.120.1/examples/jsm/webxr/XRHandModelFactory.js'
+import { XRControllerModelFactory } from 'https://cdn.jsdelivr.net/npm/three@v0.121.1/examples/jsm/webxr/XRControllerModelFactory.js'
+import { XRHandModelFactory } from 'https://cdn.jsdelivr.net/npm/three@v0.121.1/examples/jsm/webxr/XRHandModelFactory.js'
 
 const xrEnabled = () => {
   return navigator.xr && navigator.xr.isSessionSupported('immersive-vr')
