@@ -31,13 +31,30 @@ import { fire } from './js/fire.js'
 
 camera.near = 0.1
 camera.far = 200.0
-camera.position.set(1, 2, 1)
+camera.position.set(3, 2, 3)
 
+postprocessing.setBloomPass({
+  threshold: 0,
+  strength: 0.3,
+  radius: 0.3
+})
 
 ambientLight.intensity = 4
 
 const controls = orbitControls()
-controls.autoRotate = false
+controls.autoRotate = true
+
+{
+  const intensity = 3.0
+  const light = new THREE.PointLight(COLORS.warmLight, intensity)
+  light.castShadow = true
+  light.position.set(-1, 1.4, 1)
+  light.shadow.mapSize.width = SHADOW_MAP.width
+  light.shadow.mapSize.height = SHADOW_MAP.height
+  light.shadow.radius = 8
+  light.shadow.bias = -0.0001
+  scene.add(light)
+}
 
 const main = async () => {
   const handleProgress = (...args) => {
@@ -54,7 +71,7 @@ const main = async () => {
 
   scene.add(gltf)
 
-  gltf.position.set(0, 0, 1)
+  gltf.position.copy(gltf.getObjectByName('Chair').position.multiplyScalar(-1))
   gltf.updateMatrix()
 
   
@@ -63,7 +80,7 @@ const main = async () => {
   }
 
   initXR()
-  setAnimationLoop({ frame, postprocessing: false })
+  setAnimationLoop({ frame, postprocessing: true })
 }
 
 main()
