@@ -1,78 +1,72 @@
-<title>ThreeJS Experiments | Micheal Parks</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel='stylesheet' href='css/index.css' />
+<!DOCTYPE html>
+<html lang="en">
 
-<style>
-  :root {
-    --darkgray: #333;
-  }
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="favicon.ico" />
+  <title>ThreeJS Experiments | Micheal Parks</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel='stylesheet' href='index.css' />
+</head>
 
-  body {
-    display: grid;
-    place-content: center start;
-  }
+<body>
+  <nav>
+    <ul>
+      <li><a href='textures'>Textures</a></li>
+      <li><a href='solar-system'>Solar System</a></li>
+      <li><a href='baked-texture'>Baked Textures</a></li>
+      <li><a href='matrix'>Matrix</a></li>
+      <li><a href='donut'>Donut</a></li>
+      <li><a href='alley'>Alley</a></li>
+      <li><a href='instanced-gltf'>Instanced Mesh</a></li>
+      <li><a href='campfire'>Campfire</a></li>
+      <li><a href='room'>Room</a></li>
+      <li><a href='pixel_room'>Pixel Room</a></li>
+      <li><a href='spooky'>Spooky House</a></li>
+      <li><a href='hello-shader'>Hello Shader!</a></li>
+    </ul>
+  </nav>
+  
+  <script type="module">
+    import { gl } from './core/gl.js'
 
-  nav {
-    display: inline-block;
-    margin: 10px;
-    border-radius: 6px;
-    background: rgba(255,255,255,0.5);
-    box-shadow: 0px 2px 34px -14px rgba(0,0,0,0.43);
-    backdrop-filter: blur(10px);
-  }
+    let unmountCallback
 
-  iframe {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    z-index: -1;
-    border: 0;
-  }
+    const handleClick = (e) => {
+      e.preventDefault()
 
-  ul {
-    margin: 0;
-    padding: 20px;
-    list-style-type: none;
-  }
+      const { pathname } = e.target
+      const name = pathname.substring(1)
 
-  h2 {
-    margin: 20px 20px 0;
-    font-size: 1rem;
-    font-weight: bold;
-  }
+      import(`./experiments/${name}.js`).then(loadModule)
 
-  a {
-    color: var(--darkgray);
-    text-decoration: none;
-  }
+      history.replaceState(null, null, `${location.pathname}#${name}`)
+    }
 
-  a:hover {
-    text-decoration: underline;
-  }
-</style>
+    const loadModule = (module) => {
+      if (unmountCallback) {
+        console.log(unmountCallback)
+        unmountCallback()
+      }
 
-<nav>
-  <h2>ThreeJS</h2>
-  <ul>
-    <li><a href='/threejs-experiments/textures.html'>Textures</a></li>
-    <li><a href='/threejs-experiments/solar-system.html'>Solar System</a></li>
-    <li><a href='/threejs-experiments/baked-texture.html'>Baked Textures</a></li>
-    <li><a href='/threejs-experiments/matrix.html'>Matrix</a></li>
-    <li><a href='/threejs-experiments/donut.html'>Donut</a></li>
-    <li><a href='/threejs-experiments/alley.html'>Alley</a></li>
-    <li><a href='/threejs-experiments/instanced-gltf.html'>Instanced Mesh</a></li>
-    <li><a href='/threejs-experiments/campfire.html'>Campfire</a></li>
-    <li><a href='/threejs-experiments/room.html'>Room</a></li>
-    <li><a href='/threejs-experiments/pixel_room.html'>Pixel Room</a></li>
-    <li><a href='/threejs-experiments/spooky.html'>Spooky House</a></li>
-  </ul>
+      module.init().then(fn => (unmountCallback = fn))
+    }
 
-  <h2>Shaders</h2>
-  <ul>
-    <li><a href='/threejs-experiments/hello-shader.html'>Hello Shader!</a></li>
-  </ul>
-</nav>
+    const init = () => {
+      for (const link of document.querySelectorAll('a')) {
+        link.addEventListener('click', handleClick)
+      }
 
-<iframe title='Donut' src='/threejs-experiments/donut.html'></iframe>
+      Promise.all([
+        location.hash === ''
+          ? Promise.resolve()
+          : import(`./experiments/${location.hash.substring(1)}.js`),
+        gl.init(),
+      ]).then(([module]) => loadModule(module))
+    }
+
+    init()
+  </script>
+</body>
+
+</html>
