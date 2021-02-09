@@ -41,8 +41,6 @@
       import(`./experiments/${name}.js`).then(loadModule)
 
       location.hash = name
-
-      // history.replaceState(null, null, `${location.pathname}#${name}`)
     }
 
     const loadModule = (module) => {
