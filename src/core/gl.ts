@@ -1,3 +1,5 @@
+import type { Tick } from './types'
+
 import {
   WebGLRenderer,
   ACESFilmicToneMapping,
@@ -31,11 +33,13 @@ import {
   FAR,
   FOV,
   NEAR,
-  SHADOWMAP
+  SHADOWMAP,
+  CLEARCOLOR
 } from './constants'
 
 const renderer = new WebGLRenderer({
   antialias: false,
+  alpha: false,
   depth: false,
   stencil: false,
   powerPreference: 'high-performance',
@@ -47,9 +51,8 @@ renderer.outputEncoding = sRGBEncoding
 renderer.physicallyCorrectLights = true
 renderer.shadowMap.enabled = true
 renderer.shadowMap.type = SHADOWMAP
+renderer.setClearColor(CLEARCOLOR)
 document.body.append(renderer.domElement)
-
-type Tick = { (dt: number, elapsed: number): void }
 
 let fn: Tick
 
@@ -59,9 +62,7 @@ const composer = new EffectComposer(renderer, {
   frameBufferType: HalfFloatType
 })
 const effects = new Map()
-
 const scene = new Scene()
-
 const camera = new PerspectiveCamera(FOV, window.innerWidth / window.innerHeight, NEAR, FAR)
 const listener = new AudioListener()
 camera.add(listener)

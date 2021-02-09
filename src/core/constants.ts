@@ -21,6 +21,7 @@ export const COLOR_AMBIENT_LIGHT = 0xafe3f3
  */
 export const SHADOWMAP = PCFSoftShadowMap
 export const EXPOSURE = 1
+export const CLEARCOLOR = COLOR_BLACK
 // export const SHADOWMAP = BasicShadowMap
 
 /**

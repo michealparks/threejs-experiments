@@ -3,7 +3,7 @@ export type Listener = {
 }
 
 export type Tick = {
-  (dt: number): void
+  (dt: number, elapsed: number): void
 }
 
 export type Rigidbody = {
