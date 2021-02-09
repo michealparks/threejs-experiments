@@ -40,12 +40,11 @@
 
       import(`./experiments/${name}.js`).then(loadModule)
 
-      history.replaceState(null, null, `${location.pathname}#${name}`)
+      location.hash = name
     }
 
     const loadModule = (module) => {
       if (unmountCallback) {
-        console.log(unmountCallback)
         unmountCallback()
       }
 
