@@ -1,0 +1,215 @@
+<title>ThreeJS Experiments: Solar System | Micheal Parks</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel='stylesheet' href='css/index.css' />
+
+<a class='button' href='/threejs-experiments'>Back</a>
+
+<canvas></canvas>
+
+<style>
+  :root {
+    --whitish: rgba(255, 255, 255, 0.7);
+  }
+  section {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+  }
+
+  button {
+    background: transparent;
+    border: 0;
+    color: var(--whitish);
+    margin: 12px 3px;
+  }
+
+  button:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<section>
+  <button id='btn-top'>top</button>
+  <button id='btn-side'>side</button>
+</section>
+
+<script type='module'>
+import {
+  THREE,
+  renderer,
+  camera,
+  scene,
+  ambientLight,
+  setAnimationLoop,
+  initXR,
+  orbitControls
+} from './js/core.js'
+
+import { COLORS, SHADOW_MAP } from './js/constants.js'
+
+const SIZES = { sun: 8 }
+const CAMERA_DISTANCE = 90
+
+ambientLight.intensity = 0.0
+
+camera.fov = 50
+camera.far = 1000.0
+camera.position.set(0, 0, CAMERA_DISTANCE)
+camera.lookAt(new THREE.Vector3())
+
+{
+  const intensity = 50
+  const light = new THREE.PointLight(COLORS.warmLight, intensity)
+  light.castShadow = true
+  light.shadow.radius = 16
+
+  scene.add(light)
+}
+
+const objects = []
+const radius = 1
+const segments = 40
+const geo = new THREE.SphereBufferGeometry(radius, segments, segments)
+
+const solarOrbit = new THREE.Object3D()
+scene.add(solarOrbit)
+objects.push(solarOrbit)
+
+{
+  const mat = new THREE.MeshPhongMaterial({ emissive: COLORS.yellow })
+  const sun = new THREE.Mesh(geo, mat)
+  sun.scale.multiplyScalar(SIZES.sun)
+  solarOrbit.add(sun)
+  objects.push(sun)
+}
+
+const planets = [
+  {
+    name: 'Mercury',
+    scale: 0.3,
+    distance: 1.0,
+    color: COLORS.lightGray,
+    emissive: COLORS.darkGray
+  }, {
+    name: 'Venus',
+    scale: 0.6,
+    distance: 3.0,
+    color: COLORS.lightOrange,
+    emissive: COLORS.darkOrange
+  }, {
+    name: 'Earth',
+    scale: 1.0,
+    distance: 5.0,
+    color: COLORS.lightBlue,
+    emissive: COLORS.darkBlue,
+    moons: [
+      { name: 'Luna' }
+    ]
+  }, {
+    name: 'Mars',
+    scale: 0.9,
+    distance: 8.0,
+    color: COLORS.lightRed,
+    emissive: COLORS.darkRed
+  }, {
+    name: 'Jupiter',
+    scale: 2.5,
+    distance: 14.0,
+    color: COLORS.lightestPink,
+    emissive: COLORS.salmon
+  }, {
+    name: 'Saturn',
+    scale: 2.2,
+    distance: 19.0,
+    color: COLORS.warmLight,
+    emissive: COLORS.warmestLight
+  }, {
+    name: 'Uranus',
+    scale: 1.9,
+    distance: 24.0,
+    color: COLORS.lightCyan,
+    emissive: COLORS.darkCyan
+  }, {
+    name: 'Neptune',
+    scale: 1.5,
+    distance: 28.0,
+    color: COLORS.lightIndigo,
+    emissive: COLORS.darkIndigo
+  }
+]
+
+for (const { name, scale, color, emissive, distance, moons } of planets) {
+  const orbit = new THREE.Object3D()
+  orbit.rotation.y = Math.random() * Math.PI * 2
+  scene.add(orbit)
+  objects.push(orbit)
+
+  const mat = new THREE.MeshPhongMaterial({ color, emissive })
+  const planet = new THREE.Mesh(geo, mat)
+  planet.name = name
+  
+  planet.castShadow = true
+  planet.receiveShadow = true
+  planet.scale.multiplyScalar(scale)
+
+  if (moons) {
+    for (const { name, tilt } of moons) {
+      const moonOrbit = new THREE.Object3D()
+      orbit.add(moonOrbit)
+      objects.push(moonOrbit)
+      moonOrbit.add(planet)
+      moonOrbit.position.x = SIZES.sun + distance
+
+      const mat = new THREE.MeshPhongMaterial({ color: COLORS.lightGray, emissive: COLORS.darkGray })
+      const moon = new THREE.Mesh(geo, mat)
+      moon.castShadow = true
+      moon.receiveShadow = true
+      moon.scale.multiplyScalar(0.2)
+      moon.position.x = 1.5
+      moonOrbit.add(moon)
+    }
+  } else {
+    planet.position.x = SIZES.sun + distance
+    orbit.add(planet)
+  }
+}
+
+{
+  const near = 0.01
+  const far = 1
+  scene.fog = new THREE.Fog(COLORS.black, near, far)
+}
+
+let t = 0.0
+let dt = 0.0
+
+const frame = (time) => {
+  dt = time - t
+  t = time
+
+  scene.fog.far += 1.2
+
+  let i = 0
+  let l = objects.length
+  for (const mesh of objects) {
+    mesh.rotation.y += dt * 0.001 * (1.1 - (i / l))
+    i++
+  }
+}
+
+initXR()
+setAnimationLoop({ frame })
+
+document.querySelector('#btn-top').addEventListener('click', () => {
+  camera.position.set(0, CAMERA_DISTANCE, 0)
+  camera.lookAt(0, 0, 0)
+})
+
+document.querySelector('#btn-side').addEventListener('click', () => {
+  camera.position.set(0, 0, CAMERA_DISTANCE)
+  camera.lookAt(0, 0, 0)
+})
+
+</script>

@@ -1,0 +1,95 @@
+<title>ThreeJS Experiments: Spooky House | Micheal Parks</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel='stylesheet' href='css/index.css' />
+
+<a id='back' class='button' href='/threejs-experiments'>Back</a>
+
+<script type='module'>
+  if (window !== window.top) window.back.style.display = 'none'
+</script>
+
+<canvas></canvas>
+
+<style>
+  input { position: fixed; left: 10px; }
+  #range1 { bottom: 10px }
+  #range2 { bottom: 20px }
+</style>
+
+<script type='module'>
+import {
+  THREE,
+  renderer,
+  camera,
+  scene,
+  ambientLight,
+  postprocessing,
+  setAnimationLoop,
+  initXR,
+  orbitControls
+} from './js/core.js'
+
+import { loadModel } from './js/loaders.js'
+import { COLORS, SHADOW_MAP } from './js/constants.js'
+
+ambientLight.intensity = 0.95
+
+camera.near = 0.1
+camera.far = 100.0
+camera.position.set(15, 15, 15)
+
+postprocessing.setBloomPass({
+  threshold: 0.4,
+  strength: 3.0,
+  radius: 1.0
+})
+postprocessing.setFxaaPass()
+
+const controls = orbitControls()
+controls.autoRotate = false
+controls.enablePan = false
+
+{
+  const intensity = 0.6
+  const light = new THREE.SpotLight(new THREE.Color(0, 89, 255), intensity)
+  light.angle = 0.4
+  light.penumbra = 1.0
+
+  light.castShadow = false
+  light.shadow.radius = 16
+  light.shadow.bias = -0.0001
+  light.shadow.mapSize.width = SHADOW_MAP.width
+  light.shadow.mapSize.height = SHADOW_MAP.height
+
+  
+  light.position.set(2.6, 18.0, -8.6)
+  scene.add(light)
+}
+
+const main = async () => {
+  const room = await loadModel({
+    src: 'assets/gltf/spooky_house.glb',
+    shadows: false
+  })
+
+  scene.add(room)
+
+  let force = 0.2
+
+  const frame = (time) => {
+    const { x, y, z } = camera.position
+
+    if (force >= 0.001) {
+      camera.position.set(x - force, y - force, z - force)
+      force /= 1.05
+    }
+
+    controls.update()
+  }
+
+  initXR()
+  setAnimationLoop({ frame, postprocessing: true })
+}
+
+main()
+</script>

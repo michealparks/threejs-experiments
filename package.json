@@ -1,25 +1,35 @@
 {
-  "name": "threejs-experiments",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "snowpack dev",
+    "build": "snowpack build",
+    "dist": "run-s build rollup-build",
+    "rollup-dev": "rollup -c --environment DEV",
+    "rollup-build": "rollup -c --environment PROD",
+    "rollup-ammo-dev": "rollup -c rollup.ammo.config.js --environment DEV",
+    "rollup-ammo-build": "rollup -c rollup.ammo.config.js --environment PROD",
     "gh-pages": "node ./scripts/gh-pages.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/michealparks/threejs-experiments.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/michealparks/threejs-experiments/issues"
-  },
-  "homepage": "https://github.com/michealparks/threejs-experiments#readme",
   "devDependencies": {
-    "express": "^4.17.1",
+    "@drecom/stats.js": "^1.0.0",
+    "@rollup/plugin-alias": "^3.1.2",
+    "@rollup/plugin-replace": "^2.3.4",
+    "@snowpack/plugin-typescript": "^1.2.1",
+    "@tweenjs/tween.js": "^18.6.4",
+    "@types/snowpack-env": "^2.3.3",
+    "ammo.js": "github:kripken/ammo.js",
+    "esbuild": "^0.8.43",
     "gh-pages": "^3.1.0",
-    "three": "^0.122.0"
+    "npm-run-all": "^4.1.5",
+    "postprocessing": "^6.20.3",
+    "rollup": "^2.38.5",
+    "rollup-plugin-copy": "^3.3.0",
+    "rollup-plugin-filesize": "^9.1.0",
+    "rollup-plugin-terser": "^7.0.2",
+    "snowpack": "^3.0.11",
+    "snowpack-plugin-replace": "^1.0.4",
+    "three": "^0.125.2",
+    "tslib": "^2.1.0",
+    "tweakpane": "^1.5.8",
+    "typescript": "^4.1.3"
   }
 }

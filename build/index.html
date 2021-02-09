@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="favicon.ico" />
+  <title>ThreeJS Experiments | Micheal Parks</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel='stylesheet' href='index.css' />
+</head>
+
+<body>
+  <nav>
+    <ul>
+      <li><a href='textures'>Textures</a></li>
+      <li><a href='solar-system'>Solar System</a></li>
+      <li><a href='baked-texture'>Baked Textures</a></li>
+      <li><a href='matrix'>Matrix</a></li>
+      <li><a href='donut'>Donut</a></li>
+      <li><a href='alley'>Alley</a></li>
+      <li><a href='instanced-gltf'>Instanced Mesh</a></li>
+      <li><a href='campfire'>Campfire</a></li>
+      <li><a href='room'>Room</a></li>
+      <li><a href='pixel_room'>Pixel Room</a></li>
+      <li><a href='spooky'>Spooky House</a></li>
+      <li><a href='hello-shader'>Hello Shader!</a></li>
+    </ul>
+  </nav>
+  
+  <script type="module">
+    import { gl } from './core/gl.js'
+
+    let unmountCallback
+
+    const handleClick = (e) => {
+      e.preventDefault()
+
+      const { pathname } = e.target
+      const name = pathname.substring(1)
+
+      import(`./experiments/${name}.js`).then(loadModule)
+
+      history.replaceState(null, null, `${location.pathname}#${name}`)
+    }
+
+    const loadModule = (module) => {
+      if (unmountCallback) {
+        console.log(unmountCallback)
+        unmountCallback()
+      }
+
+      module.init().then(fn => (unmountCallback = fn))
+    }
+
+    const init = () => {
+      for (const link of document.querySelectorAll('a')) {
+        link.addEventListener('click', handleClick)
+      }
+
+      Promise.all([
+        location.hash === ''
+          ? Promise.resolve()
+          : import(`./experiments/${location.hash.substring(1)}.js`),
+        gl.init(),
+      ]).then(([module]) => loadModule(module))
+    }
+
+    init()
+  </script>
+</body>
+
+</html>
