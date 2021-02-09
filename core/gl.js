@@ -29,10 +29,12 @@ import {
   FAR,
   FOV,
   NEAR,
-  SHADOWMAP
+  SHADOWMAP,
+  CLEARCOLOR
 } from "./constants.js";
 const renderer = new WebGLRenderer({
   antialias: false,
+  alpha: false,
   depth: false,
   stencil: false,
   powerPreference: "high-performance"
@@ -43,6 +45,7 @@ renderer.outputEncoding = sRGBEncoding;
 renderer.physicallyCorrectLights = true;
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = SHADOWMAP;
+renderer.setClearColor(CLEARCOLOR);
 document.body.append(renderer.domElement);
 let fn;
 const stats = new Stats({maxFPS: Infinity, maxMem: Infinity});

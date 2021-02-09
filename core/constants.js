@@ -8,6 +8,7 @@ export const COLOR_BLACK = 0;
 export const COLOR_AMBIENT_LIGHT = 11527155;
 export const SHADOWMAP = PCFSoftShadowMap;
 export const EXPOSURE = 1;
+export const CLEARCOLOR = COLOR_BLACK;
 export const FOV = 30;
 export const NEAR = 0.1;
 export const FAR = 300;
