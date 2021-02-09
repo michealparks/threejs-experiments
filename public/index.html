@@ -7,6 +7,11 @@
   <title>ThreeJS Experiments | Micheal Parks</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel='stylesheet' href='index.css' />
+
+  <link rel="modulepreload" href="core/gl.js">
+  <link rel="modulepreload" href="core/assets.js">
+  <link rel="modulepreload" href="core/constants.js">
+  <link rel="modulepreload" href="core/orbitControls.js">
 </head>
 
 <body>
@@ -58,7 +63,7 @@
 
       Promise.all([
         location.hash === ''
-          ? Promise.resolve()
+          ? import(`./experiments/baked-texture.js`)
           : import(`./experiments/${location.hash.substring(1)}.js`),
         gl.init(),
       ]).then(([module]) => loadModule(module))
