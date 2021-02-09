@@ -11,7 +11,14 @@ module.exports = {
         { from: 'process.env', to: 'import.meta.env' },
         { from: 'import.meta.env.MODE', to: `'${process.env.NODE_ENV}'` }
       ]
-    }]
+    }], [
+      'snowpack-plugin-copy',
+      {
+        patterns: [
+          { source: ['public/.nojekyll'], destination: 'build' }
+        ],
+      },
+    ],
   ],
   exclude: [
     'ammo.js',

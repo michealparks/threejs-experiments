@@ -1,13 +1,25 @@
-import { XRControllerModelFactory } from 'https://cdn.jsdelivr.net/npm/three@v0.122.0/examples/jsm/webxr/XRControllerModelFactory.js'
-import { XRHandModelFactory } from 'https://cdn.jsdelivr.net/npm/three@v0.122.0/examples/jsm/webxr/XRHandModelFactory.js'
+import type {
+  WebGLRenderer,
+  Scene
+} from 'three'
+
+import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerModelFactory'
+import { XRHandModelFactory } from 'three/examples/jsm/webxr/XRHandModelFactory'
 
 const xrEnabled = () => {
-  return navigator.xr && navigator.xr.isSessionSupported('immersive-vr')
+  return (
+    'xr' in navigator &&
+    // @ts-ignore
+    navigator.xr.isSessionSupported('immersive-vr')
+  )
 }
 
-const initControls = (renderer, scene) => {
+const initControls = (renderer: WebGLRenderer, scene: Scene) => {
   const controllerModelFactory = new XRControllerModelFactory()
-  const handModelFactory = new XRHandModelFactory().setPath('/assets/fbx/')
+  const handModelFactory = new XRHandModelFactory()
+
+  // @ts-ignore
+  handModelFactory.setPath('/assets/fbx/')
 
   for (const i of [0, 1]) {
     const controllerGrip = renderer.xr.getControllerGrip(i)
@@ -22,7 +34,7 @@ const initControls = (renderer, scene) => {
   }
 }
 
-const createXRButton = (renderer, scene) => {
+const createXRButton = (renderer: WebGLRenderer, scene: Scene) => {
   const TEXT = {
     enter: 'ENTER VR',
     exit: 'EXIT VR'
@@ -33,7 +45,7 @@ const createXRButton = (renderer, scene) => {
   button.className = 'xr-button'
   button.textContent = TEXT.enter
 
-  let currentSession = null
+  let currentSession: any = null
 
   const handleSessionEnd = () => {
     button.textContent = TEXT.enter
@@ -49,7 +61,8 @@ const createXRButton = (renderer, scene) => {
       // ('local' is always available for immersive sessions and doesn't need to
       // be requested separately.)
       const sessionInit = { optionalFeatures: ['local-floor', 'bounded-floor', 'hand-tracking'] }
-      
+
+      // @ts-ignore
       const session = await navigator.xr.requestSession('immersive-vr', sessionInit)
 
       session.addEventListener('end', handleSessionEnd, { once: true })
