@@ -1,4 +1,4 @@
-import { C as Camera, a as Color, W as WebGLMultisampleRenderTarget, U as UnsignedByteType, V as Vector2, D as DepthTexture, b as DepthStencilFormat, c as UnsignedInt248Type, d as UnsignedIntType, e as WebGLRenderTarget, f as Uniform, L as LinearFilter, R as RGBFormat, g as Vector3, M as Matrix4, h as RGBAFormat, T as Texture, N as NearestFilter, i as Loader, S as ShaderMaterial, j as NoBlending, P as PerspectiveCamera, k as Scene, l as Mesh, B as BackSide, m as DoubleSide, F as FrontSide, E as EventDispatcher, n as LuminanceFormat, o as LoadingManager, p as BufferGeometry, q as BufferAttribute } from './common/three.module-1fff554e.js';
+import { C as Camera, a as Color, W as WebGLMultisampleRenderTarget, U as UnsignedByteType, V as Vector2, D as DepthTexture, b as DepthStencilFormat, c as UnsignedInt248Type, d as UnsignedIntType, e as WebGLRenderTarget, f as Uniform, L as LinearFilter, R as RGBFormat, M as Matrix4, g as RGBAFormat, T as Texture, N as NearestFilter, h as Loader, S as ShaderMaterial, i as NoBlending, P as PerspectiveCamera, j as Scene, k as Mesh, B as BackSide, l as DoubleSide, F as FrontSide, E as EventDispatcher, m as LuminanceFormat, n as LoadingManager, o as BufferGeometry, p as BufferAttribute } from './common/three.module-be8725f9.js';
 
 /**
  * postprocessing v6.20.3 build Mon Feb 01 2021
@@ -1832,15 +1832,10 @@ var BloomEffect = class extends Effect {
     }
   }
 };
-
-// src/effects/GodRaysEffect.js
-new Vector3();
 new Matrix4();
 
 // src/images/textures/LookupTexture3D.js
 new Color();
-new Vector3();
-new Vector3();
 
 // src/images/smaa/searchImageDataURL.js
 var searchImageDataURL_default = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAQCAYAAACm53kpAAAAeElEQVRYR+2XSwqAMAxEJ168ePEqwRSKhIIiuHjJqiU0gWE+1CQdApcVAMUAuARaMGCX1MIL/Ow13++9lW2s3mW9MWvsnWc/2fvGygwPAN4E8QzAA4CXAB6AHjG4JTHYI1ey3pcx6FHnEfhLDOIBKAmUBK6/ANUDTlROXAHd9EC1AAAAAElFTkSuQmCC";

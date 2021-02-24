@@ -2,7 +2,9 @@ import {
   UniformsLib,
   Vector2,
   ShaderMaterial,
-  Vector3
+  Vector3,
+  BoxGeometry,
+  Mesh
 } from "../_snowpack/pkg/three.js";
 import {gl} from "../core/gl.js";
 import {assets} from "../core/assets.js";
@@ -16,14 +18,12 @@ export const init = async () => {
     resolution: {value: new Vector2()}
   };
   await assets.queue("hello-shader.frag.glsl").load();
-  const mat = new ShaderMaterial({
+  const cube = new Mesh(new BoxGeometry(0.5, 0.5, 0.5), new ShaderMaterial({
     fragmentShader: assets.get("hello-shader.frag.glsl"),
     uniforms,
     fog: true,
     lights: true
-  });
-  const cube = utils.createCube(0.5);
-  cube.material = mat;
+  }));
   gl.scene.add(cube);
   const light = utils.createPointLight();
   light.position.set(-1, 2, 4);

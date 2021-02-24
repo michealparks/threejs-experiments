@@ -18,7 +18,6 @@ export const init = async () => {
   const moon = house.getObjectByName("Moon");
   moon.material.color.set(new Color(16777215));
   moon.needsUpdate = true;
-  console.log(moon.material);
   const frame = () => {
     orbitControls.update();
   };

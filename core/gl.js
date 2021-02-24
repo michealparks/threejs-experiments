@@ -48,6 +48,7 @@ renderer.shadowMap.type = SHADOWMAP;
 renderer.setClearColor(CLEARCOLOR);
 document.body.append(renderer.domElement);
 let fn;
+const clock = new Clock();
 const stats = new Stats({maxFPS: Infinity, maxMem: Infinity});
 const canvas = renderer.domElement;
 const composer = new EffectComposer(renderer, {
@@ -78,7 +79,6 @@ const init = async () => {
   composer.addPass(new RenderPass(scene, camera));
   composer.addPass(new EffectPass(camera, smaaEffect, bloomEffect));
 };
-const clock = new Clock();
 const render = () => {
   if (__SNOWPACK_ENV__.MODE === "development") {
     stats.begin();

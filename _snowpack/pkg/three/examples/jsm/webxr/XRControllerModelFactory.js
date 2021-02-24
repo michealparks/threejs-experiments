@@ -1,5 +1,5 @@
-import { $ as Object3D, Q as Quaternion, _ as SphereGeometry, a6 as MeshBasicMaterial, l as Mesh } from '../../../../common/three.module-1fff554e.js';
-import { G as GLTFLoader } from '../../../../common/GLTFLoader-24637ebd.js';
+import { a0 as Object3D, Q as Quaternion, $ as SphereGeometry, a6 as MeshBasicMaterial, k as Mesh } from '../../../../common/three.module-be8725f9.js';
+import { G as GLTFLoader } from '../../../../common/GLTFLoader-d839faea.js';
 
 /**
  * @webxr-input-profiles/motion-controllers 1.0.0 https://github.com/immersive-web/webxr-input-profiles
