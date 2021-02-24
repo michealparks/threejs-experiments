@@ -56,6 +56,7 @@ document.body.append(renderer.domElement)
 
 let fn: Tick
 
+const clock = new Clock()
 const stats = new Stats({ maxFPS: Infinity, maxMem: Infinity })
 const canvas = renderer.domElement
 const composer = new EffectComposer(renderer, {
@@ -99,8 +100,6 @@ const init = async () => {
     bloomEffect
   ))
 }
-
-const clock = new Clock()
 
 const render = () => {
   if (import.meta.env.MODE === 'development') {

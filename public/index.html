@@ -42,7 +42,7 @@
 
       const path = e.target.dataset.href
 
-      import(`./experiments/${path}.js`).then(loadModule)
+      import(new URL(`./experiments/${path}.js`, import.meta.url)).then(loadModule)
 
       location.hash = path
     }
@@ -62,8 +62,8 @@
 
       Promise.all([
         location.hash === ''
-          ? import(`./experiments/baked-texture.js`)
-          : import(`./experiments/${location.hash.substring(1)}.js`),
+          ? import(new URL(`./experiments/baked-texture.js`, import.meta.url))
+          : import(new URL(`./experiments/${location.hash.substring(1)}.js`, import.meta.url)),
         gl.init(),
       ]).then(([module]) => loadModule(module))
     }

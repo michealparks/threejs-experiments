@@ -3,7 +3,9 @@ import {
   UniformsLib,
   Vector2,
   ShaderMaterial,
-  Vector3
+  Vector3,
+  BoxGeometry,
+  Mesh
 } from 'three'
 
 import { gl } from '../core/gl'
@@ -22,15 +24,16 @@ export const init = async () => {
 
   await assets.queue('hello-shader.frag.glsl').load()
 
-  const mat = new ShaderMaterial({
-    fragmentShader: assets.get('hello-shader.frag.glsl'),
-    uniforms,
-    fog: true,
-    lights: true,
-  })
+  const cube = new Mesh(
+    new BoxGeometry(0.5, 0.5, 0.5), 
+    new ShaderMaterial({
+      fragmentShader: assets.get('hello-shader.frag.glsl'),
+      uniforms,
+      fog: true,
+      lights: true,
+    })
+  )
 
-  const cube = utils.createCube(0.5)
-  cube.material = mat
   gl.scene.add(cube)
 
   const light = utils.createPointLight()

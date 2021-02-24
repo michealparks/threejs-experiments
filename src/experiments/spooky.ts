@@ -26,8 +26,6 @@ export const init = async () => {
   moon.material.color.set(new Color(0xffffff))
   moon.needsUpdate = true
 
-  console.log(moon.material)
-
   const frame = () => {
     orbitControls.update()
   }

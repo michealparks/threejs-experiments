@@ -5,7 +5,6 @@ import {
 	EventDispatcher,
   Matrix4,
 	MOUSE,
-  Object3D,
 	Quaternion,
 	Spherical,
 	TOUCH,
