@@ -19,8 +19,8 @@ gltfLoader.setPath('assets/glb/')
 
 const queued = new Set<string>()
 const listeners = new Set<Listener>()
-const promises = new Set()
-const cache = new Map()
+const promises = new Set<Promise<void>>()
+const cache = new Map<string, any>()
 
 const loadJSON = async (file: string) => {
   const response = await fetch(`assets/json/${file}`)
@@ -44,7 +44,7 @@ const loadGLTF = async (file: string) => {
   cache.set(file, await gltfLoader.loadAsync(file))
 }
 
-const loadSprite = async (file: string) => {
+const loadSprite = async (file: string): Promise<void> => {
   const [data, tex] = await Promise.all([
     fetch(`assets/textures/${file.replace('sprite', 'json')}`).then((res) => res.json()),
     textureLoader.loadAsync(file.replace('sprite', 'png'))
@@ -57,7 +57,7 @@ const loadSprite = async (file: string) => {
   })
 }
 
-const loadOne = (file: string) => {
+const loadOne = (file: string): Promise<void> => {
   switch (file.split('.').pop()) {
     case 'glb': return loadGLTF(file)
     case 'png': case 'jpg': return loadTexture(file)
@@ -67,6 +67,8 @@ const loadOne = (file: string) => {
     case 'obj': return loadText(file, 'obj')
     case 'glsl': return loadText(file, 'glsl')
   }
+
+  return Promise.reject()
 }
 
 const get = (file: string) => {

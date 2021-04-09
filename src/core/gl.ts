@@ -62,10 +62,18 @@ const canvas = renderer.domElement
 const composer = new EffectComposer(renderer, {
   frameBufferType: HalfFloatType
 })
+
 const effects = new Map()
 const scene = new Scene()
-const camera = new PerspectiveCamera(FOV, window.innerWidth / window.innerHeight, NEAR, FAR)
+
+const camera = new PerspectiveCamera(
+  FOV,
+  window.innerWidth / window.innerHeight,
+  NEAR,
+  FAR)
+
 const listener = new AudioListener()
+scene.add(camera)
 camera.add(listener)
 
 if (import.meta.env.MODE === 'development') {
@@ -102,9 +110,7 @@ const init = async () => {
 }
 
 const render = () => {
-  if (import.meta.env.MODE === 'development') {
-    stats.begin()
-  }
+  stats.begin()
 
   const dt = clock.getDelta()
   const elapsed = clock.getElapsedTime()
@@ -126,9 +132,7 @@ const render = () => {
     composer.setSize(width, height, false)
   }
 
-  if (import.meta.env.MODE === 'development') {
-    stats.end()
-  }
+  stats.end()
 }
 
 const setAnimationLoop = (frame: Tick | null) => {

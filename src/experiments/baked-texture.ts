@@ -16,8 +16,6 @@ export const init = async () => {
 
   const chair = assets.get('chair.glb').scene
 
-  console.log(chair)
-
   gl.scene.add(chair)
   
   const frame = () => {
