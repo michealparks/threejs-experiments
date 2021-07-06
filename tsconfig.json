@@ -1,32 +1,30 @@
 {
-  "include": ["./src/**/*.ts"],
-  "typeRoots": ["node_modules/ammojs-wasm-typed/ammo/ambient"],
-  "types": [],
-  "lib": ["dom"],
-  "compilerOptions": {
-    "module": "esnext",
-    "target": "esnext",
-    "moduleResolution": "node",
-    "jsx": "preserve",
-    "allowSyntheticDefaultImports": true,
-    "importsNotUsedAsValues": "error",
-    /* more strict checking for errors that per-file transpilers like `esbuild` would crash */
-    "isolatedModules": true,
-    /* noEmit - We only use TypeScript for type checking. */
-    "noEmit": true,
-    "incremental": true,
-    /* Additional Options */
-    "strict": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "useDefineForClassFields": true,
-
-    // You can't currently define paths in your 'extends' config,
-    // so we have to set 'baseUrl' & 'paths' here.
-    // Don't change these unless you know what you're doing.
-    // See: https://github.com/microsoft/TypeScript/issues/25430
-    "baseUrl": "./",
-    "paths": { "*": ["web_modules/.types/*"] }
-  }
+	"compilerOptions": {
+		"moduleResolution": "node",
+		"module": "esNext",
+		"lib": ["esNext"],
+		"target": "esNext",
+		/**
+			svelte-preprocess cannot figure out whether you have a value or a type, so tell TypeScript
+			to enforce using \`import type\` instead of \`import\` for Types.
+			*/
+		"importsNotUsedAsValues": "error",
+		"isolatedModules": true,
+		"resolveJsonModule": true,
+		/**
+			To have warnings/errors of the Svelte compiler at the correct position,
+			enable source maps by default.
+			*/
+		"sourceMap": true,
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true,
+		"baseUrl": ".",
+		"allowJs": true,
+		"checkJs": true,
+		"paths": {
+			"$lib/*": ["src/lib/*"]
+		}
+	},
+	"include": ["src/**/*.d.ts", "src/**/*.js", "src/**/*.ts", "src/**/*.svelte"]
 }

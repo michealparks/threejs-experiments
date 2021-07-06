@@ -5,6 +5,7 @@ import type {
 
 import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerModelFactory'
 import { XRHandModelFactory } from 'three/examples/jsm/webxr/XRHandModelFactory'
+import type { XRHandPrimitiveModelOptions } from 'three/examples/jsm/webxr/XRHandPrimitiveModel'
 
 const xrEnabled = () => {
   return (
@@ -29,7 +30,8 @@ const initControls = (renderer: WebGLRenderer, scene: Scene) => {
     const hand = renderer.xr.getHand(i)
     scene.add(hand)
 
-    const model = handModelFactory.createHandModel(hand, "oculus", { model: "lowpoly" })
+    const options: XRHandPrimitiveModelOptions = {}
+    const model = handModelFactory.createHandModel(hand, "oculus", options)
     hand.add(model)
   }
 }
