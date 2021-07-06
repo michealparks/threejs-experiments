@@ -1,0 +1,1 @@
+import{S as s,i as e,s as t,J as a,d as n,F as r}from"../chunks/vendor-58402af1.js";function h(s){return{c(){this.h()},l(s){a('[data-svelte="svelte-1lu6hnl"]',document.head).forEach(n),this.h()},h(){document.title="ThreeJS Experiments"},m:r,p:r,i:r,o:r,d:r}}export default class extends s{constructor(s){super(),e(this,s,null,h,t,{})}}

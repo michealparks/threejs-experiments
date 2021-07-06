@@ -19,7 +19,7 @@ import {
   BloomEffect,
   KernelSize
 	// @ts-ignore
-} from 'postprocessing'
+} from '../../node_modules/postprocessing/build/postprocessing.esm'
 
 export default class Renderer extends WebGLRenderer {
 	clock = new Clock()
@@ -66,7 +66,7 @@ export default class Renderer extends WebGLRenderer {
 
     const bloomEffect = new BloomEffect({
       height: 480,
-      intensity: 20,
+      intensity: 1,
       kernelSize: KernelSize.VERY_LARGE
     })
 		

@@ -27,20 +27,23 @@ export class GL {
   stats: Stats
   scene: Scene
   camera: PerspectiveCamera
+  canvas: HTMLCanvasElement | OffscreenCanvas
   fn: Callback
 
-  init = async (canvas: HTMLCanvasElement | OffscreenCanvas) => {
+  constructor (canvas: HTMLCanvasElement | OffscreenCanvas) {
     this.renderer = new Renderer(canvas)
     this.scene = this.renderer.scene
     this.camera = this.renderer.camera
-
-    await this.renderer.init()
+    this.canvas = this.renderer.canvas
 
     if (import.meta.env.MODE === 'development') {
       this.stats = new Stats({ maxFPS: Infinity, maxMem: Infinity })
       document.body.appendChild(this.stats.dom)
     }
+  }
 
+  init = async () => {
+    await this.renderer.init()
     this.renderer.camera.add(this.listener)
     this.renderer.scene.add(this.ambientLight)
   }

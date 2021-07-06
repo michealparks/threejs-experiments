@@ -1,0 +1,12 @@
+{
+  "imports": {
+    "@drecom/stats.js": "./@drecom/statsjs.js",
+    "@tweenjs/tween.js": "./@tweenjs/tweenjs.js",
+    "postprocessing": "./postprocessing.js",
+    "three": "./three.js",
+    "three/examples/jsm/loaders/GLTFLoader": "./three/examples/jsm/loaders/GLTFLoader.js",
+    "three/examples/jsm/loaders/RGBELoader": "./three/examples/jsm/loaders/RGBELoader.js",
+    "three/examples/jsm/webxr/XRControllerModelFactory": "./three/examples/jsm/webxr/XRControllerModelFactory.js",
+    "three/examples/jsm/webxr/XRHandModelFactory": "./three/examples/jsm/webxr/XRHandModelFactory.js"
+  }
+}

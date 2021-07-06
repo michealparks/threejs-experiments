@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="/favicon.png" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		
+
+		
+
+		<link rel="modulepreload" href="/./_app/start-b2dac70d.js">
+		<link rel="modulepreload" href="/./_app/chunks/vendor-58402af1.js">
+		<link rel="modulepreload" href="/./_app/chunks/preload-helper-9f12a5fd.js">
+		<link rel="modulepreload" href="/./_app/pages/__layout.svelte-c4e507d5.js">
+		<link rel="modulepreload" href="/./_app/chunks/util-732f9037.js">
+		<link rel="modulepreload" href="/./_app/pages/tasks/planets.svelte-8c705942.js">
+		<link rel="modulepreload" href="/./_app/chunks/gl-f13dd392.js">
+		<link rel="modulepreload" href="/./_app/chunks/util-three-28f1a0c1.js">
+		<link rel="stylesheet" href="/./_app/assets/start-a8cd1609.css">
+		<link rel="stylesheet" href="/./_app/assets/pages/__layout.svelte-89ab7964.css">
+
+		<script type="module">
+			import { start } from "/./_app/start-b2dac70d.js";
+			start({
+				target: document.querySelector("#svelte"),
+				paths: {"base":"","assets":"/."},
+				session: {},
+				host: location.host,
+				route: true,
+				spa: false,
+				trailing_slash: "never",
+				hydrate: {
+					status: 200,
+					error: null,
+					nodes: [
+						import("/./_app/pages/__layout.svelte-c4e507d5.js"),
+						import("/./_app/pages/tasks/planets.svelte-8c705942.js")
+					],
+					page: {
+						host: location.host, // TODO this is redundant
+						path: "/tasks/planets",
+						query: new URLSearchParams(""),
+						params: {}
+					}
+				}
+			});
+		</script>
+	</head>
+	<body>
+		<div id="svelte">
+
+
+<a href="/tasks/alley">Alley</a><a href="/tasks/baked">Baked</a><a href="/tasks/campfire">Campfire</a><a href="/tasks/instanced">Instanced</a><a href="/tasks/matrix">Matrix</a><a href="/tasks/planets">Planets</a><a href="/tasks/room">Room</a><a href="/tasks/shader">Shader</a><a href="/tasks/terrain">Terrain</a>
+
+<canvas></canvas>
+
+
+
+	
+</div>
+	</body>
+</html>

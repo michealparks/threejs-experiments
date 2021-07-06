@@ -1,35 +1,33 @@
-<script context="module" lang="ts">
-	export const prerender = false
-</script>
-
 <script lang='ts'>
-  import { Vector3 } from 'three'
   import { GL } from '$lib/gl'
   import { assets } from '$lib/assets'
-  import { orbitControls } from '$lib/orbitControls'
-  import { onMount } from 'svelte';
+  import { OrbitControls } from '$lib/orbitControls'
+  import { onMount } from 'svelte'
+
+  let canvas
 
   onMount(async () => {
-    const gl = new GL()
+    const gl = new GL(canvas)
+    const orbitControls = new OrbitControls(gl.camera, document.body)
   
-    await assets.queue('desert.glb').load()
+    await Promise.all([
+      gl.init(),
+      assets.load('desert.glb')
+    ])
   
     const { scene } = assets.get('desert.glb')
-    scene.rotation.set(0.0, -Math.PI / 4, 0.0)
     gl.scene.add(scene)
-
     gl.ambientLight.intensity = 2
-
-    const frame = () => {
-      orbitControls.update()
-    }
-
-    gl.camera.position.set(0, 40, 40)
     orbitControls.maxDistance = 200
+    orbitControls.autoRotate = true
+    gl.camera.position.set(10, 30, 30)
+    
     orbitControls.enableZoom = false
 
-    gl.setAnimationLoop(frame)
+    gl.setAnimationLoop(() => {
+      orbitControls.update()
+    })
   })
 </script>
 
-<canvas id='canvas' />
+<canvas bind:this={canvas} />

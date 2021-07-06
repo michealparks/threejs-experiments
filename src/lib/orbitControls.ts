@@ -12,7 +12,7 @@ import {
   OrthographicCamera
 } from 'three'
 
-import { PASSIVE } from '../lib/constants'
+import { PASSIVE } from './constants'
 
 // This set of controls performs orbiting, dollying (zooming), and panning.
 // Unlike TrackballControls, it maintains the "up" direction object.up (+Y by default).
@@ -40,7 +40,7 @@ const STATE = {
 
 const twoPI = 2 * Math.PI
 
-class OrbitControls extends EventDispatcher {
+export class OrbitControls extends EventDispatcher {
   _enabled = true
   _hasEvents = true
 
@@ -48,8 +48,8 @@ class OrbitControls extends EventDispatcher {
   domElement: HTMLElement
   
   target = new Vector3()
-  minDistance = 0
-  maxDistance = Infinity
+  minDistance = 5
+  maxDistance = 40
 
   // How far you can zoom in and out ( OrthographicCamera only )
 	minZoom = 0
@@ -57,8 +57,8 @@ class OrbitControls extends EventDispatcher {
 
 	// How far you can orbit vertically, upper and lower limits.
 	// Range is 0 to Math.PI radians.
-	minPolarAngle = 0 // radians
-	maxPolarAngle = Math.PI // radians
+	minPolarAngle = Math.PI / 4 // radians
+	maxPolarAngle = Math.PI / 2.5 // radians
 
 	// How far you can orbit horizontally, upper and lower limits.
 	// If set, the interval [ min, max ] must be a sub-interval of [ - 2 PI, 2 PI ], with ( max - min < 2 PI )
@@ -67,7 +67,7 @@ class OrbitControls extends EventDispatcher {
 
 	// Set to true to enable damping (inertia)
 	// If damping is enabled, you must call controls.update() in your animation loop
-	enableDamping = false
+	enableDamping = true
 	dampingFactor = 0.05
 
 	// This option actually enables dollying in and out left as "zoom" for backwards compatibility.
@@ -82,7 +82,7 @@ class OrbitControls extends EventDispatcher {
 	// Set to false to disable panning
 	enablePan = true
 	panSpeed = 1.0
-	screenSpacePanning = true // if false, pan orthogonal to world-space direction camera.up
+	screenSpacePanning = false // if false, pan orthogonal to world-space direction camera.up
 	keyPanSpeed = 7.0	// pixels moved per arrow key push
 
 	// Set to true to automatically rotate around the target
@@ -928,14 +928,3 @@ class OrbitControls extends EventDispatcher {
 		event.preventDefault()
 	}
 }
-
-const controls = new OrbitControls(gl.camera, gl.canvas)
-controls.enableDamping = true
-controls.dampingFactor = 0.05
-controls.screenSpacePanning = false
-controls.minDistance = 5
-controls.maxDistance = 40
-controls.maxPolarAngle = Math.PI / 2.5
-controls.minPolarAngle = Math.PI / 4
-
-export const orbitControls = controls

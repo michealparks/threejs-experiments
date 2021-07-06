@@ -8,7 +8,7 @@
 	--primary-color: #b9c6d2;
 	--secondary-color: #d0dde9;
 	--tertiary-color: #edf0f8;
-	--accent-color: #ff3e00;
+	--accent-color: #333;
 	--heading-color: rgba(0, 0, 0, 0.7);
 	--text-color: #444444;
 	--background-without-opacity: rgba(255, 255, 255, 0.7);
@@ -44,10 +44,16 @@ body::before {
 	opacity: 0.05;
 }
 
+canvas {
+	position: absolute;
+	width: 100vw;
+	height: 100vh;
+}
+
 #svelte {
 	min-height: 100vh;
-	display: flex;
-	flex-direction: column;
+	display: grid;
+  place-content: end start;
 }
 
 h1,
