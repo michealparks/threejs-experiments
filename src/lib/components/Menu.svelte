@@ -1,4 +1,5 @@
 <script lang='ts'>
+  import { base } from '$app/paths'
   import { capitalize } from '$lib/util'
   export let pages = []
 </script>
@@ -7,7 +8,7 @@
   <ul>
     {#each Object.keys(pages) as page (page)}
       <li>
-        <a href={page.slice(1, -7)}>
+        <a href={`${base}${page.slice(1, -7)}`}>
           {capitalize(page.slice(8, -7))}
         </a>
       </li>

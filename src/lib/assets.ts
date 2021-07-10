@@ -5,6 +5,7 @@ import {
   AudioLoader
 } from 'three'
 
+import { base } from '$app/paths'
 import { GLTFLoader } from '../../node_modules/three/examples/jsm/loaders/GLTFLoader'
 
 type Callback = { (...any): void }
@@ -14,9 +15,9 @@ const textureLoader = new TextureLoader()
 const audioLoader = new AudioLoader()
 const gltfLoader = new GLTFLoader()
 
-textureLoader.setPath('/textures/')
-audioLoader.setPath('/mp3/')
-gltfLoader.setPath('/glb/')
+textureLoader.setPath(`${base}/textures/`)
+audioLoader.setPath(`${base}/mp3/`)
+gltfLoader.setPath(`${base}/glb/`)
 
 const queued = new Set<string>()
 const listeners = new Set<Callback>()
@@ -24,12 +25,12 @@ const promises = new Set()
 const cache = new Map()
 
 const loadJSON = async (file: string) => {
-  const response = await fetch(`/json/${file}`)
+  const response = await fetch(`${base}/json/${file}`)
   cache.set(file, await response.json())
 }
 
 const loadText = async (file: string, path: string) => {
-  const response = await fetch(`/${path}/${file}`)
+  const response = await fetch(`${base}/${path}/${file}`)
   cache.set(file, await response.text())
 }
 
@@ -47,7 +48,7 @@ const loadGLTF = async (file: string) => {
 
 const loadSprite = async (file: string) => {
   const [data, tex] = await Promise.all([
-    fetch(`/textures/${file.replace('sprite', 'json')}`).then((res) => res.json()),
+    fetch(`${base}/textures/${file.replace('sprite', 'json')}`).then((res) => res.json()),
     textureLoader.loadAsync(file.replace('sprite', 'png'))
   ])
 
