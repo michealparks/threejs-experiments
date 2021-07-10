@@ -18,3 +18,35 @@ export const randPointInCircle = (R: number) => {
   const y = r * Math.sin(theta)
   return [x, y]
 }
+
+export const randPointInSphere = (R: number) => {
+  const u = Math.random()
+  const v = Math.random()
+  const theta = u * 2.0 * Math.PI
+  const phi = Math.acos(2.0 * v - 1.0)
+  const r = Math.cbrt(Math.random() * R)
+  const sinTheta = Math.sin(theta)
+  const cosTheta = Math.cos(theta)
+  const sinPhi = Math.sin(phi)
+  const cosPhi = Math.cos(phi)
+  const x = r * sinPhi * cosTheta
+  const y = r * sinPhi * sinTheta
+  const z = r * cosPhi
+  return [x, y, z]
+}
+
+export const randPointOnSphere = (R: number) => {
+  const u = Math.random()
+  const v = Math.random()
+  const theta = u * 2.0 * Math.PI
+  const phi = Math.acos(2.0 * v - 1.0)
+  const r = Math.cbrt(Math.random() + R)
+  const sinTheta = Math.sin(theta)
+  const cosTheta = Math.cos(theta)
+  const sinPhi = Math.sin(phi)
+  const cosPhi = Math.cos(phi)
+  const x = r * sinPhi * cosTheta
+  const y = r * sinPhi * sinTheta
+  const z = r * cosPhi
+  return [x, y, z]
+}
