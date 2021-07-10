@@ -1,1 +1,0 @@
-const a=a=>`${a[0].toUpperCase()}${a.toLowerCase().slice(1)}`,t=(a,t)=>Math.random()*(t-a)+a,s=a=>{const t=a*Math.sqrt(Math.random()),s=2*Math.random()*Math.PI;return[t*Math.cos(s),t*Math.sin(s)]};export{s as a,a as c,t as r};
