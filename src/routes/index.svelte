@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang='ts'>
 	import Terrain from './tasks/terrain.svelte'
 </script>
 

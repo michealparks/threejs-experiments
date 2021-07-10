@@ -2,14 +2,20 @@
   import { base } from '$app/paths'
   import { capitalize } from '$lib/util'
   export let pages = []
+
+  $: routes = Object.keys(pages).map((page) => {
+    const path = `${base}${page.slice(1).replace('.svelte', '')}`
+    const name = capitalize(path.split('/').pop())
+    return { path, name }
+  })
 </script>
 
 <nav>
   <ul>
-    {#each Object.keys(pages) as page (page)}
+    {#each routes as { path, name } (path)}
       <li>
-        <a href={`${base}${page.slice(1, -7)}`}>
-          {capitalize(page.slice(8, -7))}
+        <a href={path}>
+          {name}
         </a>
       </li>
     {/each}
