@@ -5,7 +5,7 @@ import {
 	WebGLRenderer,
 	ACESFilmicToneMapping,
 	sRGBEncoding,
-	BasicShadowMap,
+	PCFSoftShadowMap,
 	HalfFloatType
 } from 'three'
 
@@ -47,15 +47,15 @@ export default class Renderer extends WebGLRenderer {
 		this.toneMappingExposure = 1
 		this.outputEncoding = sRGBEncoding
 		this.physicallyCorrectLights = true
-		this.shadowMap.enabled = false
-		this.shadowMap.type = BasicShadowMap
+		this.shadowMap.enabled = true
+		this.shadowMap.type = PCFSoftShadowMap
 
 		this.composer = new EffectComposer(this, {
 			frameBufferType: HalfFloatType
 		})
 	}
 
-	async init () {
+	async init (config): Promise<void> {
 		const smaaImageLoader = new SMAAImageLoader()
 
 		const [search, area] = await new Promise((resolve) =>
@@ -66,7 +66,7 @@ export default class Renderer extends WebGLRenderer {
 
     const bloomEffect = new BloomEffect({
       height: 480,
-      intensity: 1,
+      intensity: config.bloomIntensity ?? 1,
       kernelSize: KernelSize.VERY_LARGE
     })
 		
@@ -74,9 +74,8 @@ export default class Renderer extends WebGLRenderer {
 		this.composer.addPass(new EffectPass(this.camera, smaaEffect, bloomEffect))
 	}
 
-	update = () => {
+	update = (): number => {
 		const delta = this.clock.getDelta()
-
 		const canvas = this.domElement
 		const dpi = Math.min(devicePixelRatio, 2)
 		const width = canvas.clientWidth * dpi | 0

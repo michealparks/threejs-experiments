@@ -42,13 +42,13 @@ export class GL {
     }
   }
 
-  init = async () => {
-    await this.renderer.init()
+  init = async (config = {}): Promise<void> => {
+    await this.renderer.init(config)
     this.renderer.camera.add(this.listener)
     this.renderer.scene.add(this.ambientLight)
   }
 
-  update = () => {
+  update = (): void => {
     if (import.meta.env.MODE === 'development') {
       this.stats.begin()
     }
@@ -66,7 +66,7 @@ export class GL {
     }
   }
 
-  setAnimationLoop = (frame: Callback | null) => {
+  setAnimationLoop = (frame: Callback | null): void => {
     if (frame !== null) {
       this.fn = frame
     }

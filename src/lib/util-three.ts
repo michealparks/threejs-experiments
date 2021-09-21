@@ -1,10 +1,7 @@
-import type {
+import {
   Scene,
   Object3D,
-} from 'three'
-
-import {
-  BoxBufferGeometry,
+  BoxGeometry,
   MeshPhongMaterial,
   Mesh,
   PointLight,
@@ -12,18 +9,28 @@ import {
   HemisphereLight,
   DirectionalLight,
   SphereGeometry,
-  BackSide
+  BackSide,
+  MeshBasicMaterial,
 } from 'three'
 
 import { COLORS, SHADOW_MAP } from './constants'
 
-export const createCube = (size = 1, color = 0x44aa88) => {
+export const createCube = (size = 1, color = 0x44aa88): Mesh => {
   return new Mesh(
-    new BoxBufferGeometry(size, size, size), 
+    new BoxGeometry(size, size, size), 
     new MeshPhongMaterial({ color }))
 }
 
-export const createPointLight = () => {
+export const createSphere = (radius = 1, color = 0xff0000): Mesh => {
+  const widthSegments = 16
+  const heightSegments = 16
+  return new Mesh(
+    new SphereGeometry(radius, widthSegments, heightSegments),
+    new MeshBasicMaterial({ color })
+  )
+}
+
+export const createPointLight = (): PointLight => {
   const intensity = 3.0
   const color = COLORS.warmLight
   const light = new PointLight(color, intensity)
@@ -35,7 +42,7 @@ export const createPointLight = () => {
   return light
 }
 
-export const createSpotLight = () => {
+export const createSpotLight = (): SpotLight => {
   const intensity = 5.0
   const light = new SpotLight(COLORS.warmLight, intensity)
   light.castShadow = true
@@ -48,19 +55,21 @@ export const createSpotLight = () => {
   return light
 }
 
-export const createHemisphereLight = () => {
+export const createDirectionalLight = (): DirectionalLight => {
+  const intensity = 1.0
+  const light = new DirectionalLight(COLORS.white, intensity)
+  light.castShadow = true
+  light.shadow.bias = -0.001
+  return light
+}
+
+export const createHemisphereLight = (): HemisphereLight => {
   const intensity = 0.3
   const light = new HemisphereLight(COLORS.white, intensity)
   return light
 }
 
-export const createDirectionalLight = () => {
-  const intensity = 1.0
-  const light = new DirectionalLight(COLORS.white, intensity)
-  return light
-}
-
-export const createSkySphere = (size = 80, segments = 12) => {
+export const createSkySphere = (size = 80, segments = 12): Mesh => {
   const mat = new MeshPhongMaterial({ color: 0x29B6F6 })
   const geo = new SphereGeometry(size, segments, segments)
 
@@ -69,7 +78,7 @@ export const createSkySphere = (size = 80, segments = 12) => {
   return new Mesh(geo, mat)
 }
 
-export const clearScene = (scene: Scene) => {
+export const clearScene = (scene: Scene): void => {
   const toDelete = new Set<Object3D>()
 
   scene.traverse((obj) => {

@@ -1,0 +1,93 @@
+<script lang='ts'>
+  let canvas
+
+  import * as THREE from 'three'
+  import { onMount } from 'svelte'
+  import { GL } from '$lib/gl'
+  import vertexShader from './shaders/patterns/vert.glsl'
+  import frag01 from './shaders/patterns/01.frag.glsl'
+  import frag03 from './shaders/patterns/03.frag.glsl'
+  import frag08 from './shaders/patterns/08.frag.glsl'
+  import frag20 from './shaders/patterns/20.frag.glsl'
+  import frag24 from './shaders/patterns/24.frag.glsl'
+  import frag29 from './shaders/patterns/29.frag.glsl'
+  import frag33 from './shaders/patterns/33.frag.glsl'
+  import frag46 from './shaders/patterns/46.frag.glsl'
+  import frag50 from './shaders/patterns/50.frag.glsl'
+
+  const frags = [
+    frag01,
+    frag03,
+    frag08,
+    frag20,
+    frag24,
+    frag29,
+    frag33,
+    frag46,
+    frag50,
+  ]
+
+  onMount(async () => {
+    const cubes: THREE.Mesh[] = []
+    const gl = new GL(canvas)
+
+    await gl.init({
+      bloomIntensity: 0.1
+    })
+
+    for (const [i, fragmentShader] of frags.entries()) {
+      const material = new THREE.ShaderMaterial({
+        uniforms: { time: { value: 1 } },
+        vertexShader,
+        fragmentShader,
+        transparent: true,
+      })
+
+      const geometry = new THREE.BoxGeometry(1, 1, 1, 1, 1, 1)
+
+      const cube = new THREE.Mesh(geometry, material)
+      cube.rotation.x = i / 2
+      cube.rotation.x += 0.5
+      cube.rotation.y += 0.5
+      cube.position.set(i * 2, 0, 0)
+      gl.scene.add(cube)
+      cubes.push(cube)
+    }
+
+    gl.camera.position.set(0, 4, 4)
+    gl.camera.lookAt(cubes[0].position)
+
+    const keys = new Set()
+
+    let m = 0
+
+    gl.setAnimationLoop((delta) => {
+      for (const cube of cubes) {
+        cube.rotation.x += delta
+        cube.material.uniforms.time.value += 0.01
+      }
+
+      for (const key of keys) {
+        switch (key) {
+          case 'a':
+          case 'arrowleft':
+            m = -0.15
+            break
+          case 'd':
+          case 'arrowright':
+            m = 0.15
+            break
+        }
+      }
+
+      m /= 1.1
+
+      gl.camera.position.x += m
+    })
+
+    addEventListener('keydown', (e) => keys.add(e.key.toLowerCase()))
+    addEventListener('keyup', (e) => keys.delete(e.key.toLowerCase()))
+  })
+</script>
+
+<canvas bind:this={canvas} />
