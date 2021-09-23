@@ -28,11 +28,11 @@ export default class Renderer extends WebGLRenderer {
 	near = 0.1
 	far = 1000
 	camera = new PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 1000)
-  canvas: HTMLCanvasElement | OffscreenCanvas
+  canvas: HTMLCanvasElement
 
 	composer: EffectComposer
 
-	constructor (canvas: HTMLCanvasElement | OffscreenCanvas) {
+	constructor (canvas: HTMLCanvasElement) {
 		super({
       canvas,
       antialias: false,

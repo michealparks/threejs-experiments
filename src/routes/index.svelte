@@ -1,9 +1,9 @@
 <script lang='ts'>
-	import Terrain from './tasks/terrain.svelte'
+	import Portal from './journey/portal.svelte'
 </script>
 
 <svelte:head>
 	<title>ThreeJS Experiments</title>
 </svelte:head>
 
-<Terrain />
+<Portal />

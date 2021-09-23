@@ -7,10 +7,12 @@
   import { assets } from '$lib/assets'
   import { OrbitControls } from '$lib/orbitControls'
   import { createDirectionalLight, createSpotLight } from '$lib/util-three'
+  import { loading } from '$lib/loading'; 
 
   onMount(async () => {
     const origin = new THREE.Vector3()
     const gl = new GL(canvas)
+    const loadEnd = loading(gl.scene)
     const controls = new OrbitControls(gl.camera, canvas)
     
     await gl.init()
@@ -41,6 +43,7 @@
     gl.setAnimationLoop((delta) => {
       controls.update()
     })
+    loadEnd()
   })
 </script>
 

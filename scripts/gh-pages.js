@@ -1,4 +1,6 @@
-require('gh-pages').publish('build', {
+import Pages from 'gh-pages'
+
+Pages.publish('build', {
   dotfiles: true
 }, (err) => {
   if (err) console.error(err)

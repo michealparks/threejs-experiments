@@ -4,6 +4,7 @@
   import * as THREE from 'three'
   import { onMount } from 'svelte'
   import { GL } from '$lib/gl'
+  import { loading } from '$lib/loading'
   import { assets } from '$lib/assets'
   import { OrbitControls } from '$lib/orbitControls'
   import firefliesVertShader from './shaders/fireflies/vert.glsl'
@@ -25,6 +26,7 @@
     firefliesGeometry.setAttribute('position', new THREE.BufferAttribute(positionArray, 3))
     const firefliesMaterial = new THREE.ShaderMaterial({
       uniforms: {
+        uTime: { value: 0 },
         uBaseSize: { value: 100.0 },
         uPixelRatio: { value: pixelRatio },
       },
@@ -33,13 +35,15 @@
       transparent: true,
       depthWrite: false,
       blending: THREE.AdditiveBlending,
-      
+      depthTest: false,
     })
     return new THREE.Points(firefliesGeometry, firefliesMaterial)
   }
 
   onMount(async () => {
     const gl = new GL(canvas)
+    const loadEnd = loading(gl.scene)
+
     const controls = new OrbitControls(gl.camera, canvas)
     const poleLightMaterial = new THREE.MeshBasicMaterial({ color: 0xffffe5 })
     const portalLightMaterial = new THREE.ShaderMaterial({
@@ -53,6 +57,7 @@
     })
 
     gl.renderer.outputEncoding = THREE.sRGBEncoding
+
     await Promise.all([
       gl.init(),
       assets.load('portal.glb'),
@@ -80,11 +85,16 @@
 
     gl.scene.add(portal.scene)
     gl.scene.add(fireflies)
+    gl.camera.position.set(2, 1, -3)
 
     gl.setAnimationLoop((_, elapsedTime) => {
       controls.update()
+
+      fireflies.material.uniforms.uTime.value = elapsedTime
       portalLightMaterial.uniforms.uTime.value = elapsedTime
     })
+
+    loadEnd()
   })
 </script>
 

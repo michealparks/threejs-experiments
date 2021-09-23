@@ -27,7 +27,7 @@ const config = {
 }
 
 if (dev === false) {
-	config.paths = {
+	config.kit.paths = {
 		base: '/threejs-experiments',
 		assets: '/threejs-experiments'
 	}

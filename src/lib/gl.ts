@@ -27,10 +27,10 @@ export class GL {
   stats: Stats
   scene: Scene
   camera: PerspectiveCamera
-  canvas: HTMLCanvasElement | OffscreenCanvas
+  canvas: HTMLCanvasElement
   fn: Callback
 
-  constructor (canvas: HTMLCanvasElement | OffscreenCanvas) {
+  constructor (canvas: HTMLCanvasElement) {
     this.renderer = new Renderer(canvas)
     this.scene = this.renderer.scene
     this.camera = this.renderer.camera
