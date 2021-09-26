@@ -15,7 +15,8 @@ export const loading = (scene: THREE.Scene): () => void => {
     },
     vertexShader,
     fragmentShader,
-    transparent: true
+    transparent: true,
+    depthTest: false,
   })
   const overlay = new THREE.Mesh(overlayGeometry, overlayMaterial)
   scene.add(overlay)

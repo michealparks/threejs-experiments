@@ -1,5 +1,5 @@
 <script lang='ts'>
-  let canvas
+  let canvas: HTMLCanvasElement
 
   import * as THREE from 'three'
   import { onMount } from 'svelte'
@@ -33,9 +33,7 @@
       vertexShader: firefliesVertShader,
       fragmentShader: firefliesFragShader,
       transparent: true,
-      depthWrite: false,
       blending: THREE.AdditiveBlending,
-      depthTest: false,
     })
     return new THREE.Points(firefliesGeometry, firefliesMaterial)
   }
@@ -71,7 +69,7 @@
 
     const bakedMaterial = new THREE.MeshBasicMaterial({ map: bakedTexture })
 
-    portal.scene.traverse(node => {
+    portal.scene.traverse((node: THREE.Object3D) => {
       if (node.name === 'Portal') {
         node.material = portalLightMaterial
       } else if (node.name === 'LampLight1' || node.name === 'LampLight2') {
