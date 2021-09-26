@@ -1,13 +1,4 @@
-import {
-	Clock,
-	Scene,
-	PerspectiveCamera,
-	WebGLRenderer,
-	ACESFilmicToneMapping,
-	sRGBEncoding,
-	PCFSoftShadowMap,
-	HalfFloatType
-} from 'three'
+import * as THREE from 'three'
 
 import {
 	EffectComposer,
@@ -18,16 +9,15 @@ import {
 	SMAAPreset,
   BloomEffect,
   KernelSize
-	// @ts-ignore
 } from '../../node_modules/postprocessing/build/postprocessing.esm'
 
-export default class Renderer extends WebGLRenderer {
-	clock = new Clock()
-	scene = new Scene()
+export default class Renderer extends THREE.WebGLRenderer {
+	clock = new THREE.Clock()
+	scene = new THREE.Scene()
 	zoom = 10
 	near = 0.1
 	far = 1000
-	camera = new PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 1000)
+	camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 1000)
   canvas: HTMLCanvasElement
 
 	composer: EffectComposer
@@ -43,19 +33,19 @@ export default class Renderer extends WebGLRenderer {
     })
 
     this.canvas = canvas
-		this.toneMapping = ACESFilmicToneMapping
+		this.toneMapping = THREE.ACESFilmicToneMapping
 		this.toneMappingExposure = 1
-		this.outputEncoding = sRGBEncoding
+		this.outputEncoding = THREE.sRGBEncoding
 		this.physicallyCorrectLights = true
 		this.shadowMap.enabled = true
-		this.shadowMap.type = PCFSoftShadowMap
+		this.shadowMap.type = THREE.PCFSoftShadowMap
 
 		this.composer = new EffectComposer(this, {
-			frameBufferType: HalfFloatType
+			frameBufferType: THREE.HalfFloatType
 		})
 	}
 
-	async init (config): Promise<void> {
+	async init (config: { bloomIntensity: number }): Promise<void> {
 		const smaaImageLoader = new SMAAImageLoader()
 
 		const [search, area] = await new Promise((resolve) =>

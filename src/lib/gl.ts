@@ -1,11 +1,4 @@
-import {
-  AmbientLight,
-  AudioListener,
-  Clock,
-  Scene,
-  PerspectiveCamera
-} from 'three'
-
+import * as THREE from 'three'
 import Stats from '@drecom/stats.js'
 import TWEEN from '@tweenjs/tween.js'
 import Renderer from './renderer'
@@ -19,14 +12,14 @@ type Callback = { (...any): void }
 const intensity = 1.0
 
 export class GL {
-  clock = new Clock()
-  listener = new AudioListener()
-  ambientLight = new AmbientLight(COLOR_AMBIENT_LIGHT, intensity)
+  clock = new THREE.Clock()
+  listener = new THREE.AudioListener()
+  ambientLight = new THREE.AmbientLight(COLOR_AMBIENT_LIGHT, intensity)
 
   renderer: Renderer
   stats: Stats
-  scene: Scene
-  camera: PerspectiveCamera
+  scene: THREE.Scene
+  camera: THREE.PerspectiveCamera
   canvas: HTMLCanvasElement
   fn: Callback
 

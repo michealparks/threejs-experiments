@@ -1,5 +1,7 @@
 <script lang='ts'>
-	import Portal from './journey/portal.svelte'
+
+import Portal from './journey/portal.svelte'
+
 </script>
 
 <svelte:head>

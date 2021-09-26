@@ -1,13 +1,9 @@
-import {
-  PCFSoftShadowMap,
-  BasicShadowMap,
-  Vector3
-} from 'three'
+import * as THREE from 'three'
 
 /**
  * Vectors
  */
-export const VECTOR_UP_Y = new Vector3(0, 1, 0)
+export const VECTOR_UP_Y = new THREE.Vector3(0, 1, 0)
 
 /**
  * Colors
@@ -19,7 +15,7 @@ export const COLOR_AMBIENT_LIGHT = 0xafe3f3
 /**
  * Renderer
  */
-export const SHADOWMAP = PCFSoftShadowMap
+export const SHADOWMAP = THREE.PCFSoftShadowMap
 export const EXPOSURE = 1
 export const CLEARCOLOR = COLOR_BLACK
 // export const SHADOWMAP = BasicShadowMap

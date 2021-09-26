@@ -1,4 +1,3 @@
-import { gl } from '../lib/gl'
 import {
 	EventDispatcher,
   Matrix4,
@@ -175,11 +174,11 @@ export class OrbitControls extends EventDispatcher {
     }
   }
 
-  get enabled () {
+  get enabled (): boolean {
     return this._enabled
   }
 
-  addEvents () {
+  addEvents (): void {
     this.domElement.addEventListener( 'contextmenu', this.onContextMenu )
 
     this.domElement.addEventListener( 'pointerdown', this.onPointerDown )
@@ -192,7 +191,7 @@ export class OrbitControls extends EventDispatcher {
     this._hasEvents = true
   }
 
-  removeEvents () {
+  removeEvents (): void {
     this.domElement.removeEventListener( 'contextmenu', this.onContextMenu )
 
     this.domElement.removeEventListener( 'pointerdown', this.onPointerDown )

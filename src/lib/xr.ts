@@ -7,10 +7,9 @@ import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerM
 import { XRHandModelFactory } from 'three/examples/jsm/webxr/XRHandModelFactory'
 import type { XRHandPrimitiveModelOptions } from 'three/examples/jsm/webxr/XRHandPrimitiveModel'
 
-const xrEnabled = () => {
+const xrEnabled = (): boolean => {
   return (
     'xr' in navigator &&
-    // @ts-ignore
     navigator.xr.isSessionSupported('immersive-vr')
   )
 }
@@ -19,7 +18,6 @@ const initControls = (renderer: WebGLRenderer, scene: Scene) => {
   const controllerModelFactory = new XRControllerModelFactory()
   const handModelFactory = new XRHandModelFactory()
 
-  // @ts-ignore
   handModelFactory.setPath('/assets/fbx/')
 
   for (const i of [0, 1]) {
@@ -36,7 +34,7 @@ const initControls = (renderer: WebGLRenderer, scene: Scene) => {
   }
 }
 
-const createXRButton = (renderer: WebGLRenderer, scene: Scene) => {
+const createXRButton = (renderer: WebGLRenderer, scene: Scene): HTMLButtonElement => {
   const TEXT = {
     enter: 'ENTER VR',
     exit: 'EXIT VR'
@@ -47,7 +45,7 @@ const createXRButton = (renderer: WebGLRenderer, scene: Scene) => {
   button.className = 'xr-button'
   button.textContent = TEXT.enter
 
-  let currentSession: any = null
+  let currentSession = null
 
   const handleSessionEnd = () => {
     button.textContent = TEXT.enter
@@ -63,8 +61,6 @@ const createXRButton = (renderer: WebGLRenderer, scene: Scene) => {
       // ('local' is always available for immersive sessions and doesn't need to
       // be requested separately.)
       const sessionInit = { optionalFeatures: ['local-floor', 'bounded-floor', 'hand-tracking'] }
-
-      // @ts-ignore
       const session = await navigator.xr.requestSession('immersive-vr', sessionInit)
 
       session.addEventListener('end', handleSessionEnd, { once: true })

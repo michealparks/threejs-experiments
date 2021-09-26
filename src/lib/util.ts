@@ -1,25 +1,25 @@
 
-export const capitalize = (str: string) => {
+export const capitalize = (str: string): string => {
   return `${str[0].toUpperCase()}${str.toLowerCase().slice(1)}`
 }
 
-export const randNum = (range: number) => {
+export const randNum = (range: number): number => {
   return Math.random() * range * 2 - range
 }
 
-export const randNumInRange = (min: number, max: number) => {
+export const randNumInRange = (min: number, max: number): number => {
   return Math.random() * (max - min) + min
 }
 
-export const randPointInCircle = (R: number) => {
+export const randPointInCircle = (R: number): [x: number, y: number] => {
   const r = R * Math.sqrt(Math.random())
-  const theta = Math.random() * 2 * Math.PI
+  const theta = Math.random() * 2.0 * Math.PI
   const x = r * Math.cos(theta)
   const y = r * Math.sin(theta)
   return [x, y]
 }
 
-export const randPointInSphere = (R: number) => {
+export const randPointInSphere = (R: number): [x: number, y: number, z: number] => {
   const u = Math.random()
   const v = Math.random()
   const theta = u * 2.0 * Math.PI
@@ -35,7 +35,7 @@ export const randPointInSphere = (R: number) => {
   return [x, y, z]
 }
 
-export const randPointOnSphere = (R: number) => {
+export const randPointOnSphere = (R: number): [x: number, y: number, z: number] => {
   const u = Math.random()
   const v = Math.random()
   const theta = u * 2.0 * Math.PI
