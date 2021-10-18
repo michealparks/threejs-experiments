@@ -31,6 +31,6 @@ if (dev === false) {
 		base: '/threejs-experiments',
 		assets: '/threejs-experiments'
 	}
-}
+} 
 
 export default config

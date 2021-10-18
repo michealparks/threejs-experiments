@@ -4,10 +4,10 @@ import * as THREE from 'three'
 import { onMount } from 'svelte'
 import { GL } from '$lib/gl'
 import { OrbitControls } from '$lib/orbitControls'
-import { Pane } from 'tweakpane'
+import Pane from '$lib/components/Pane.svelte'
 
-let canvas
-let container
+let canvas: HTMLCanvasElement
+let scene: THREE.Scene
 
 const parameters = {
   count: 10_000,
@@ -21,11 +21,23 @@ const parameters = {
   outsideColor: '#1b3984',
 }
 
+const inputs = {
+  count: { min: 100, max: 1_000_000, step: 100 },
+  pointSize: { min: 0.001, max: 0.1, step: 0.001 },
+  radius: { min: 0.1, max: 10, step: 0.01 },
+  branches: { min: 2, max: 20, step: 1 },
+  spin: { min: -5, max: 5, step: 0.001 },
+  randomness: { min: 0, max: 2, step: 0.001 },
+  randomnessPower: { min: 1, max: 10, step: 0.001 },
+  insideColor: undefined,
+  outsideColor: undefined,
+}
+
 let geometry = null
 let material = null
 let points = null
 
-const generateGalaxy = (scene: THREE.Scene) => {
+const generateGalaxy = () => {
   if (points !== null) {
     geometry.dispose()
     material.dispose()
@@ -75,26 +87,19 @@ const generateGalaxy = (scene: THREE.Scene) => {
   scene.add(points)
 }
 
+const handlePaneChange = () => {
+  generateGalaxy()
+}
+
 onMount(async () => {
   const gl = new GL(canvas)
   const controls = new OrbitControls(gl.camera, gl.canvas as HTMLElement)
   controls.minDistance = -Infinity
-  
+  scene = gl.scene
+
   await gl.init()
 
-  generateGalaxy(gl.scene)
-
-  const pane = new Pane({ container })
-  pane.addInput(parameters, 'count', { min: 100, max: 1_000_000, step: 100 })
-  pane.addInput(parameters, 'pointSize', { min: 0.001, max: 0.1, step: 0.001 })
-  pane.addInput(parameters, 'radius', { min: 0.1, max: 10, step: 0.01 })
-  pane.addInput(parameters, 'branches', { min: 2, max: 20, step: 1 })
-  pane.addInput(parameters, 'spin', { min: -5, max: 5, step: 0.001 })
-  pane.addInput(parameters, 'randomness', { min: 0, max: 2, step: 0.001 })
-  pane.addInput(parameters, 'randomnessPower', { min: 1, max: 10, step: 0.001 })
-  pane.addInput(parameters, 'insideColor')
-  pane.addInput(parameters, 'outsideColor')
-  pane.on('change', () => generateGalaxy(gl.scene))
+  generateGalaxy()
 
   gl.setAnimationLoop((delta) => {
     controls.update()
@@ -104,4 +109,8 @@ onMount(async () => {
 </script>
 
 <canvas bind:this={canvas} />
-<div class='pane' bind:this={container} />
+<Pane
+  {parameters}
+  {inputs}
+  on:change={handlePaneChange}
+/>

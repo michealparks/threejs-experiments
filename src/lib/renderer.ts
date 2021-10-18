@@ -8,8 +8,14 @@ import {
 	SMAAEffect,
 	SMAAPreset,
   BloomEffect,
-  KernelSize
+  KernelSize,
+	Effect
 } from '../../node_modules/postprocessing/build/postprocessing.esm'
+
+interface Config {
+	bloomIntensity?: number
+	effects?: Effect[]
+}
 
 export default class Renderer extends THREE.WebGLRenderer {
 	clock = new THREE.Clock()
@@ -45,7 +51,7 @@ export default class Renderer extends THREE.WebGLRenderer {
 		})
 	}
 
-	async init (config: { bloomIntensity: number }): Promise<void> {
+	async init (config: Config): Promise<void> {
 		const smaaImageLoader = new SMAAImageLoader()
 
 		const [search, area] = await new Promise((resolve) =>
@@ -59,9 +65,14 @@ export default class Renderer extends THREE.WebGLRenderer {
       intensity: config.bloomIntensity ?? 1,
       kernelSize: KernelSize.VERY_LARGE
     })
-		
+
 		this.composer.addPass(new RenderPass(this.scene, this.camera))
-		this.composer.addPass(new EffectPass(this.camera, smaaEffect, bloomEffect))
+		this.composer.addPass(new EffectPass(
+			this.camera,
+			smaaEffect,
+			bloomEffect,
+			...(config.effects ?? [])
+		))
 	}
 
 	update = (): number => {

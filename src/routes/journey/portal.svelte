@@ -42,7 +42,6 @@ const createFireflies = (pixelRatio: number) => {
 onMount(async () => {
   const gl = new GL(canvas)
   const loadEnd = loading(gl.scene)
-
   const controls = new OrbitControls(gl.camera, canvas)
   const poleLightMaterial = new THREE.MeshBasicMaterial({ color: 0xffffe5 })
   const portalLightMaterial = new THREE.ShaderMaterial({
@@ -63,20 +62,22 @@ onMount(async () => {
     assets.load('portal.jpg'),
   ])
 
-  const portal = assets.get('portal.glb')
-  const bakedTexture = assets.get('portal.jpg')
+  const portal = assets.get('portal.glb') as { scene: THREE.Scene }
+  const bakedTexture = assets.get('portal.jpg') as THREE.Texture
   bakedTexture.flipY = false
   bakedTexture.encoding = THREE.sRGBEncoding
 
   const bakedMaterial = new THREE.MeshBasicMaterial({ map: bakedTexture })
 
   portal.scene.traverse((node: THREE.Object3D) => {
-    if (node.name === 'Portal') {
-      node.material = portalLightMaterial
-    } else if (node.name === 'LampLight1' || node.name === 'LampLight2') {
-      node.material = poleLightMaterial
-    } else {
-      node.material = bakedMaterial
+    if (node instanceof THREE.Mesh) {
+      if (node.name === 'Portal') {
+        node.material = portalLightMaterial
+      } else if (node.name === 'LampLight1' || node.name === 'LampLight2') {
+        node.material = poleLightMaterial
+      } else {
+        node.material = bakedMaterial
+      }
     }
   })
 

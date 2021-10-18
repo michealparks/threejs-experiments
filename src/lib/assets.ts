@@ -5,11 +5,11 @@ const manager = new THREE.LoadingManager()
 const textureLoader = new THREE.TextureLoader()
 const audioLoader = new THREE.AudioLoader()
 const gltfLoader = new GLTFLoader()
-const rootPath = 'static'
+const rootPath = import.meta.env.MODE === 'development' ? '' : '/threejs-experiments'
 
-textureLoader.setPath(`/${rootPath}/textures/`)
-audioLoader.setPath(`/${rootPath}/audio/`)
-gltfLoader.setPath(`/${rootPath}/glb/`)
+textureLoader.setPath(`${rootPath}/textures/`)
+audioLoader.setPath(`${rootPath}/audio/`)
+gltfLoader.setPath(`${rootPath}/glb/`)
 
 const cache = new Map()
 
@@ -62,7 +62,7 @@ const loadSprite = async (file: string) => {
   return sprite
 }
 
-const get = (file: string): Promise<unknown> => {
+const get = (file: string): unknown => {
   return cache.get(file)
 }
 
