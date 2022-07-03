@@ -2,12 +2,10 @@
 
 import * as THREE from 'three'
 import { onMount } from 'svelte'
-import { RGBELoader } from '../../../node_modules/three/examples/jsm/loaders/RGBELoader'
+import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader'
 import { GL } from '$lib/gl'
 import { assets } from '$lib/assets'
 import { OrbitControls } from '$lib/orbitControls'
-
-let canvas
 
 const HDR = {
   overpass: 'https://threejs.org/examples/textures/equirectangular/pedestrian_overpass_1k.hdr',
@@ -20,25 +18,16 @@ const randNum = (range: number) => {
   return Math.random() * range * 2 - range
 }
 
-const loadRGBE = (url: string): Promise<THREE.Texture> => {
-  return new Promise((resolve) => {
-    return new RGBELoader()
-      .setDataType(THREE.UnsignedByteType)
-      .load(url, resolve)
-  })
-}
-
 onMount(async () => {
-  const gl = new GL(canvas)
+  const gl = GL()
   const orbitControls = new OrbitControls(gl.camera, document.body)
   orbitControls.autoRotate = true
 
   gl.ambientLight.intensity = 0.5
 
   const [texture] = await Promise.all([
-    loadRGBE(HDR.sunset),
+    new RGBELoader().loadAsync(HDR.sunset),
     assets.load('mug.glb'),
-    gl.init()
   ])
 
   const pmremGenerator = new THREE.PMREMGenerator(gl.renderer)
@@ -52,7 +41,8 @@ onMount(async () => {
   pmremGenerator.dispose()
 
   const n = 300
-  const mesh = assets.get('mug.glb').scene.getObjectByName('Mug')
+  const mug = assets.get('mug.glb') as { scene: THREE.Scene }
+  const mesh = mug.scene.getObjectByName('Mug') as THREE.Mesh
   const instancedMesh = new THREE.InstancedMesh(mesh.geometry, mesh.material, n)
   const matrix = new THREE.Matrix4()
 
@@ -74,5 +64,3 @@ onMount(async () => {
 })
 
 </script>
-
-<canvas bind:this={canvas}></canvas>

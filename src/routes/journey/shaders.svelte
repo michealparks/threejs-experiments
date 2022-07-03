@@ -1,7 +1,5 @@
 <script lang='ts'>
 
-let canvas
-
 import * as THREE from 'three'
 import { onMount } from 'svelte'
 import { GL } from '$lib/gl'
@@ -10,12 +8,8 @@ import vertexShader from './shaders/shaders.vert.glsl'
 import fragmentShader from './shaders/shaders.frag.glsl'
 
 onMount(async () => {
-  const gl = new GL(canvas)
-  const controls = new OrbitControls(gl.camera, canvas)
-  
-  await gl.init({
-    bloomIntensity: 0.1
-  })
+  const gl = GL(undefined, 1)
+  const controls = new OrbitControls(gl.camera, gl.canvas)
 
   const material = new THREE.ShaderMaterial({
     vertexShader,
@@ -45,5 +39,3 @@ onMount(async () => {
 })
 
 </script>
-
-<canvas bind:this={canvas} />

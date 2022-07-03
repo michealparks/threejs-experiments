@@ -1,7 +1,5 @@
 <script lang='ts'>
 
-let canvas
-
 import * as THREE from 'three'
 import { onMount } from 'svelte'
 import { GL } from '$lib/gl'
@@ -12,14 +10,13 @@ import { loading } from '$lib/loading';
 
 onMount(async () => {
   const origin = new THREE.Vector3()
-  const gl = new GL(canvas)
+  const gl = GL()
   const loadEnd = loading(gl.scene)
-  const controls = new OrbitControls(gl.camera, canvas)
-  
-  await gl.init()
+  const controls = new OrbitControls(gl.camera, gl.canvas)
+
   await assets.load('burger.glb')
 
-  const burger = assets.get('burger.glb')
+  const burger = assets.get('burger.glb') as { scene: THREE.Scene }
 
   const dirlight = createDirectionalLight()
   dirlight.position.set(3, 3, 3)
@@ -48,5 +45,3 @@ onMount(async () => {
 })
 
 </script>
-
-<canvas bind:this={canvas} />

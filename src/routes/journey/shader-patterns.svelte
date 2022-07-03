@@ -1,7 +1,5 @@
 <script lang='ts'>
 
-let canvas
-
 import * as THREE from 'three'
 import { onMount } from 'svelte'
 import { GL } from '$lib/gl'
@@ -30,11 +28,7 @@ const frags = [
 
 onMount(async () => {
   const cubes: THREE.Mesh[] = []
-  const gl = new GL(canvas)
-
-  await gl.init({
-    bloomIntensity: 0.1
-  })
+  const gl = GL(undefined, 1)
 
   for (const [i, fragmentShader] of frags.entries()) {
     const material = new THREE.ShaderMaterial({
@@ -91,5 +85,3 @@ onMount(async () => {
 })
 
 </script>
-
-<canvas bind:this={canvas} />

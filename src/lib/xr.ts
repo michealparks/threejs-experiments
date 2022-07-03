@@ -7,10 +7,10 @@ import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerM
 import { XRHandModelFactory } from 'three/examples/jsm/webxr/XRHandModelFactory'
 import type { XRHandPrimitiveModelOptions } from 'three/examples/jsm/webxr/XRHandPrimitiveModel'
 
-const xrEnabled = (): boolean => {
+const xrEnabled = () => {
   return (
     'xr' in navigator &&
-    navigator.xr.isSessionSupported('immersive-vr')
+    navigator.xr?.isSessionSupported('immersive-vr')
   )
 }
 
@@ -29,7 +29,7 @@ const initControls = (renderer: WebGLRenderer, scene: Scene) => {
     scene.add(hand)
 
     const options: XRHandPrimitiveModelOptions = {}
-    const model = handModelFactory.createHandModel(hand, "oculus", options)
+    const model = handModelFactory.createHandModel(hand, 'mesh', options)
     hand.add(model)
   }
 }
@@ -45,36 +45,40 @@ const createXRButton = (renderer: WebGLRenderer, scene: Scene): HTMLButtonElemen
   button.className = 'xr-button'
   button.textContent = TEXT.enter
 
-  let currentSession = null
+  let currentSession: XRSession | undefined
 
   const handleSessionEnd = () => {
     button.textContent = TEXT.enter
-    currentSession = null
+    currentSession = undefined
   }
 
   button.onclick = async () => {
-    if (currentSession === null) {
-      // WebXR's requestReferenceSpace only works if the corresponding feature
-      // was requested at session creation time. For simplicity, just ask for
-      // the interesting ones as optional features, but be aware that the
-      // requestReferenceSpace call will fail if it turns out to be unavailable.
-      // ('local' is always available for immersive sessions and doesn't need to
-      // be requested separately.)
-      const sessionInit = { optionalFeatures: ['local-floor', 'bounded-floor', 'hand-tracking'] }
-      const session = await navigator.xr.requestSession('immersive-vr', sessionInit)
-
-      session.addEventListener('end', handleSessionEnd, { once: true })
-
-      renderer.xr.setSession(session)
-
-      button.textContent = TEXT.enter
-
-      currentSession = session
-
-      initControls(renderer, scene)
-    } else {
-      currentSession.end()
+    if (currentSession) {
+      return currentSession.end()
     }
+
+    if (!navigator.xr) {
+      return
+    }
+
+    // WebXR's requestReferenceSpace only works if the corresponding feature
+    // was requested at session creation time. For simplicity, just ask for
+    // the interesting ones as optional features, but be aware that the
+    // requestReferenceSpace call will fail if it turns out to be unavailable.
+    // ('local' is always available for immersive sessions and doesn't need to
+    // be requested separately.)
+    const sessionInit = { optionalFeatures: ['local-floor', 'bounded-floor', 'hand-tracking'] }
+    const session = await navigator.xr.requestSession('immersive-vr', sessionInit)
+
+    session.addEventListener('end', handleSessionEnd, { once: true })
+
+    renderer.xr.setSession(session)
+
+    button.textContent = TEXT.enter
+
+    currentSession = session
+
+    initControls(renderer, scene)
   }
 
   return button

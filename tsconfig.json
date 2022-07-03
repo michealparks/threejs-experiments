@@ -1,10 +1,12 @@
 {
+	"extends": "./.svelte-kit/tsconfig.json",
 	"compilerOptions": {
 		"moduleResolution": "node",
-		"module": "esNext",
-		"lib": ["esNext"],
-		"target": "esNext",
+		"module": "ESNext",
+		"lib": ["ESNext"],
+		"target": "ESNext",
 		"noEmit": true,
+		"strict": true,
 		/**
 			svelte-preprocess cannot figure out whether you have a value or a type, so tell TypeScript
 			to enforce using \`import type\` instead of \`import\` for Types.
@@ -24,7 +26,8 @@
 		"allowJs": true,
 		"checkJs": true,
 		"paths": {
-			"$lib/*": ["src/lib/*"]
+			"$lib":["src/lib"],
+  		"$lib/*":["src/lib/*"]
 		}
 	},
 	"include": ["src/**/*.d.ts", "src/**/*.js", "src/**/*.ts", "src/**/*.svelte"]

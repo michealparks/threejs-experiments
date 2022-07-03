@@ -1,7 +1,5 @@
 <script lang='ts'>
 
-let canvas
-
 import * as THREE from 'three'
 import { onMount } from 'svelte'
 import { GL } from '$lib/gl'
@@ -11,7 +9,7 @@ import { OrbitControls } from '$lib/orbitControls'
 import { createCube, createDirectionalLight } from '$lib/util-three';
 
 onMount(async () => {
-  const gl = new GL(canvas)
+  const gl = GL()
   const loadEnd = loading(gl.scene)
 
   const controls = new OrbitControls(gl.camera, document.body)
@@ -19,10 +17,7 @@ onMount(async () => {
   controls.minDistance = -Infinity
   controls.enableZoom = false
   
-  await Promise.all([
-    gl.init(),
-    assets.load('circle_01.png')
-  ])
+  await assets.load('circle_01.png')
 
   gl.ambientLight.intensity = 0.5
 
@@ -45,7 +40,7 @@ onMount(async () => {
   particlesMaterial.size = 0.075
   particlesMaterial.sizeAttenuation = true
   particlesMaterial.color = new THREE.Color('#ff88cc')
-  particlesMaterial.map = assets.get('circle_01.png')
+  particlesMaterial.map = assets.get('circle_01.png') as THREE.Texture
   particlesMaterial.transparent = true
   particlesMaterial.alphaTest = 0.1
   particlesMaterial.depthTest = false
@@ -59,7 +54,11 @@ onMount(async () => {
   gl.camera.lookAt(particles.position)
 
   const cube = createCube()
-  cube.material.color = new THREE.Color('#ffffff')
+
+  if (cube.material instanceof THREE.MeshPhongMaterial) {
+    cube.material.color = new THREE.Color('#ffffff')
+  }
+
   gl.scene.add(cube)
 
   const light = createDirectionalLight()
@@ -85,5 +84,3 @@ onMount(async () => {
 })
 
 </script>
-
-<canvas bind:this={canvas} />

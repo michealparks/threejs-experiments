@@ -1,16 +1,13 @@
 <script lang='ts'>
 
-let canvas
+let canvas: HTMLCanvasElement
 
 import { onMount } from 'svelte'
 import { GL } from '$lib/gl'
 import { createCube } from '$lib/util-three'
 
 onMount(async () => {
-  const gl = new GL(canvas)
-  
-  await gl.init()
-
+  const gl = GL(canvas)
   const cube = createCube()
   gl.scene.add(cube)
   gl.camera.position.set(2, 2, 2)
@@ -24,3 +21,10 @@ onMount(async () => {
 </script>
 
 <canvas bind:this={canvas} />
+
+<style>
+  canvas { 
+    width: 100wv !important;
+    height: 100vh !important;
+  }
+</style>

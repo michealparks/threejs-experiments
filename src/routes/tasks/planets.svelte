@@ -6,8 +6,6 @@ import { GL } from '$lib/gl'
 import { COLORS } from '$lib/constants'
 import { createPointLight } from '$lib/util-three'
 
-let canvas
-
 const SIZES = { sun: 8 }
 const CAMERA_DISTANCE = 90
 
@@ -67,9 +65,7 @@ const planets = [
 ]
 
 onMount(async () => {
-  const gl = new GL(canvas)
-
-  await gl.init()
+  const gl = GL()
 
   gl.camera.position.set(0, 0, CAMERA_DISTANCE)
   gl.camera.lookAt(new THREE.Vector3())
@@ -160,5 +156,3 @@ onMount(async () => {
 })
 
 </script>
-
-<canvas bind:this={canvas} />

@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { GLTFLoader } from '../../node_modules/three/examples/jsm/loaders/GLTFLoader'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 
 const manager = new THREE.LoadingManager()
 const textureLoader = new THREE.TextureLoader()
@@ -66,7 +66,7 @@ const get = (file: string): unknown => {
   return cache.get(file)
 }
 
-const loadOne = (file: string): Promise<unknown> => {
+const loadOne = (file: string) => {
   switch (file.split('.').pop()) {
     case 'glb': return loadGLTF(file)
     case 'png': case 'jpg': return loadTexture(file)

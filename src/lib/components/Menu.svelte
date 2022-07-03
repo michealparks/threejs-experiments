@@ -2,7 +2,12 @@
 
 import { page } from '$app/stores'
 
-export let routes = []
+interface Route {
+  path: string
+  name: string
+}
+
+export let routes: Route[] = []
 
 </script>
 
@@ -10,7 +15,7 @@ export let routes = []
   <ul>
     {#each routes as { path, name } (path)}
       <li>
-        <a href={path} class:underline={path === $page.path}>
+        <a href={path} class:underline={path === $page.url.pathname}>
           {name}
         </a>
       </li>
@@ -20,9 +25,9 @@ export let routes = []
 
 <style>
 nav {
-  display: inline-block;
+  width: 6rem;
   z-index: 1;
-  margin: 10px;
+  margin: 25% 0 10px 0;
   border-radius: 6px;
   background: rgba(255,255,255,0.5);
   box-shadow: 0px 2px 34px -14px rgb(0 0 0 / 43%);

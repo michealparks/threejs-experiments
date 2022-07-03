@@ -1,7 +1,8 @@
 <script lang='ts'>
 
 import { createEventDispatcher, onMount } from 'svelte'
-import { Pane, StringInputParams } from 'tweakpane'
+import { Pane } from 'tweakpane'
+import type { StringInputParams } from 'tweakpane'
 
 let container: HTMLDivElement
 

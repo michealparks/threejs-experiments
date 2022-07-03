@@ -6,12 +6,8 @@ import { GL } from '$lib/gl'
 import { COLORS } from '$lib/constants'
 import { createPointLight, createCube } from '$lib/util-three'
 
-let canvas
-
 onMount(async () => {
-  const gl = new GL(canvas)
-
-  await gl.init()
+  const gl = GL()
 
   const light1 = createPointLight()
   light1.intensity = 100
@@ -76,5 +72,3 @@ onMount(async () => {
 })
 
 </script>
-
-<canvas bind:this={canvas} />

@@ -1,69 +1,139 @@
 import * as THREE from 'three'
 import Stats from '@drecom/stats.js'
 import TWEEN from '@tweenjs/tween.js'
-import Renderer from './renderer'
+
+import {
+	EffectComposer,
+	RenderPass,
+	EffectPass,
+	SMAAEffect,
+	SMAAPreset,
+  BloomEffect,
+  KernelSize,
+	Effect
+} from 'postprocessing'
 
 import {
   COLOR_AMBIENT_LIGHT,
 } from './constants'
 
-type Callback = { (...any): void }
+type Callback = { (...arg0: any[]): void }
 
 const intensity = 1.0
 
-export class GL {
-  clock = new THREE.Clock()
-  listener = new THREE.AudioListener()
-  ambientLight = new THREE.AmbientLight(COLOR_AMBIENT_LIGHT, intensity)
+let i = 0
 
-  renderer: Renderer
-  stats: Stats
-  scene: THREE.Scene
-  camera: THREE.PerspectiveCamera
-  canvas: HTMLCanvasElement
-  fn: Callback
+export const GL = (canvasElement?: HTMLCanvasElement, bloomIntensity = 1, effects?: Effect[]) => {
+  const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 1000)
+  const scene = new THREE.Scene()
+  const clock = new THREE.Clock()
+  const listener = new THREE.AudioListener()
+  const ambientLight = new THREE.AmbientLight(COLOR_AMBIENT_LIGHT, intensity)
+  const renderer = new THREE.WebGLRenderer({
+    canvas: canvasElement,
+    antialias: false,
+    alpha: false,
+    depth: false,
+    stencil: false,
+    powerPreference: 'high-performance',
+  })
+  renderer.toneMapping = THREE.ACESFilmicToneMapping
+  renderer.toneMappingExposure = 1
+  renderer.outputEncoding = THREE.sRGBEncoding
+  renderer.physicallyCorrectLights = true
+  renderer.shadowMap.enabled = true
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap
 
-  constructor (canvas: HTMLCanvasElement) {
-    this.renderer = new Renderer(canvas)
-    this.scene = this.renderer.scene
-    this.camera = this.renderer.camera
-    this.canvas = this.renderer.canvas
+  const canvas = renderer.domElement
 
-    if (import.meta.env.MODE === 'development') {
-      this.stats = new Stats({ maxFPS: Infinity, maxMem: Infinity })
-      document.body.appendChild(this.stats.dom)
-    }
+  if (!canvasElement) {
+    canvas.id = 'renderer'
+    document.body.append(canvas)
   }
 
-  init = async (config = {}): Promise<void> => {
-    await this.renderer.init(config)
-    this.renderer.camera.add(this.listener)
-    this.renderer.scene.add(this.ambientLight)
+  const composer = new EffectComposer(renderer, {
+    frameBufferType: THREE.HalfFloatType
+  })
+
+  const smaaEffect = new SMAAEffect({
+    preset: SMAAPreset.ULTRA
+  })
+
+  const bloomEffect = new BloomEffect({
+    height: 480,
+    intensity: bloomIntensity,
+    kernelSize: KernelSize.VERY_LARGE
+  })
+
+  composer.addPass(new RenderPass(scene, camera))
+
+  composer.addPass(new EffectPass(
+    camera,
+    smaaEffect,
+    bloomEffect,
+    ...(effects ?? [])
+  ))
+
+  let stats: Stats
+  let fn: Callback
+
+  camera.add(listener)
+  scene.add(ambientLight)
+
+  if (import.meta.env.MODE === 'development') {
+    stats = new Stats({ maxFPS: Infinity, maxMem: Infinity })
+    document.body.appendChild(stats.dom)
   }
 
-  update = (): void => {
+  i++
+
+  const update = (): void => {
+    console.log(i)
     if (import.meta.env.MODE === 'development') {
-      this.stats.begin()
+      stats.begin()
     }
   
-    const dt = this.clock.getDelta()
-    const elapsed = this.clock.getElapsedTime()
+    const dt = clock.getDelta()
+    const elapsed = clock.getElapsedTime()
   
     TWEEN.update()
-    this.renderer.update()
-  
-    this.fn(dt, elapsed)
+
+    const delta = clock.getDelta()
+		const dpi = Math.min(devicePixelRatio, 2)
+		const width = canvas.clientWidth * dpi | 0
+		const height = canvas.clientHeight * dpi | 0
+
+		if (canvas.width === width && canvas.height === height) {
+			composer.render(delta)
+		} else {
+			camera.aspect = width / height
+
+			camera.updateProjectionMatrix()
+			renderer.setSize(width, height, false)
+			composer.setSize(width, height, false)
+		}
+
+    fn(dt, elapsed)
   
     if (import.meta.env.MODE === 'development') {
-      this.stats.end()
+      stats.end()
     }
   }
 
-  setAnimationLoop = (frame: Callback | null): void => {
+  const setAnimationLoop = (frame: Callback | null): void => {
     if (frame !== null) {
-      this.fn = frame
+      fn = frame
     }
   
-    this.renderer.setAnimationLoop(this.update)
+    renderer.setAnimationLoop(update)
+  }
+
+  return {
+    canvas,
+    scene,
+    camera,
+    renderer,
+    ambientLight,
+    setAnimationLoop
   }
 }

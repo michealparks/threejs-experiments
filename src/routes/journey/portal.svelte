@@ -1,7 +1,5 @@
 <script lang='ts'>
 
-let canvas: HTMLCanvasElement
-
 import * as THREE from 'three'
 import { onMount } from 'svelte'
 import { GL } from '$lib/gl'
@@ -40,9 +38,9 @@ const createFireflies = (pixelRatio: number) => {
 }
 
 onMount(async () => {
-  const gl = new GL(canvas)
+  const gl = GL()
   const loadEnd = loading(gl.scene)
-  const controls = new OrbitControls(gl.camera, canvas)
+  const controls = new OrbitControls(gl.camera, gl.canvas)
   const poleLightMaterial = new THREE.MeshBasicMaterial({ color: 0xffffe5 })
   const portalLightMaterial = new THREE.ShaderMaterial({
     uniforms: {
@@ -57,7 +55,6 @@ onMount(async () => {
   gl.renderer.outputEncoding = THREE.sRGBEncoding
 
   await Promise.all([
-    gl.init(),
     assets.load('portal.glb'),
     assets.load('portal.jpg'),
   ])
@@ -98,5 +95,3 @@ onMount(async () => {
 })
 
 </script>
-
-<canvas bind:this={canvas} />

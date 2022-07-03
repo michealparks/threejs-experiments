@@ -7,8 +7,7 @@ import { OrbitControls } from '$lib/orbitControls'
 import { Pane } from 'tweakpane'
 import { randPointOnSphere } from '$lib/util';
 
-let canvas
-let container
+let container: HTMLDivElement
 
 const parameters = {
   count: 1000,
@@ -16,12 +15,12 @@ const parameters = {
   sphereSize: 3
 }
 
-let geometry = null
-let material = null
-let points = null
+let geometry: THREE.BufferGeometry
+let material: THREE.PointsMaterial
+let points: THREE.Points
 
-const generateGalaxy = (scene: THREE.Scene) => {
-  if (points !== null) {
+const generate = (scene: THREE.Scene) => {
+  if (points) {
     geometry.dispose()
     material.dispose()
     scene.remove(points)
@@ -51,19 +50,17 @@ const generateGalaxy = (scene: THREE.Scene) => {
 }
 
 onMount(async () => {
-  const gl = new GL(canvas)
-  const controls = new OrbitControls(gl.camera, gl.canvas as HTMLElement)
+  const gl = GL()
+  const controls = new OrbitControls(gl.camera, gl.canvas)
   controls.minDistance = -Infinity
-  
-  await gl.init()
 
-  generateGalaxy(gl.scene)
+  generate(gl.scene)
 
   const pane = new Pane({ container })
   pane.addInput(parameters, 'count', { min: 100, max: 1_000_000, step: 100 })
   pane.addInput(parameters, 'pointSize', { min: 0.001, max: 0.1, step: 0.001 })
   pane.addInput(parameters, 'sphereSize', { min: 1, max: 100, step: 1 })
-  pane.on('change', () => generateGalaxy(gl.scene))
+  pane.on('change', () => generate(gl.scene))
 
   gl.setAnimationLoop((delta) => {
     controls.update()
@@ -72,5 +69,4 @@ onMount(async () => {
 
 </script>
 
-<canvas bind:this={canvas} />
 <div class='pane' bind:this={container} />

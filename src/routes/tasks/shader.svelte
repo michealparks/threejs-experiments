@@ -6,15 +6,10 @@ import { GL } from '$lib/gl'
 import { assets } from '$lib/assets'
 import { createPointLight } from '$lib/util-three'
 
-let canvas
-
 onMount(async () => {
-  const gl = new GL(canvas)
+  const gl = GL()
 
-  await Promise.all([
-    gl.init(),
-    assets.load('hello-shader.frag.glsl')
-  ])
+  await assets.load('hello-shader.frag.glsl')
 
   gl.camera.position.set(0, 0, 2)
   gl.scene.lookAt(new THREE.Vector3())
@@ -28,9 +23,8 @@ onMount(async () => {
   const cube = new THREE.Mesh(
     new THREE.BoxGeometry(0.5, 0.5, 0.5), 
     new THREE.ShaderMaterial({
-      fragmentShader: assets.get('hello-shader.frag.glsl'),
+      fragmentShader: assets.get('hello-shader.frag.glsl') as string,
       uniforms,
-      fog: true,
       lights: true,
     })
   )
@@ -53,5 +47,3 @@ onMount(async () => {
 })
 
 </script>
-
-<canvas bind:this={canvas} />

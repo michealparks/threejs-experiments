@@ -1,17 +1,12 @@
 <script lang='ts'>
 
-let canvas
-
 import * as THREE from 'three'
 import { onMount } from 'svelte'
 import { GL } from '$lib/gl'
 import { createSphere } from '$lib/util-three'
 
 onMount(async () => {
-  const gl = new GL(canvas)
-  
-  await gl.init()
-
+  const gl = GL()
   const raycaster = new THREE.Raycaster()
   const mousecaster = new THREE.Raycaster()
   const rayOrigin = new THREE.Vector3(-3, 0, 0)
@@ -30,7 +25,7 @@ onMount(async () => {
 
   const mouse = new THREE.Vector2()
 
-  canvas.addEventListener('mousemove', (event) => {
+  gl.canvas.addEventListener('mousemove', (event) => {
     mouse.x = event.clientX / innerWidth * 2 - 1
     mouse.y = - (event.clientY / innerHeight) * 2 + 1
   }, { passive: true })
@@ -65,5 +60,3 @@ onMount(async () => {
 })
 
 </script>
-
-<canvas bind:this={canvas} />

@@ -5,18 +5,13 @@ import { assets } from '$lib/assets'
 import { OrbitControls } from '$lib/orbitControls'
 import { onMount } from 'svelte'
 
-let canvas
-
 onMount(async () => {
-  const gl = new GL(canvas)
-  const orbitControls = new OrbitControls(gl.camera, document.body)
+  const gl = GL()
+  const orbitControls = new OrbitControls(gl.camera, gl.canvas)
 
-  await Promise.all([
-    gl.init(),
-    assets.load('desert.glb')
-  ])
+  await assets.load('desert.glb')
 
-  const { scene } = assets.get('desert.glb')
+  const { scene } = assets.get('desert.glb') as { scene: THREE.Scene }
   gl.scene.add(scene)
   gl.ambientLight.intensity = 2
   orbitControls.maxDistance = 200
@@ -31,5 +26,3 @@ onMount(async () => {
 })
 
 </script>
-
-<canvas bind:this={canvas} />

@@ -36,8 +36,6 @@ const inputs = {
   uSmallIterations: undefined,
 }
 
-let canvas: HTMLCanvasElement
-
 const geometry = new THREE.PlaneGeometry(6, 6, 512, 512)
 const material = new THREE.ShaderMaterial({
   vertexShader,
@@ -58,12 +56,10 @@ const updateUniforms = () => {
 }
 
 onMount(async () => {
-  const gl = new GL(canvas)
-  const controls = new OrbitControls(gl.camera, canvas)
+  const gl = GL()
+  const controls = new OrbitControls(gl.camera, gl.canvas)
 
   updateUniforms()
-  
-  await gl.init()
 
   gl.scene.add(mesh)
   gl.camera.lookAt(mesh.position)
@@ -77,5 +73,4 @@ onMount(async () => {
 
 </script>
 
-<canvas bind:this={canvas} />
 <Pane {parameters} {inputs} on:change={updateUniforms} />

@@ -6,7 +6,6 @@ import { GL } from '$lib/gl'
 import { OrbitControls } from '$lib/orbitControls'
 import Pane from '$lib/components/Pane.svelte'
 
-let canvas: HTMLCanvasElement
 let scene: THREE.Scene
 
 const parameters = {
@@ -33,12 +32,12 @@ const inputs = {
   outsideColor: undefined,
 }
 
-let geometry = null
-let material = null
-let points = null
+let geometry: THREE.BufferGeometry
+let material: THREE.PointsMaterial
+let points: THREE.Points
 
 const generateGalaxy = () => {
-  if (points !== null) {
+  if (points) {
     geometry.dispose()
     material.dispose()
     scene.remove(points)
@@ -51,6 +50,7 @@ const generateGalaxy = () => {
   const colorInside = new THREE.Color(parameters.insideColor)
   const colorOutside = new THREE.Color(parameters.outsideColor)
 
+  
   for (let i = 0, i3 = 0; i < parameters.count * 3; i += 1, i3 = i * 3) {
     const radius = Math.random() * parameters.radius
     const spinAngle = radius * parameters.spin
@@ -92,12 +92,10 @@ const handlePaneChange = () => {
 }
 
 onMount(async () => {
-  const gl = new GL(canvas)
-  const controls = new OrbitControls(gl.camera, gl.canvas as HTMLElement)
+  const gl = GL()
+  const controls = new OrbitControls(gl.camera, gl.canvas)
   controls.minDistance = -Infinity
   scene = gl.scene
-
-  await gl.init()
 
   generateGalaxy()
 
@@ -108,7 +106,6 @@ onMount(async () => {
 
 </script>
 
-<canvas bind:this={canvas} />
 <Pane
   {parameters}
   {inputs}

@@ -7,22 +7,16 @@ import { assets } from '$lib/assets'
 import { OrbitControls } from '$lib/orbitControls'
 import { createPointLight } from '$lib/util-three'
 
-let canvas: HTMLCanvasElement
-
 onMount(async () => {
-  const gl = new GL(canvas)
-  const orbitControls = new OrbitControls(gl.camera, document.body)
+  const gl = GL()
+  const orbitControls = new OrbitControls(gl.camera, gl.canvas)
 
   gl.camera.position.set(-1, 3, -5)
   gl.camera.lookAt(new THREE.Vector3())
 
-  await Promise.all([
-    gl.init(),
-    assets.load('room_1.glb')
-  ])
+  await assets.load('room_1.glb')
 
-  const room = assets.get('room_1.glb').scene
-
+  const room = (assets.get('room_1.glb') as { scene: THREE.Scene }).scene
   gl.scene.add(room)
 
   const light = createPointLight()
@@ -40,5 +34,3 @@ onMount(async () => {
 })
 
 </script>
-
-<canvas bind:this={canvas} />
