@@ -13,10 +13,6 @@ const config = {
 	kit: {
 		adapter: adapter(),
 
-		prerender: {
-      enabled: false,
-    },
-
 		vite: {
 			plugins: [
 				vitePluginString.default({
