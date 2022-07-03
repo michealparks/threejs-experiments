@@ -1,6 +1,6 @@
 {
   ".svelte-kit/runtime/client/start.js": {
-    "file": "start-085244cc.js",
+    "file": "start-be097996.js",
     "src": ".svelte-kit/runtime/client/start.js",
     "isEntry": true,
     "imports": [
@@ -34,7 +34,7 @@
     ]
   },
   "src/routes/__layout.svelte": {
-    "file": "pages/__layout.svelte-6cb1f5a7.js",
+    "file": "pages/__layout.svelte-ce9a5539.js",
     "src": "src/routes/__layout.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
@@ -43,7 +43,7 @@
       "_paths-396f020f.js"
     ],
     "css": [
-      "assets/pages/__layout.svelte-315c3749.css"
+      "assets/pages/__layout.svelte-377e6e55.css"
     ],
     "assets": [
       "assets/fira-mono-cyrillic-ext-400-normal-3df7909e.woff2",
@@ -65,260 +65,260 @@
     ]
   },
   "src/routes/index.svelte": {
-    "file": "pages/index.svelte-cb729b4e.js",
+    "file": "pages/index.svelte-467b3d42.js",
     "src": "src/routes/index.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-9379afd2.js",
       "src/routes/journey/portal.svelte",
-      "_gl-bd6de290.js",
-      "_loading-8d46502a.js",
-      "_assets-c9daaea4.js",
-      "_orbitControls-dc05221c.js"
+      "_gl-9f8be024.js",
+      "_loading-710485b9.js",
+      "_assets-a572b544.js",
+      "_orbit-controls-8a0943e2.js"
     ]
   },
   "src/routes/journey/portal.svelte": {
-    "file": "pages/journey/portal.svelte-b5801922.js",
+    "file": "pages/journey/portal.svelte-96d9c71a.js",
     "src": "src/routes/journey/portal.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-9379afd2.js",
-      "_gl-bd6de290.js",
-      "_loading-8d46502a.js",
-      "_assets-c9daaea4.js",
-      "_orbitControls-dc05221c.js"
+      "_gl-9f8be024.js",
+      "_loading-710485b9.js",
+      "_assets-a572b544.js",
+      "_orbit-controls-8a0943e2.js"
     ]
   },
   "src/routes/journey/galaxy-particles.svelte": {
-    "file": "pages/journey/galaxy-particles.svelte-5d78bacc.js",
+    "file": "pages/journey/galaxy-particles.svelte-83c409f7.js",
     "src": "src/routes/journey/galaxy-particles.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-9379afd2.js",
-      "_gl-bd6de290.js",
-      "_orbitControls-dc05221c.js",
-      "_Pane-1524af0b.js",
-      "_tweakpane-ca0b34f5.js"
+      "_gl-9f8be024.js",
+      "_orbit-controls-8a0943e2.js",
+      "_Pane-9d3d1016.js",
+      "_tweakpane-ca06611a.js"
     ]
   },
   "src/routes/journey/models.svelte": {
-    "file": "pages/journey/models.svelte-dc3c8700.js",
+    "file": "pages/journey/models.svelte-53259447.js",
     "src": "src/routes/journey/models.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-9379afd2.js",
-      "_gl-bd6de290.js",
-      "_assets-c9daaea4.js",
-      "_orbitControls-dc05221c.js",
-      "_util-three-27600f2e.js",
-      "_loading-8d46502a.js"
+      "_gl-9f8be024.js",
+      "_assets-a572b544.js",
+      "_orbit-controls-8a0943e2.js",
+      "_util-three-bda16444.js",
+      "_loading-710485b9.js"
     ]
   },
   "src/routes/journey/particles.svelte": {
-    "file": "pages/journey/particles.svelte-ee601a83.js",
+    "file": "pages/journey/particles.svelte-f98f05d6.js",
     "src": "src/routes/journey/particles.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-9379afd2.js",
-      "_gl-bd6de290.js",
-      "_assets-c9daaea4.js",
-      "_loading-8d46502a.js",
-      "_orbitControls-dc05221c.js",
-      "_util-three-27600f2e.js"
+      "_gl-9f8be024.js",
+      "_assets-a572b544.js",
+      "_loading-710485b9.js",
+      "_orbit-controls-8a0943e2.js",
+      "_util-three-bda16444.js"
     ]
   },
   "src/routes/journey/postprocessing.svelte": {
-    "file": "pages/journey/postprocessing.svelte-9be6541e.js",
+    "file": "pages/journey/postprocessing.svelte-d55d8e40.js",
     "src": "src/routes/journey/postprocessing.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-9379afd2.js",
-      "_gl-bd6de290.js",
-      "_util-three-27600f2e.js"
+      "_gl-9f8be024.js",
+      "_util-three-bda16444.js"
     ]
   },
   "src/routes/journey/raycaster.svelte": {
-    "file": "pages/journey/raycaster.svelte-6e4051be.js",
+    "file": "pages/journey/raycaster.svelte-82f5e5bf.js",
     "src": "src/routes/journey/raycaster.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-9379afd2.js",
-      "_gl-bd6de290.js",
-      "_util-three-27600f2e.js"
+      "_gl-9f8be024.js",
+      "_util-three-bda16444.js"
     ]
   },
   "src/routes/journey/sea.svelte": {
-    "file": "pages/journey/sea.svelte-12e3efc2.js",
+    "file": "pages/journey/sea.svelte-44d8c3e7.js",
     "src": "src/routes/journey/sea.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-9379afd2.js",
-      "_gl-bd6de290.js",
-      "_Pane-1524af0b.js",
-      "_orbitControls-dc05221c.js",
-      "_tweakpane-ca0b34f5.js"
+      "_gl-9f8be024.js",
+      "_Pane-9d3d1016.js",
+      "_orbit-controls-8a0943e2.js",
+      "_tweakpane-ca06611a.js"
     ]
   },
   "src/routes/journey/shader-patterns.svelte": {
-    "file": "pages/journey/shader-patterns.svelte-76134236.js",
+    "file": "pages/journey/shader-patterns.svelte-e2e33808.js",
     "src": "src/routes/journey/shader-patterns.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-9379afd2.js",
-      "_gl-bd6de290.js"
+      "_gl-9f8be024.js"
     ]
   },
   "src/routes/journey/shaders.svelte": {
-    "file": "pages/journey/shaders.svelte-34ba3945.js",
+    "file": "pages/journey/shaders.svelte-ea8a6391.js",
     "src": "src/routes/journey/shaders.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-9379afd2.js",
-      "_gl-bd6de290.js",
-      "_orbitControls-dc05221c.js"
+      "_gl-9f8be024.js",
+      "_orbit-controls-8a0943e2.js"
     ]
   },
   "src/routes/journey/sphere-particles.svelte": {
-    "file": "pages/journey/sphere-particles.svelte-57f0e95e.js",
+    "file": "pages/journey/sphere-particles.svelte-bf804cf2.js",
     "src": "src/routes/journey/sphere-particles.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-9379afd2.js",
-      "_gl-bd6de290.js",
-      "_orbitControls-dc05221c.js",
-      "_tweakpane-ca0b34f5.js",
-      "_util-d1e0476c.js"
+      "_gl-9f8be024.js",
+      "_orbit-controls-8a0943e2.js",
+      "_tweakpane-ca06611a.js",
+      "_util-55b26ced.js"
     ]
   },
   "src/routes/tasks/alley.svelte": {
-    "file": "pages/tasks/alley.svelte-d91447b6.js",
+    "file": "pages/tasks/alley.svelte-b9a9542d.js",
     "src": "src/routes/tasks/alley.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-9379afd2.js",
-      "_gl-bd6de290.js",
-      "_assets-c9daaea4.js",
-      "_orbitControls-dc05221c.js"
+      "_gl-9f8be024.js",
+      "_assets-a572b544.js",
+      "_orbit-controls-8a0943e2.js"
     ]
   },
   "src/routes/tasks/baked.svelte": {
-    "file": "pages/tasks/baked.svelte-6446fa0e.js",
+    "file": "pages/tasks/baked.svelte-e0634b1d.js",
     "src": "src/routes/tasks/baked.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-9379afd2.js",
-      "_gl-bd6de290.js",
-      "_assets-c9daaea4.js",
-      "_orbitControls-dc05221c.js"
+      "_gl-9f8be024.js",
+      "_assets-a572b544.js",
+      "_orbit-controls-8a0943e2.js"
     ]
   },
   "src/routes/tasks/campfire.svelte": {
-    "file": "pages/tasks/campfire.svelte-9d27d0a9.js",
+    "file": "pages/tasks/campfire.svelte-0eadaf1a.js",
     "src": "src/routes/tasks/campfire.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-9379afd2.js",
-      "_gl-bd6de290.js",
-      "_assets-c9daaea4.js",
-      "_orbitControls-dc05221c.js",
-      "_util-d1e0476c.js",
-      "_util-three-27600f2e.js"
+      "_gl-9f8be024.js",
+      "_assets-a572b544.js",
+      "_orbit-controls-8a0943e2.js",
+      "_util-55b26ced.js",
+      "_util-three-bda16444.js"
     ]
   },
   "src/routes/tasks/instanced.svelte": {
-    "file": "pages/tasks/instanced.svelte-8d1dd189.js",
+    "file": "pages/tasks/instanced.svelte-bcff45e4.js",
     "src": "src/routes/tasks/instanced.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-9379afd2.js",
-      "_gl-bd6de290.js",
-      "_assets-c9daaea4.js",
-      "_orbitControls-dc05221c.js"
+      "_gl-9f8be024.js",
+      "_assets-a572b544.js",
+      "_orbit-controls-8a0943e2.js"
     ]
   },
   "src/routes/tasks/matrix.svelte": {
-    "file": "pages/tasks/matrix.svelte-38ea70ca.js",
+    "file": "pages/tasks/matrix.svelte-aa7ccd13.js",
     "src": "src/routes/tasks/matrix.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-9379afd2.js",
-      "_gl-bd6de290.js",
-      "_util-three-27600f2e.js"
+      "_gl-9f8be024.js",
+      "_util-three-bda16444.js"
     ]
   },
   "src/routes/tasks/planets.svelte": {
-    "file": "pages/tasks/planets.svelte-d6401ada.js",
+    "file": "pages/tasks/planets.svelte-fdbaa388.js",
     "src": "src/routes/tasks/planets.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-9379afd2.js",
-      "_gl-bd6de290.js",
-      "_util-three-27600f2e.js"
+      "_gl-9f8be024.js",
+      "_util-three-bda16444.js"
     ]
   },
   "src/routes/tasks/room.svelte": {
-    "file": "pages/tasks/room.svelte-4b8da18c.js",
+    "file": "pages/tasks/room.svelte-7c0c8f8d.js",
     "src": "src/routes/tasks/room.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-9379afd2.js",
-      "_gl-bd6de290.js",
-      "_assets-c9daaea4.js",
-      "_orbitControls-dc05221c.js",
-      "_util-three-27600f2e.js"
+      "_gl-9f8be024.js",
+      "_assets-a572b544.js",
+      "_orbit-controls-8a0943e2.js",
+      "_util-three-bda16444.js"
     ]
   },
   "src/routes/tasks/shader.svelte": {
-    "file": "pages/tasks/shader.svelte-133ca31a.js",
+    "file": "pages/tasks/shader.svelte-87775e4f.js",
     "src": "src/routes/tasks/shader.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-9379afd2.js",
-      "_gl-bd6de290.js",
-      "_assets-c9daaea4.js",
-      "_util-three-27600f2e.js"
+      "_gl-9f8be024.js",
+      "_assets-a572b544.js",
+      "_util-three-bda16444.js"
     ]
   },
   "src/routes/tasks/terrain.svelte": {
-    "file": "pages/tasks/terrain.svelte-b501aeee.js",
+    "file": "pages/tasks/terrain.svelte-d56d4c1f.js",
     "src": "src/routes/tasks/terrain.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-9379afd2.js",
-      "_gl-bd6de290.js",
-      "_assets-c9daaea4.js",
-      "_orbitControls-dc05221c.js"
+      "_gl-9f8be024.js",
+      "_assets-a572b544.js",
+      "_orbit-controls-8a0943e2.js"
     ]
   },
   "src/routes/template.svelte": {
-    "file": "pages/template.svelte-328376c6.js",
+    "file": "pages/template.svelte-c6af7e5f.js",
     "src": "src/routes/template.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-9379afd2.js",
-      "_gl-bd6de290.js",
-      "_util-three-27600f2e.js"
+      "_gl-9f8be024.js",
+      "_util-three-bda16444.js"
     ],
     "css": [
       "assets/pages/template.svelte-26293736.css"
@@ -330,47 +330,50 @@
   "_paths-396f020f.js": {
     "file": "chunks/paths-396f020f.js"
   },
-  "_gl-bd6de290.js": {
-    "file": "chunks/gl-bd6de290.js"
+  "_gl-9f8be024.js": {
+    "file": "chunks/gl-9f8be024.js"
   },
-  "_loading-8d46502a.js": {
-    "file": "chunks/loading-8d46502a.js",
+  "_loading-710485b9.js": {
+    "file": "chunks/loading-710485b9.js",
     "imports": [
-      "_gl-bd6de290.js"
+      "_gl-9f8be024.js"
     ]
   },
-  "_assets-c9daaea4.js": {
-    "file": "chunks/assets-c9daaea4.js",
+  "_assets-a572b544.js": {
+    "file": "chunks/assets-a572b544.js",
     "imports": [
-      "_gl-bd6de290.js"
+      "_gl-9f8be024.js"
     ]
   },
-  "_orbitControls-dc05221c.js": {
-    "file": "chunks/orbitControls-dc05221c.js",
+  "_orbit-controls-8a0943e2.js": {
+    "file": "chunks/orbit-controls-8a0943e2.js",
     "imports": [
-      "_gl-bd6de290.js"
+      "_gl-9f8be024.js"
     ]
   },
-  "_Pane-1524af0b.js": {
-    "file": "chunks/Pane-1524af0b.js",
+  "_Pane-9d3d1016.js": {
+    "file": "chunks/Pane-9d3d1016.js",
     "imports": [
       "_index-9379afd2.js",
-      "_tweakpane-ca0b34f5.js"
+      "_tweakpane-ca06611a.js"
+    ],
+    "css": [
+      "assets/Pane-93787f62.css"
     ]
   },
-  "_tweakpane-ca0b34f5.js": {
-    "file": "chunks/tweakpane-ca0b34f5.js",
+  "_tweakpane-ca06611a.js": {
+    "file": "chunks/tweakpane-ca06611a.js",
     "imports": [
-      "_gl-bd6de290.js"
+      "_gl-9f8be024.js"
     ]
   },
-  "_util-three-27600f2e.js": {
-    "file": "chunks/util-three-27600f2e.js",
+  "_util-three-bda16444.js": {
+    "file": "chunks/util-three-bda16444.js",
     "imports": [
-      "_gl-bd6de290.js"
+      "_gl-9f8be024.js"
     ]
   },
-  "_util-d1e0476c.js": {
-    "file": "chunks/util-d1e0476c.js"
+  "_util-55b26ced.js": {
+    "file": "chunks/util-55b26ced.js"
   }
 }
