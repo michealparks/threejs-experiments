@@ -2,13 +2,11 @@
 
 import { createEventDispatcher, onMount } from 'svelte'
 import { Pane } from 'tweakpane'
-import type { StringInputParams } from 'tweakpane'
+import type { InputParams } from 'tweakpane'
 
 let container: HTMLDivElement
 
-type Inputs = Record<string, StringInputParams>
-
-export let inputs: Inputs = {}
+export let inputs: unknown = {}
 export let parameters = {}
 
 const dispatch = createEventDispatcher()
@@ -16,8 +14,8 @@ const dispatch = createEventDispatcher()
 onMount(() => {
   const pane = new Pane({ container })
 
-  for (const [name, options] of Object.entries(inputs)) {
-    pane.addInput(parameters, name, options)
+  for (const [name, options] of Object.entries(inputs as Record<string, unknown>)) {
+    pane.addInput(parameters, name as never, options as InputParams)
   }
 
   pane.on('change', () => dispatch('change'))

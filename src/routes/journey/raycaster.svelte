@@ -30,7 +30,7 @@ onMount(async () => {
     mouse.y = - (event.clientY / innerHeight) * 2 + 1
   }, { passive: true })
 
-  gl.setAnimationLoop((delta, elapsed) => {
+  gl.setAnimationLoop((_delta, elapsed) => {
     s1.position.y = Math.sin(elapsed * 0.3) * 1.5
     s2.position.y = Math.sin(elapsed * 0.8) * 1.5
     s3.position.y = Math.sin(elapsed * 1.4) * 1.5
@@ -42,7 +42,7 @@ onMount(async () => {
     const mouseIntersects = mousecaster.intersectObjects(objectsToTest)
 
     for (const object of objectsToTest) {
-      object.material.color.set('orange')
+      (object.material as THREE.MeshBasicMaterial).color.set('orange')
     }
 
     for (const intersect of intersects) {

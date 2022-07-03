@@ -59,7 +59,7 @@ onMount(async () => {
   gl.setAnimationLoop((delta) => {
     for (const cube of cubes) {
       cube.rotation.x += delta
-      cube.material.uniforms.time.value += 0.01
+      ;(cube.material as THREE.ShaderMaterial).uniforms.time.value += 0.01
     }
 
     for (const key of keys) {

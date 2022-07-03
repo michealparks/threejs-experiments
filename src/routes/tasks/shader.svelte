@@ -36,7 +36,7 @@ onMount(async () => {
   light.lookAt(new THREE.Vector3())
   gl.scene.add(light)
 
-  const frame = (dt: number, elapsed: number) => {
+  const frame = (_dt: number, elapsed: number) => {
     uniforms.resolution.value.set(gl.canvas.width, gl.canvas.height)
     uniforms.time.value = elapsed
     cube.rotation.x = elapsed

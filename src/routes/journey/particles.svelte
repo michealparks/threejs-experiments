@@ -67,7 +67,7 @@ onMount(async () => {
   light.intensity = 5
   gl.scene.add(light)
 
-  gl.setAnimationLoop((delta, elapsed) => {
+  gl.setAnimationLoop((_delta, elapsed) => {
     for (let index = 0; index < count; index += 1) {
       const x = particlesGeometry.attributes.position.getX(index)
       particlesGeometry.attributes.position.setY(index, Math.sin(elapsed + x))
