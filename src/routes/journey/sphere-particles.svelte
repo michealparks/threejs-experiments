@@ -1,18 +1,21 @@
 <script lang='ts'>
 
 import * as THREE from 'three'
-import { onMount } from 'svelte'
 import { GL } from '$lib/gl'
 import { OrbitControls } from '$lib/orbit-controls'
-import { Pane } from 'tweakpane'
 import { randPointOnSphere } from '$lib/util';
-
-let container: HTMLDivElement
+import Pane from '$lib/components/Pane.svelte'
 
 const parameters = {
   count: 1000,
   pointSize: 0.02,
   sphereSize: 3
+}
+
+const inputs = {
+  count: { min: 100, max: 1_000_000, step: 100 },
+  pointSize: { min: 0.001, max: 0.1, step: 0.001 },
+  sphereSize: { min: 1, max: 100, step: 1 },
 }
 
 let geometry: THREE.BufferGeometry
@@ -49,24 +52,20 @@ const generate = (scene: THREE.Scene) => {
   scene.add(points)
 }
 
-onMount(async () => {
-  const gl = GL()
-  const controls = new OrbitControls(gl.camera, gl.canvas)
-  controls.minDistance = Number.NEGATIVE_INFINITY
+const gl = GL()
+const controls = new OrbitControls(gl.camera, gl.canvas)
+controls.minDistance = Number.NEGATIVE_INFINITY
 
-  generate(gl.scene)
+generate(gl.scene)
 
-  const pane = new Pane({ container })
-  pane.addInput(parameters, 'count', { min: 100, max: 1_000_000, step: 100 })
-  pane.addInput(parameters, 'pointSize', { min: 0.001, max: 0.1, step: 0.001 })
-  pane.addInput(parameters, 'sphereSize', { min: 1, max: 100, step: 1 })
-  pane.on('change', () => generate(gl.scene))
-
-  gl.setAnimationLoop(() => {
-    controls.update()
-  })
+gl.setAnimationLoop(() => {
+  controls.update()
 })
 
 </script>
 
-<div class='pane' bind:this={container} />
+<Pane
+  {parameters}
+  {inputs}
+  on:change={() => generate(gl.scene)}
+/>

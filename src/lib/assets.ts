@@ -62,7 +62,7 @@ const loadSprite = async (file: string) => {
   return sprite
 }
 
-const get = (file: string): unknown => {
+const get = <Type>(file: string): Type => {
   return cache.get(file)
 }
 

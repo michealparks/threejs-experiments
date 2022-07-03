@@ -1,7 +1,6 @@
 <script lang='ts'>
 
 import * as THREE from 'three'
-import { onMount } from 'svelte'
 import Pane from '$lib/components/Pane.svelte'
 import { GL } from '$lib/gl'
 import { OrbitControls } from '$lib/orbit-controls'
@@ -55,20 +54,17 @@ const updateUniforms = () => {
   }
 }
 
-onMount(async () => {
-  const gl = GL()
-  const controls = new OrbitControls(gl.camera, gl.canvas)
+const gl = GL()
+const controls = new OrbitControls(gl.camera, gl.canvas)
 
-  updateUniforms()
+updateUniforms()
 
-  gl.scene.add(mesh)
-  gl.camera.lookAt(mesh.position)
+gl.scene.add(mesh)
+gl.camera.lookAt(mesh.position)
 
-  gl.setAnimationLoop((_, elapsed) => {
-    material.uniforms.uTime.value = elapsed
-
-    controls.update()
-  })
+gl.setAnimationLoop((_, elapsed) => {
+  material.uniforms.uTime.value = elapsed
+  controls.update()
 })
 
 </script>

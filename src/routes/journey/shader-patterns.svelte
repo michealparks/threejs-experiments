@@ -26,67 +26,65 @@ const frags = [
   frag50,
 ]
 
-onMount(async () => {
-  const cubes: THREE.Mesh[] = []
-  const gl = GL(undefined, 1)
+const cubes: THREE.Mesh[] = []
+const gl = GL(undefined, 1)
+gl.camera.position.set(0, 4, 4)
 
-  for (const [index, fragmentShader] of frags.entries()) {
-    const material = new THREE.ShaderMaterial({
-      uniforms: { time: { value: 1 } },
-      vertexShader,
-      fragmentShader,
-      transparent: true,
-    })
+for (const [index, fragmentShader] of frags.entries()) {
+  const material = new THREE.ShaderMaterial({
+    uniforms: { time: { value: 1 } },
+    vertexShader,
+    fragmentShader,
+    transparent: true,
+  })
 
-    const geometry = new THREE.BoxGeometry(1, 1, 1, 1, 1, 1)
+  const geometry = new THREE.BoxGeometry(1, 1, 1, 1, 1, 1)
 
-    const cube = new THREE.Mesh(geometry, material)
-    cube.rotation.x = index / 2
-    cube.rotation.x += 0.5
-    cube.rotation.y += 0.5
-    cube.position.set(index * 2, 0, 0)
-    gl.scene.add(cube)
-    cubes.push(cube)
+  const cube = new THREE.Mesh(geometry, material)
+  cube.rotation.x = index / 2
+  cube.rotation.x += 0.5
+  cube.rotation.y += 0.5
+  cube.position.set(index * 2, 0, 0)
+  gl.scene.add(cube)
+  cubes.push(cube)
+}
+
+gl.camera.lookAt(cubes[0].position)
+
+const keys = new Set()
+
+let m = 0
+
+gl.setAnimationLoop((delta) => {
+  for (const cube of cubes) {
+    cube.rotation.x += delta
+    ;(cube.material as THREE.ShaderMaterial).uniforms.time.value += 0.01
   }
 
-  gl.camera.position.set(0, 4, 4)
-  gl.camera.lookAt(cubes[0].position)
-
-  const keys = new Set()
-
-  let m = 0
-
-  gl.setAnimationLoop((delta) => {
-    for (const cube of cubes) {
-      cube.rotation.x += delta
-      ;(cube.material as THREE.ShaderMaterial).uniforms.time.value += 0.01
+  for (const key of keys) {
+    switch (key) {
+      case 'a':
+      case 'arrowleft':
+        m = -0.15
+        break
+      case 'd':
+      case 'arrowright':
+        m = 0.15
+        break
     }
+  }
 
-    for (const key of keys) {
-      switch (key) {
-        case 'a':
-        case 'arrowleft':
-          m = -0.15
-          break
-        case 'd':
-        case 'arrowright':
-          m = 0.15
-          break
-      }
-    }
+  m /= 1.1
 
-    m /= 1.1
+  gl.camera.position.x += m
+})
 
-    gl.camera.position.x += m
-  })
+window.addEventListener('keydown', (event) => {
+  keys.add(event.key.toLowerCase())
+})
 
-  window.addEventListener('keydown', (event) => {
-    keys.add(event.key.toLowerCase())
-  })
-
-  window.addEventListener('keyup', (event) => {
-    keys.delete(event.key.toLowerCase())
-  })
+window.addEventListener('keyup', (event) => {
+  keys.delete(event.key.toLowerCase())
 })
 
 </script>

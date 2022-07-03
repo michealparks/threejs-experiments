@@ -7,35 +7,35 @@ import { OrbitControls } from '$lib/orbit-controls'
 import vertexShader from './shaders/shaders.vert.glsl'
 import fragmentShader from './shaders/shaders.frag.glsl'
 
-onMount(async () => {
-  const gl = GL(undefined, 1)
-  const controls = new OrbitControls(gl.camera, gl.canvas)
+const gl = GL(undefined, 1)
+gl.camera.position.set(2,2,2)
 
-  const material = new THREE.ShaderMaterial({
-    vertexShader,
-    fragmentShader
-  })
+const controls = new OrbitControls(gl.camera, gl.canvas)
 
-  const geometry = new THREE.BoxGeometry(1, 1, 1, 20, 20, 20 )
+const material = new THREE.ShaderMaterial({
+  vertexShader,
+  fragmentShader
+})
 
-  const count = geometry.attributes.position.count
-  const randoms = new Float32Array(count)
+const geometry = new THREE.BoxGeometry(1, 1, 1, 20, 20, 20 )
 
-  for(let index = 0; index < count; index++) {
-    randoms[index] = Math.random() * 3
-  }
+const count = geometry.attributes.position.count
+const randoms = new Float32Array(count)
 
-  geometry.setAttribute('aRandom', new THREE.BufferAttribute(randoms, 1))
+for(let index = 0; index < count; index++) {
+  randoms[index] = Math.random() * 3
+}
 
-  const cube = new THREE.Mesh(geometry, material)
-  gl.scene.add(cube)
-  gl.camera.position.set(2,2,2)
-  gl.camera.lookAt(cube.position)
+geometry.setAttribute('aRandom', new THREE.BufferAttribute(randoms, 1))
 
-  gl.setAnimationLoop((delta) => {
-    cube.rotation.x += delta
-    controls.update()
-  })
+const cube = new THREE.Mesh(geometry, material)
+gl.scene.add(cube)
+
+gl.camera.lookAt(cube.position)
+
+gl.setAnimationLoop((delta) => {
+  cube.rotation.x += delta
+  controls.update()
 })
 
 </script>

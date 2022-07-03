@@ -1,12 +1,9 @@
 <script lang='ts'>
 
 import * as THREE from 'three'
-import { onMount } from 'svelte'
 import { GL } from '$lib/gl'
 import { OrbitControls } from '$lib/orbit-controls'
 import Pane from '$lib/components/Pane.svelte'
-
-let scene: THREE.Scene
 
 const parameters = {
   count: 10_000,
@@ -40,7 +37,7 @@ const generateGalaxy = () => {
   if (points) {
     geometry.dispose()
     material.dispose()
-    scene.remove(points)
+    gl.scene.remove(points)
   }
 
   geometry = new THREE.BufferGeometry()
@@ -50,7 +47,6 @@ const generateGalaxy = () => {
   const colorInside = new THREE.Color(parameters.insideColor)
   const colorOutside = new THREE.Color(parameters.outsideColor)
 
-  
   for (let index = 0, index3 = 0; index < parameters.count * 3; index += 1, index3 = index * 3) {
     const radius = Math.random() * parameters.radius
     const spinAngle = radius * parameters.spin
@@ -84,27 +80,24 @@ const generateGalaxy = () => {
 
   points = new THREE.Points(geometry, material)
 
-  scene.add(points)
+  gl.scene.add(points)
 }
 
-const handlePaneChange = () => {
-  generateGalaxy()
-}
+const gl = GL()
+const controls = new OrbitControls(gl.camera, gl.canvas)
+controls.autoRotate = true
+controls.minDistance = Number.NEGATIVE_INFINITY
 
-onMount(async () => {
-  const gl = GL()
-  const controls = new OrbitControls(gl.camera, gl.canvas)
-  controls.autoRotate = true
-  controls.minDistance = Number.NEGATIVE_INFINITY
-  scene = gl.scene
+generateGalaxy()
 
-  generateGalaxy()
-
-  gl.setAnimationLoop(() => {
-    controls.update()
-  })
+gl.setAnimationLoop(() => {
+  controls.update()
 })
 
 </script>
 
-<Pane {parameters} {inputs} on:change={handlePaneChange} />
+<Pane
+  {parameters}
+  {inputs}
+  on:change={() => generateGalaxy()}
+/>
