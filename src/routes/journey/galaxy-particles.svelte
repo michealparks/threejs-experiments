@@ -106,8 +106,4 @@ onMount(async () => {
 
 </script>
 
-<Pane
-  {parameters}
-  {inputs}
-  on:change={handlePaneChange}
-/>
+<Pane {parameters} {inputs} on:change={handlePaneChange} />
