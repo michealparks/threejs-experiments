@@ -25,9 +25,9 @@ export let routes: Route[] = []
 
 <style>
 nav {
-  width: 6rem;
+  width: fit-content;
   z-index: 1;
-  margin: 25% 0 10px 0;
+  margin: 1rem;
   border-radius: 6px;
   background: rgba(255,255,255,0.5);
   box-shadow: 0px 2px 34px -14px rgb(0 0 0 / 43%);

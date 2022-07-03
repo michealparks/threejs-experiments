@@ -680,7 +680,7 @@ export class OrbitControls extends EventDispatcher {
 		switch ( event.pointerType ) {
 			case 'mouse':
 			case 'pen':
-				this.onMouseUp( event )
+				this.onMouseUp()
 				break
 
 			// TODO touch

@@ -17,11 +17,9 @@ import {
   COLOR_AMBIENT_LIGHT,
 } from './constants'
 
-type Callback = { (...arg0: unknown[]): void }
+type Callback = { (delta: number, elapsed: number): void }
 
 const intensity = 1.0
-
-let i = 0
 
 export const GL = (canvasElement?: HTMLCanvasElement, bloomIntensity = 1, effects?: Effect[]) => {
   const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 1000)
@@ -85,10 +83,7 @@ export const GL = (canvasElement?: HTMLCanvasElement, bloomIntensity = 1, effect
     document.body.appendChild(stats.dom)
   }
 
-  i++
-
   const update = (): void => {
-    console.log(i)
     if (import.meta.env.MODE === 'development') {
       stats.begin()
     }

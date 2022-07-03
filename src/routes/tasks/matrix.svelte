@@ -64,7 +64,7 @@ onMount(async () => {
       cube.applyMatrix4(translateMatrix)
     }
   }
-  
+
   gl.camera.position.set(0, 1, 10)
   gl.camera.lookAt(new Vector3())
 
