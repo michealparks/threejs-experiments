@@ -29,28 +29,28 @@ onMount(async () => {
     .multiply(new Matrix4().makeRotationZ(0.005))
 
   const translateMatrix = new Matrix4()
-  const numCubes = 27
+  const numberCubes = 27
   const cubes: Object3D[] = []
-  let i = 0
+  let index = 0
 
-  const cubeTranslation = (i: number, n: number) => {
-    const x = ((i % 3) * n) - n
-    const y = (((i % 9) / 3 | 0) * n) - n
-    const z = ((i / 9 | 0) * n) - n
+  const cubeTranslation = (index_: number, n: number) => {
+    const x = ((index_ % 3) * n) - n
+    const y = (((index_ % 9) / 3 | 0) * n) - n
+    const z = ((index_ / 9 | 0) * n) - n
     translateMatrix.makeTranslation(x, y, z)
   }
 
-  while (i < numCubes) {
+  while (index < numberCubes) {
     const cube = createCube(1, COLORS.lightBlue)
     cube.castShadow = true
     cube.receiveShadow = true
     cubes.push(cube)
     gl.scene.add(cube)
 
-    cubeTranslation(i, 1)
+    cubeTranslation(index, 1)
     cube.applyMatrix4(translateMatrix)
 
-    i += 1
+    index += 1
   }
 
   let x = 0
@@ -59,8 +59,8 @@ onMount(async () => {
     x += 0.05
     gl.camera.applyMatrix4(rotationMatrix)
 
-    for (const [i, cube] of cubes.entries()) {
-      cubeTranslation(i, Math.sin(x / 2) * 0.01)
+    for (const [index, cube] of cubes.entries()) {
+      cubeTranslation(index, Math.sin(x / 2) * 0.01)
       cube.applyMatrix4(translateMatrix)
     }
   }

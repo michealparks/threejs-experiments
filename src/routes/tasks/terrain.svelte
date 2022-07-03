@@ -3,7 +3,7 @@
 import type * as THREE from 'three'
 import { GL } from '$lib/gl'
 import { assets } from '$lib/assets'
-import { OrbitControls } from '$lib/orbitControls'
+import { OrbitControls } from '$lib/orbit-controls'
 import { onMount } from 'svelte'
 
 onMount(async () => {

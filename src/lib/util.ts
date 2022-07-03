@@ -1,19 +1,19 @@
 
-export const capitalize = (str: string): string => {
-  return `${str[0].toUpperCase()}${str.toLowerCase().slice(1)}`
+export const capitalize = (string_: string): string => {
+  return `${string_[0].toUpperCase()}${string_.toLowerCase().slice(1)}`
 }
 
-export const randNum = (range: number): number => {
+export const randomNumber = (range: number): number => {
   return Math.random() * range * 2 - range
 }
 
-export const randNumInRange = (min: number, max: number): number => {
+export const randomNumberInRange = (min: number, max: number): number => {
   return Math.random() * (max - min) + min
 }
 
 export const randPointInCircle = (R: number): [x: number, y: number] => {
   const r = R * Math.sqrt(Math.random())
-  const theta = Math.random() * 2.0 * Math.PI
+  const theta = Math.random() * 2 * Math.PI
   const x = r * Math.cos(theta)
   const y = r * Math.sin(theta)
   return [x, y]
@@ -22,8 +22,8 @@ export const randPointInCircle = (R: number): [x: number, y: number] => {
 export const randPointInSphere = (R: number): [x: number, y: number, z: number] => {
   const u = Math.random()
   const v = Math.random()
-  const theta = u * 2.0 * Math.PI
-  const phi = Math.acos(2.0 * v - 1.0)
+  const theta = u * 2 * Math.PI
+  const phi = Math.acos(2 * v - 1)
   const r = Math.cbrt(Math.random() * R)
   const sinTheta = Math.sin(theta)
   const cosTheta = Math.cos(theta)
@@ -38,8 +38,8 @@ export const randPointInSphere = (R: number): [x: number, y: number, z: number] 
 export const randPointOnSphere = (R: number): [x: number, y: number, z: number] => {
   const u = Math.random()
   const v = Math.random()
-  const theta = u * 2.0 * Math.PI
-  const phi = Math.acos(2.0 * v - 1.0)
+  const theta = u * 2 * Math.PI
+  const phi = Math.acos(2 * v - 1)
   const r = Math.cbrt(Math.random() + R)
   const sinTheta = Math.sin(theta)
   const cosTheta = Math.cos(theta)

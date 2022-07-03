@@ -5,7 +5,7 @@ import { onMount } from 'svelte'
 import { GL } from '$lib/gl'
 import { assets } from '$lib/assets'
 import { loading } from '$lib/loading';
-import { OrbitControls } from '$lib/orbitControls'
+import { OrbitControls } from '$lib/orbit-controls'
 import { createCube, createDirectionalLight } from '$lib/util-three';
 
 onMount(async () => {
@@ -14,7 +14,7 @@ onMount(async () => {
 
   const controls = new OrbitControls(gl.camera, document.body)
   controls.autoRotate = true
-  controls.minDistance = -Infinity
+  controls.minDistance = Number.NEGATIVE_INFINITY
   controls.enableZoom = false
   
   await assets.load('circle_01.png')
@@ -26,9 +26,9 @@ onMount(async () => {
   const positions = new Float32Array(count * 3)
   const colors = new Float32Array(count * 3)
 
-  for (let i = 0; i < count * 3; i += 1) {
-    positions[i] = (Math.random() - 0.5) * 20
-    colors[i] = Math.random()
+  for (let index = 0; index < count * 3; index += 1) {
+    positions[index] = (Math.random() - 0.5) * 20
+    colors[index] = Math.random()
   }
 
   const positionAttribute = new THREE.BufferAttribute(positions, 3)
@@ -68,9 +68,9 @@ onMount(async () => {
   gl.scene.add(light)
 
   gl.setAnimationLoop((delta, elapsed) => {
-    for (let i = 0; i < count; i += 1) {
-      const x = particlesGeometry.attributes.position.getX(i)
-      particlesGeometry.attributes.position.setY(i, Math.sin(elapsed + x))
+    for (let index = 0; index < count; index += 1) {
+      const x = particlesGeometry.attributes.position.getX(index)
+      particlesGeometry.attributes.position.setY(index, Math.sin(elapsed + x))
     }
 
     cube.position.y = Math.sin(elapsed)

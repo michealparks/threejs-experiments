@@ -4,7 +4,7 @@ import * as THREE from 'three'
 import { onMount } from 'svelte'
 import Pane from '$lib/components/Pane.svelte'
 import { GL } from '$lib/gl'
-import { OrbitControls } from '$lib/orbitControls'
+import { OrbitControls } from '$lib/orbit-controls'
 import vertexShader from './shaders/water/vert.glsl'
 import fragmentShader from './shaders/water/frag.glsl'
 

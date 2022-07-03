@@ -1,11 +1,22 @@
 module.exports = {
 	root: true,
 	parser: '@typescript-eslint/parser',
-	extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended'],
-	plugins: ['svelte3', '@typescript-eslint'],
+	extends: [
+		'eslint:recommended',
+		'plugin:@typescript-eslint/recommended',
+		'plugin:unicorn/recommended',
+	],
+	plugins: [
+		'svelte3',
+		'@typescript-eslint',
+		'unicorn',
+	],
 	ignorePatterns: ['*.cjs'],
 	rules: {
 		'@typescript-eslint/no-non-null-assertion': 'off',
+
+		'unicorn/consistent-destructuring': 'off',
+		'unicorn/prefer-math-trunc': 'off',
 	},
 	overrides: [{ files: ['*.svelte'], processor: 'svelte3/svelte3' }],
 	settings: {
@@ -13,7 +24,7 @@ module.exports = {
 	},
 	parserOptions: {
 		sourceType: 'module',
-		ecmaVersion: 2021
+		ecmaVersion: 'latest'
 	},
 	env: {
 		browser: true,

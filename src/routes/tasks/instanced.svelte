@@ -5,7 +5,7 @@ import { onMount } from 'svelte'
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader'
 import { GL } from '$lib/gl'
 import { assets } from '$lib/assets'
-import { OrbitControls } from '$lib/orbitControls'
+import { OrbitControls } from '$lib/orbit-controls'
 
 const HDR = {
   overpass: 'https://threejs.org/examples/textures/equirectangular/pedestrian_overpass_1k.hdr',
@@ -14,7 +14,7 @@ const HDR = {
   sunset: 'https://threejs.org/examples/textures/equirectangular/venice_sunset_1k.hdr'
 }
 
-const randNum = (range: number) => {
+const randomNumber = (range: number) => {
   return Math.random() * range * 2 - range
 }
 
@@ -32,10 +32,10 @@ onMount(async () => {
 
   const pmremGenerator = new THREE.PMREMGenerator(gl.renderer)
   pmremGenerator.compileEquirectangularShader()
-  const envMap = pmremGenerator.fromEquirectangular(texture).texture
+  const environmentMap = pmremGenerator.fromEquirectangular(texture).texture
 
-  gl.scene.background = envMap
-  gl.scene.environment = envMap
+  gl.scene.background = environmentMap
+  gl.scene.environment = environmentMap
 
   texture.dispose()
   pmremGenerator.dispose()
@@ -46,11 +46,11 @@ onMount(async () => {
   const instancedMesh = new THREE.InstancedMesh(mesh.geometry, mesh.material, n)
   const matrix = new THREE.Matrix4()
 
-  let i = 0
-  while (i < n) {
-    matrix.setPosition(randNum(4), randNum(4), randNum(4))
-    instancedMesh.setMatrixAt(i, matrix)
-    i += 1
+  let index = 0
+  while (index < n) {
+    matrix.setPosition(randomNumber(4), randomNumber(4), randomNumber(4))
+    instancedMesh.setMatrixAt(index, matrix)
+    index += 1
   }
 
   gl.scene.add(instancedMesh)

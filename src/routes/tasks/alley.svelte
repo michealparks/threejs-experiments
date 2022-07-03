@@ -4,7 +4,7 @@ import type * as THREE from 'three'
 import { onMount } from 'svelte'
 import { GL } from '$lib/gl'
 import { assets } from '$lib/assets'
-import { OrbitControls } from '$lib/orbitControls'
+import { OrbitControls } from '$lib/orbit-controls'
 
 onMount(async () => {
   const gl = GL()
@@ -13,7 +13,7 @@ onMount(async () => {
   await assets.load('construction_fliers_1.glb')
 
   const wall = (assets.get('construction_fliers_1.glb') as { scene: THREE.Scene }).scene
-  wall.rotation.set(0.0, -Math.PI / 4, 0.0)
+  wall.rotation.set(0, -Math.PI / 4, 0)
   gl.scene.add(wall)
   gl.ambientLight.intensity = 3
   gl.camera.position.set(2, 1, 5)

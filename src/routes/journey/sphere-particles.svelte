@@ -3,7 +3,7 @@
 import * as THREE from 'three'
 import { onMount } from 'svelte'
 import { GL } from '$lib/gl'
-import { OrbitControls } from '$lib/orbitControls'
+import { OrbitControls } from '$lib/orbit-controls'
 import { Pane } from 'tweakpane'
 import { randPointOnSphere } from '$lib/util';
 
@@ -29,11 +29,11 @@ const generate = (scene: THREE.Scene) => {
   geometry = new THREE.BufferGeometry()
   const positions = new Float32Array(parameters.count * 3)
 
-  for (let i = 0; i < parameters.count * 3; i += 3) {
+  for (let index = 0; index < parameters.count * 3; index += 3) {
     const [x, y, z] = randPointOnSphere(parameters.sphereSize)
-    positions[i + 0] = x
-    positions[i + 1] = y
-    positions[i + 2] = z
+    positions[index + 0] = x
+    positions[index + 1] = y
+    positions[index + 2] = z
   }
 
   geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
@@ -52,7 +52,7 @@ const generate = (scene: THREE.Scene) => {
 onMount(async () => {
   const gl = GL()
   const controls = new OrbitControls(gl.camera, gl.canvas)
-  controls.minDistance = -Infinity
+  controls.minDistance = Number.NEGATIVE_INFINITY
 
   generate(gl.scene)
 

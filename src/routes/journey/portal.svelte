@@ -5,7 +5,7 @@ import { onMount } from 'svelte'
 import { GL } from '$lib/gl'
 import { loading } from '$lib/loading'
 import { assets } from '$lib/assets'
-import { OrbitControls } from '$lib/orbitControls'
+import { OrbitControls } from '$lib/orbit-controls'
 import firefliesVertShader from './shaders/fireflies/vert.glsl'
 import firefliesFragShader from './shaders/fireflies/frag.glsl'
 import portalVertShader from './shaders/portal/vert.glsl'
@@ -16,17 +16,17 @@ const createFireflies = (pixelRatio: number) => {
   const firefliesGeometry = new THREE.BufferGeometry()
   const positionArray = new Float32Array(count * 3)
 
-  for(let i = 0; i < count; i++) {
-    positionArray[i * 3 + 0] = (Math.random() - 0.5) * 4
-    positionArray[i * 3 + 1] = (Math.random() * 1.5)
-    positionArray[i * 3 + 2] = (Math.random() - 0.5) * 4
+  for(let index = 0; index < count; index++) {
+    positionArray[index * 3 + 0] = (Math.random() - 0.5) * 4
+    positionArray[index * 3 + 1] = (Math.random() * 1.5)
+    positionArray[index * 3 + 2] = (Math.random() - 0.5) * 4
   }
 
   firefliesGeometry.setAttribute('position', new THREE.BufferAttribute(positionArray, 3))
   const firefliesMaterial = new THREE.ShaderMaterial({
     uniforms: {
       uTime: { value: 0 },
-      uBaseSize: { value: 100.0 },
+      uBaseSize: { value: 100 },
       uPixelRatio: { value: pixelRatio },
     },
     vertexShader: firefliesVertShader,
@@ -41,7 +41,7 @@ onMount(async () => {
   const gl = GL()
   const loadEnd = loading(gl.scene)
   const controls = new OrbitControls(gl.camera, gl.canvas)
-  const poleLightMaterial = new THREE.MeshBasicMaterial({ color: 0xffffe5 })
+  const poleLightMaterial = new THREE.MeshBasicMaterial({ color: 0xFF_FF_E5 })
   const portalLightMaterial = new THREE.ShaderMaterial({
     uniforms: {
       uTime: { value: 0 },

@@ -3,7 +3,7 @@
 import * as THREE from 'three'
 import { onMount } from 'svelte'
 import { GL } from '$lib/gl'
-import { OrbitControls } from '$lib/orbitControls'
+import { OrbitControls } from '$lib/orbit-controls'
 import Pane from '$lib/components/Pane.svelte'
 
 let scene: THREE.Scene
@@ -11,11 +11,11 @@ let scene: THREE.Scene
 const parameters = {
   count: 10_000,
   pointSize: 0.001,
-  radius: 5,
-  branches: 3,
-  spin: 1,
-  randomness: 0.38,
-  randomnessPower: 3,
+  radius: 1.82,
+  branches: 10,
+  spin: 1.304,
+  randomness: 0.413,
+  randomnessPower: 3.543,
   insideColor: '#ff6030',
   outsideColor: '#1b3984',
 }
@@ -51,25 +51,25 @@ const generateGalaxy = () => {
   const colorOutside = new THREE.Color(parameters.outsideColor)
 
   
-  for (let i = 0, i3 = 0; i < parameters.count * 3; i += 1, i3 = i * 3) {
+  for (let index = 0, index3 = 0; index < parameters.count * 3; index += 1, index3 = index * 3) {
     const radius = Math.random() * parameters.radius
     const spinAngle = radius * parameters.spin
-    const branchAngle = (i % parameters.branches) / parameters.branches * Math.PI * 2
+    const branchAngle = (index % parameters.branches) / parameters.branches * Math.PI * 2
 
     const randomX = Math.pow(Math.random(), parameters.randomnessPower) * (Math.random() < 0.5 ? 1 : - 1) * parameters.randomness * radius
     const randomY = Math.pow(Math.random(), parameters.randomnessPower) * (Math.random() < 0.5 ? 1 : - 1) * parameters.randomness * radius
     const randomZ = Math.pow(Math.random(), parameters.randomnessPower) * (Math.random() < 0.5 ? 1 : - 1) * parameters.randomness * radius
 
-    positions[i3 + 0] = Math.cos(branchAngle + spinAngle) * radius + randomX
-    positions[i3 + 1] = randomY
-    positions[i3 + 2] = Math.sin(branchAngle + spinAngle) * radius + randomZ
+    positions[index3 + 0] = Math.cos(branchAngle + spinAngle) * radius + randomX
+    positions[index3 + 1] = randomY
+    positions[index3 + 2] = Math.sin(branchAngle + spinAngle) * radius + randomZ
 
     const mixedColor = colorInside.clone()
     mixedColor.lerp(colorOutside, radius / parameters.radius)
 
-    colors[i3 + 0] = mixedColor.r
-    colors[i3 + 1] = mixedColor.g
-    colors[i3 + 2] = mixedColor.b
+    colors[index3 + 0] = mixedColor.r
+    colors[index3 + 1] = mixedColor.g
+    colors[index3 + 2] = mixedColor.b
   }
 
   geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
@@ -94,7 +94,8 @@ const handlePaneChange = () => {
 onMount(async () => {
   const gl = GL()
   const controls = new OrbitControls(gl.camera, gl.canvas)
-  controls.minDistance = -Infinity
+  controls.autoRotate = true
+  controls.minDistance = Number.NEGATIVE_INFINITY
   scene = gl.scene
 
   generateGalaxy()

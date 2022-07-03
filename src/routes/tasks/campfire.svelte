@@ -4,7 +4,7 @@ import * as THREE from 'three'
 import { onMount } from 'svelte'
 import { GL } from '$lib/gl'
 import { assets } from '$lib/assets'
-import { OrbitControls } from '$lib/orbitControls'
+import { OrbitControls } from '$lib/orbit-controls'
 import { fire } from '$lib/fire'
 import { createPointLight, createDirectionalLight, createHemisphereLight, createSkySphere } from '$lib/util-three'
 
@@ -12,7 +12,7 @@ onMount(async () => {
   const gl = GL()
   const orbitControls = new OrbitControls(gl.camera, document.body)
 
-  gl.camera.position.set(20.0, 4.0, 18.0)
+  gl.camera.position.set(20, 4, 18)
 
   await assets.load('FloatingRockScene.glb')
 
@@ -36,10 +36,10 @@ onMount(async () => {
   gl.scene.add(hemiLight)
   hemiLight.position.set(0, 50, 0)
 
-  const dirLight = createDirectionalLight()
-  dirLight.color.setHSL(0.1, 1, 0.95)
-  dirLight.position.set(-1, 1.75, 1).multiplyScalar(30)
-  gl.scene.add(dirLight)
+  const directionalLight = createDirectionalLight()
+  directionalLight.color.setHSL(0.1, 1, 0.95)
+  directionalLight.position.set(-1, 1.75, 1).multiplyScalar(30)
+  gl.scene.add(directionalLight)
 
   const sky = createSkySphere(undefined, 64)
   gl.scene.add(sky)
@@ -56,11 +56,11 @@ onMount(async () => {
 
   gl.setAnimationLoop(() => {
     l -= dl
-    if (l < 0.0 || l > 1.0) {
+    if (l < 0 || l > 1) {
       idl = -idl
       dl = idl
-      if (l <= 0.0) l = 0.0
-      if (l >= 1.0) l = 1.0
+      if (l <= 0) l = 0
+      if (l >= 1) l = 1
     }
 
     gl.ambientLight.intensity = l

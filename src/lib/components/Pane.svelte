@@ -16,8 +16,8 @@ const dispatch = createEventDispatcher()
 onMount(() => {
   const pane = new Pane({ container })
 
-  for (const [name, opts] of Object.entries(inputs)) {
-    pane.addInput(parameters, name, opts)
+  for (const [name, options] of Object.entries(inputs)) {
+    pane.addInput(parameters, name, options)
   }
 
   pane.on('change', () => dispatch('change'))
@@ -26,3 +26,13 @@ onMount(() => {
 </script>
 
 <div class='pane' bind:this={container} />
+
+<style>
+  .pane {
+    z-index: 100;
+    position: fixed;
+    top: 0;
+    right: 0;
+    margin: 10px;
+  }
+</style>

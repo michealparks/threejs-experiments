@@ -19,7 +19,7 @@ import {
 
 type Callback = { (delta: number, elapsed: number): void }
 
-const intensity = 1.0
+const intensity = 1
 
 export const GL = (canvasElement?: HTMLCanvasElement, bloomIntensity = 1, effects?: Effect[]) => {
   const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 1000)
@@ -73,14 +73,14 @@ export const GL = (canvasElement?: HTMLCanvasElement, bloomIntensity = 1, effect
   ))
 
   let stats: Stats
-  let fn: Callback
+  let callback: Callback
 
   camera.add(listener)
   scene.add(ambientLight)
 
   if (import.meta.env.MODE === 'development') {
-    stats = new Stats({ maxFPS: Infinity, maxMem: Infinity })
-    document.body.appendChild(stats.dom)
+    stats = new Stats({ maxFPS: Number.POSITIVE_INFINITY, maxMem: Number.POSITIVE_INFINITY })
+    document.body.append(stats.dom)
   }
 
   const update = (): void => {
@@ -108,7 +108,7 @@ export const GL = (canvasElement?: HTMLCanvasElement, bloomIntensity = 1, effect
 			composer.setSize(width, height, false)
 		}
 
-    fn(dt, elapsed)
+    callback(dt, elapsed)
   
     if (import.meta.env.MODE === 'development') {
       stats.end()
@@ -117,7 +117,7 @@ export const GL = (canvasElement?: HTMLCanvasElement, bloomIntensity = 1, effect
 
   const setAnimationLoop = (frame: Callback | null): void => {
     if (frame !== null) {
-      fn = frame
+      callback = frame
     }
   
     renderer.setAnimationLoop(update)

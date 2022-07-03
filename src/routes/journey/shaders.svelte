@@ -3,7 +3,7 @@
 import * as THREE from 'three'
 import { onMount } from 'svelte'
 import { GL } from '$lib/gl'
-import { OrbitControls } from '$lib/orbitControls'
+import { OrbitControls } from '$lib/orbit-controls'
 import vertexShader from './shaders/shaders.vert.glsl'
 import fragmentShader from './shaders/shaders.frag.glsl'
 
@@ -21,8 +21,8 @@ onMount(async () => {
   const count = geometry.attributes.position.count
   const randoms = new Float32Array(count)
 
-  for(let i = 0; i < count; i++) {
-    randoms[i] = Math.random() * 3
+  for(let index = 0; index < count; index++) {
+    randoms[index] = Math.random() * 3
   }
 
   geometry.setAttribute('aRandom', new THREE.BufferAttribute(randoms, 1))

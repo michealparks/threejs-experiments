@@ -30,7 +30,7 @@ onMount(async () => {
   const cubes: THREE.Mesh[] = []
   const gl = GL(undefined, 1)
 
-  for (const [i, fragmentShader] of frags.entries()) {
+  for (const [index, fragmentShader] of frags.entries()) {
     const material = new THREE.ShaderMaterial({
       uniforms: { time: { value: 1 } },
       vertexShader,
@@ -41,10 +41,10 @@ onMount(async () => {
     const geometry = new THREE.BoxGeometry(1, 1, 1, 1, 1, 1)
 
     const cube = new THREE.Mesh(geometry, material)
-    cube.rotation.x = i / 2
+    cube.rotation.x = index / 2
     cube.rotation.x += 0.5
     cube.rotation.y += 0.5
-    cube.position.set(i * 2, 0, 0)
+    cube.position.set(index * 2, 0, 0)
     gl.scene.add(cube)
     cubes.push(cube)
   }
@@ -80,8 +80,13 @@ onMount(async () => {
     gl.camera.position.x += m
   })
 
-  addEventListener('keydown', (e) => keys.add(e.key.toLowerCase()))
-  addEventListener('keyup', (e) => keys.delete(e.key.toLowerCase()))
+  window.addEventListener('keydown', (event) => {
+    keys.add(event.key.toLowerCase())
+  })
+
+  window.addEventListener('keyup', (event) => {
+    keys.delete(event.key.toLowerCase())
+  })
 })
 
 </script>

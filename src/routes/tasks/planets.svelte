@@ -13,19 +13,19 @@ const planets = [
   {
     name: 'Mercury',
     scale: 0.3,
-    distance: 1.0,
+    distance: 1,
     color: COLORS.lightGray,
     emissive: COLORS.darkGray
   }, {
     name: 'Venus',
     scale: 0.6,
-    distance: 3.0,
+    distance: 3,
     color: COLORS.lightOrange,
     emissive: COLORS.darkOrange
   }, {
     name: 'Earth',
-    scale: 1.0,
-    distance: 5.0,
+    scale: 1,
+    distance: 5,
     color: COLORS.lightBlue,
     emissive: COLORS.darkBlue,
     moons: [
@@ -34,31 +34,31 @@ const planets = [
   }, {
     name: 'Mars',
     scale: 0.9,
-    distance: 8.0,
+    distance: 8,
     color: COLORS.lightRed,
     emissive: COLORS.darkRed
   }, {
     name: 'Jupiter',
     scale: 2.5,
-    distance: 14.0,
+    distance: 14,
     color: COLORS.lightestPink,
     emissive: COLORS.salmon
   }, {
     name: 'Saturn',
     scale: 2.2,
-    distance: 19.0,
+    distance: 19,
     color: COLORS.warmLight,
     emissive: COLORS.warmestLight
   }, {
     name: 'Uranus',
     scale: 1.9,
-    distance: 24.0,
+    distance: 24,
     color: COLORS.lightCyan,
     emissive: COLORS.darkCyan
   }, {
     name: 'Neptune',
     scale: 1.5,
-    distance: 28.0,
+    distance: 28,
     color: COLORS.lightIndigo,
     emissive: COLORS.darkIndigo
   }
@@ -132,12 +132,12 @@ onMount(async () => {
   }  
 
   const frame = (dt: number) => {
-    let i = 0
+    let index = 0
     let l = objects.length
   
     for (const mesh of objects) {
-      mesh.rotation.y += dt * (1.1 - (i / l))
-      i++
+      mesh.rotation.y += dt * (1.1 - (index / l))
+      index++
     }
   }
 

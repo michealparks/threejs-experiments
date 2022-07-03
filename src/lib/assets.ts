@@ -47,7 +47,7 @@ const loadGLTF = async (file: string) => {
 
 const loadSprite = async (file: string) => {
   const [data, tex] = await Promise.all([
-    fetch(`${rootPath}/textures/${file.replace('sprite', 'json')}`).then((res) => res.json()),
+    fetch(`${rootPath}/textures/${file.replace('sprite', 'json')}`).then((result) => result.json()),
     textureLoader.loadAsync(file.replace('sprite', 'png'))
   ])
 

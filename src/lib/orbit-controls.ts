@@ -24,7 +24,7 @@ const changeEvent = { type: 'change' }
 const startEvent = { type: 'start' }
 const endEvent = { type: 'end' }
 
-const EPS = 0.000001
+const EPS = 0.000_001
 
 const STATE = {
 	NONE: - 1,
@@ -52,7 +52,7 @@ export class OrbitControls extends EventDispatcher {
 
 	// How far you can zoom in and out ( OrthographicCamera only )
 	minZoom = 0
-	maxZoom = Infinity
+	maxZoom = Number.POSITIVE_INFINITY
 
 	// How far you can orbit vertically, upper and lower limits.
 	// Range is 0 to Math.PI radians.
@@ -61,8 +61,8 @@ export class OrbitControls extends EventDispatcher {
 
 	// How far you can orbit horizontally, upper and lower limits.
 	// If set, the interval [ min, max ] must be a sub-interval of [ - 2 PI, 2 PI ], with ( max - min < 2 PI )
-	minAzimuthAngle = - Infinity // radians
-	maxAzimuthAngle = Infinity // radians
+	minAzimuthAngle = Number.NEGATIVE_INFINITY // radians
+	maxAzimuthAngle = Number.POSITIVE_INFINITY // radians
 
 	// Set to true to enable damping (inertia)
 	// If damping is enabled, you must call controls.update() in your animation loop
@@ -72,22 +72,22 @@ export class OrbitControls extends EventDispatcher {
 	// This option actually enables dollying in and out left as "zoom" for backwards compatibility.
 	// Set to false to disable zooming
 	enableZoom = true
-	zoomSpeed = 1.0
+	zoomSpeed = 1
 
 	// Set to false to disable rotating
 	enableRotate = true
-	rotateSpeed = 1.0
+	rotateSpeed = 1
 
 	// Set to false to disable panning
 	enablePan = true
-	panSpeed = 1.0
+	panSpeed = 1
 	screenSpacePanning = false // if false, pan orthogonal to world-space direction camera.up
-	keyPanSpeed = 7.0	// pixels moved per arrow key push
+	keyPanSpeed = 7	// pixels moved per arrow key push
 
 	// Set to true to automatically rotate around the target
 	// If auto-rotate is enabled, you must call controls.update() in your animation loop
 	autoRotate = false
-	autoRotateSpeed = 2.0 // 30 seconds per round when fps is 60
+	autoRotateSpeed = 2 // 30 seconds per round when fps is 60
 
 	// The four arrow keys
 	keys = { LEFT: 37, UP: 38, RIGHT: 39, BOTTOM: 40 }
@@ -99,7 +99,7 @@ export class OrbitControls extends EventDispatcher {
 	touches = { ONE: TOUCH.ROTATE, TWO: TOUCH.DOLLY_PAN }
 
 	// the target DOM element for key events
-	_domElementKeyEvents: HTMLElement | null = null
+	_domElementKeyEvents: HTMLElement | undefined
 
 	offset = new Vector3()
 
@@ -264,7 +264,7 @@ export class OrbitControls extends EventDispatcher {
 		let min = this.minAzimuthAngle
 		let max = this.maxAzimuthAngle
 
-		if ( isFinite( min ) && isFinite( max ) ) {
+		if ( Number.isFinite( min ) && Number.isFinite( max ) ) {
 
 			if ( min < - Math.PI ) min += twoPI; else if ( min > Math.PI ) min -= twoPI
 
@@ -371,7 +371,7 @@ export class OrbitControls extends EventDispatcher {
 
 		if ( this._domElementKeyEvents !== null ) {
 
-			this._domElementKeyEvents.removeEventListener( 'keydown', this.onKeyDown )
+			this._domElementKeyEvents?.removeEventListener( 'keydown', this.onKeyDown )
 
 		}
 
@@ -429,7 +429,7 @@ export class OrbitControls extends EventDispatcher {
 			let targetDistance = this.offset.length()
 
 			// half of the fov is center to top of screen
-			targetDistance *= Math.tan( ( this.object.fov / 2 ) * Math.PI / 180.0 )
+			targetDistance *= Math.tan( ( this.object.fov / 2 ) * Math.PI / 180 )
 
 			// we use only clientHeight here so aspect ratio does not distort speed
 			this.panLeft( 2 * deltaX * targetDistance / element.clientHeight, this.object.matrix )

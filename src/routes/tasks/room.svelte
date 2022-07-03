@@ -4,7 +4,7 @@ import * as THREE from 'three'
 import { onMount } from 'svelte'
 import { GL } from '$lib/gl'
 import { assets } from '$lib/assets'
-import { OrbitControls } from '$lib/orbitControls'
+import { OrbitControls } from '$lib/orbit-controls'
 import { createPointLight } from '$lib/util-three'
 
 onMount(async () => {

@@ -20,12 +20,12 @@ const initControls = (renderer: WebGLRenderer, scene: Scene) => {
 
   handModelFactory.setPath('/assets/fbx/')
 
-  for (const i of [0, 1]) {
-    const controllerGrip = renderer.xr.getControllerGrip(i)
+  for (const index of [0, 1]) {
+    const controllerGrip = renderer.xr.getControllerGrip(index)
     controllerGrip.add(controllerModelFactory.createControllerModel(controllerGrip))
     scene.add(controllerGrip)
 
-    const hand = renderer.xr.getHand(i)
+    const hand = renderer.xr.getHand(index)
     scene.add(hand)
 
     const options: XRHandPrimitiveModelOptions = {}
@@ -52,7 +52,7 @@ const createXRButton = (renderer: WebGLRenderer, scene: Scene): HTMLButtonElemen
     currentSession = undefined
   }
 
-  button.onclick = async () => {
+  button.addEventListener('click', async () => {
     if (currentSession) {
       return currentSession.end()
     }
@@ -79,7 +79,7 @@ const createXRButton = (renderer: WebGLRenderer, scene: Scene): HTMLButtonElemen
     currentSession = session
 
     initControls(renderer, scene)
-  }
+  })
 
   return button
 }
