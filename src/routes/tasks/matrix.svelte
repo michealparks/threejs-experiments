@@ -55,7 +55,7 @@ onMount(async () => {
 
   let x = 0
 
-  const frame = (dt: number, elapsed: number) => {
+  const frame = () => {
     x += 0.05
     gl.camera.applyMatrix4(rotationMatrix)
 

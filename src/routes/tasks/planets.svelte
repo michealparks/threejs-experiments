@@ -1,7 +1,7 @@
 <script lang='ts'>
 
 import * as THREE from 'three'
-import { onMount } from 'svelte'
+import { onMount, onDestroy } from 'svelte'
 import { GL } from '$lib/gl'
 import { COLORS } from '$lib/constants'
 import { createPointLight } from '$lib/util-three'
@@ -64,6 +64,8 @@ const planets = [
   }
 ]
 
+let id: number
+
 onMount(async () => {
   const gl = GL()
 
@@ -116,6 +118,7 @@ onMount(async () => {
   
         const mat = new THREE.MeshPhongMaterial({ color: COLORS.lightGray, emissive: COLORS.darkGray })
         const moon = new THREE.Mesh(geo, mat)
+        moon.name = name
         moon.castShadow = true
         moon.receiveShadow = true
         moon.scale.multiplyScalar(0.2)
@@ -140,7 +143,7 @@ onMount(async () => {
 
   let view = 'side'
 
-  let id = setInterval(() => {
+  id = window.setInterval(() => {
     if (view === 'side') {
       gl.camera.position.set(0, CAMERA_DISTANCE, 0)
       gl.camera.lookAt(0, 0, 0)
@@ -153,6 +156,10 @@ onMount(async () => {
   }, 5000)
 
   gl.setAnimationLoop(frame)
+})
+
+onDestroy(() => {
+  clearInterval(id)
 })
 
 </script>

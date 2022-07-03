@@ -1,9 +1,17 @@
 import * as THREE from 'three'
 import { randNumInRange, randPointInCircle } from '$lib/util'
 
+interface Ember {
+  mesh: THREE.InstancedMesh
+  p: Float32Array
+  s: Float32Array
+  pv: Float32Array
+  sv: Float32Array
+}
+
 const num = 100
 const dummy = new THREE.Object3D()
-const embers: any = []
+const embers: Ember[] = []
 
 const init = (parent: THREE.Object3D, templates: THREE.Mesh[]) => {
   for (const template of templates) {
@@ -38,7 +46,7 @@ const init = (parent: THREE.Object3D, templates: THREE.Mesh[]) => {
   }
 }
 
-const setPropsAtIndex = (i: number, ember: any) => {
+const setPropsAtIndex = (i: number, ember: Ember) => {
   const ii = i * 3
 
   const [px, py] = randPointInCircle(1.25)

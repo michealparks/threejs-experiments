@@ -24,13 +24,11 @@ onMount(async () => {
   light.position.set(1, 4, 1)
   gl.scene.add(light)
 
-  const frame = (dt: number) => {
-    orbitControls.update()
-  }
-
   gl.ambientLight.intensity = 0.5
 
-  gl.setAnimationLoop(frame)
+  gl.setAnimationLoop(() => {
+    orbitControls.update()
+  })
 })
 
 </script>

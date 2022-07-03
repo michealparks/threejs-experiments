@@ -1,14 +1,14 @@
 import {
 	EventDispatcher,
-  Matrix4,
+	Matrix4,
 	MOUSE,
 	Quaternion,
 	Spherical,
 	TOUCH,
 	Vector2,
 	Vector3,
-  PerspectiveCamera,
-  OrthographicCamera
+	PerspectiveCamera,
+	OrthographicCamera
 } from 'three'
 
 import { PASSIVE } from './constants'
@@ -27,30 +27,30 @@ const endEvent = { type: 'end' }
 const EPS = 0.000001
 
 const STATE = {
-  NONE: - 1,
-  ROTATE: 0,
-  DOLLY: 1,
-  PAN: 2,
-  TOUCH_ROTATE: 3,
-  TOUCH_PAN: 4,
-  TOUCH_DOLLY_PAN: 5,
-  TOUCH_DOLLY_ROTATE: 6
+	NONE: - 1,
+	ROTATE: 0,
+	DOLLY: 1,
+	PAN: 2,
+	TOUCH_ROTATE: 3,
+	TOUCH_PAN: 4,
+	TOUCH_DOLLY_PAN: 5,
+	TOUCH_DOLLY_ROTATE: 6
 }
 
 const twoPI = 2 * Math.PI
 
 export class OrbitControls extends EventDispatcher {
-  _enabled = true
-  _hasEvents = true
+	_enabled = true
+	_hasEvents = true
 
-  object: PerspectiveCamera | OrthographicCamera
-  domElement: HTMLElement
-  
-  target = new Vector3()
-  minDistance = 5
-  maxDistance = 40
+	object: PerspectiveCamera | OrthographicCamera
+	domElement: HTMLElement
+	
+	target = new Vector3()
+	minDistance = 5
+	maxDistance = 40
 
-  // How far you can zoom in and out ( OrthographicCamera only )
+	// How far you can zoom in and out ( OrthographicCamera only )
 	minZoom = 0
 	maxZoom = Infinity
 
@@ -101,118 +101,118 @@ export class OrbitControls extends EventDispatcher {
 	// the target DOM element for key events
 	_domElementKeyEvents: HTMLElement | null = null
 
-  offset = new Vector3()
+	offset = new Vector3()
 
-  // so camera.up is the orbit axis
-  quat: Quaternion
-  quatInverse: Quaternion
+	// so camera.up is the orbit axis
+	quat: Quaternion
+	quatInverse: Quaternion
 
-  lastPosition = new Vector3()
-  lastQuaternion = new Quaternion()
+	lastPosition = new Vector3()
+	lastQuaternion = new Quaternion()
 
-  state = STATE.NONE
+	state = STATE.NONE
 
-  // current position in spherical coordinates
-  spherical = new Spherical()
-  sphericalDelta = new Spherical()
+	// current position in spherical coordinates
+	spherical = new Spherical()
+	sphericalDelta = new Spherical()
 
-  scale = 1
-  panOffset = new Vector3()
-  zoomChanged = false
+	scale = 1
+	panOffset = new Vector3()
+	zoomChanged = false
 
-  rotateStart = new Vector2()
-  rotateEnd = new Vector2()
-  rotateDelta = new Vector2()
+	rotateStart = new Vector2()
+	rotateEnd = new Vector2()
+	rotateDelta = new Vector2()
 
-  panStart = new Vector2()
-  panEnd = new Vector2()
-  panDelta = new Vector2()
+	panStart = new Vector2()
+	panEnd = new Vector2()
+	panDelta = new Vector2()
 
-  dollyStart = new Vector2()
-  dollyEnd = new Vector2()
-  dollyDelta = new Vector2()
+	dollyStart = new Vector2()
+	dollyEnd = new Vector2()
+	dollyDelta = new Vector2()
 
-  v = new Vector3()
+	v = new Vector3()
 
 	target0: Vector3
 	position0: Vector3
 	zoom0: number
 
-  constructor (object: PerspectiveCamera | OrthographicCamera, domElement: HTMLElement) {
-    super()
+	constructor (object: PerspectiveCamera | OrthographicCamera, domElement: HTMLElement) {
+		super()
 
-    this.object = object
-	  this.domElement = domElement
+		this.object = object
+		this.domElement = domElement
 
-    this.quat = new Quaternion().setFromUnitVectors(this.object.up, new Vector3( 0, 1, 0 ) )
-    this.quatInverse = this.quat.clone().invert()
+		this.quat = new Quaternion().setFromUnitVectors(this.object.up, new Vector3( 0, 1, 0 ) )
+		this.quatInverse = this.quat.clone().invert()
 
 		this.target0 = this.target.clone()
 		this.position0 = this.object.position.clone()
 		this.zoom0 = object.zoom
 
-    this.onContextMenu = this.onContextMenu.bind(this)
-    this.onPointerDown = this.onPointerDown.bind(this)
-    this.onPointerMove = this.onPointerMove.bind(this)
-    this.onPointerUp = this.onPointerUp.bind(this)
-    this.onMouseWheel = this.onMouseWheel.bind(this)
-    this.onTouchStart = this.onTouchStart.bind(this)
-    this.onTouchEnd = this.onTouchEnd.bind(this)
-    this.onTouchMove = this.onTouchMove.bind(this)
+		this.onContextMenu = this.onContextMenu.bind(this)
+		this.onPointerDown = this.onPointerDown.bind(this)
+		this.onPointerMove = this.onPointerMove.bind(this)
+		this.onPointerUp = this.onPointerUp.bind(this)
+		this.onMouseWheel = this.onMouseWheel.bind(this)
+		this.onTouchStart = this.onTouchStart.bind(this)
+		this.onTouchEnd = this.onTouchEnd.bind(this)
+		this.onTouchMove = this.onTouchMove.bind(this)
 
-    this.addEvents()
-    this.update()
-  }
+		this.addEvents()
+		this.update()
+	}
 
-  set enabled (value) {
-    this._enabled = value
+	set enabled (value) {
+		this._enabled = value
 
-    if (this._enabled === true && this._hasEvents === false) {
-      this.addEvents()
-    } else if (this._enabled === false && this._hasEvents === true) { 
-      this.removeEvents()
-    }
-  }
+		if (this._enabled === true && this._hasEvents === false) {
+			this.addEvents()
+		} else if (this._enabled === false && this._hasEvents === true) { 
+			this.removeEvents()
+		}
+	}
 
-  get enabled (): boolean {
-    return this._enabled
-  }
+	get enabled (): boolean {
+		return this._enabled
+	}
 
-  addEvents (): void {
-    this.domElement.addEventListener( 'contextmenu', this.onContextMenu )
+	addEvents (): void {
+		this.domElement.addEventListener( 'contextmenu', this.onContextMenu )
 
-    this.domElement.addEventListener( 'pointerdown', this.onPointerDown )
-    this.domElement.addEventListener( 'wheel', this.onMouseWheel )
+		this.domElement.addEventListener( 'pointerdown', this.onPointerDown )
+		this.domElement.addEventListener( 'wheel', this.onMouseWheel )
 
-    this.domElement.addEventListener( 'touchstart', this.onTouchStart )
-    this.domElement.addEventListener( 'touchend', this.onTouchEnd )
-    this.domElement.addEventListener( 'touchmove', this.onTouchMove )
+		this.domElement.addEventListener( 'touchstart', this.onTouchStart )
+		this.domElement.addEventListener( 'touchend', this.onTouchEnd )
+		this.domElement.addEventListener( 'touchmove', this.onTouchMove )
 
-    this._hasEvents = true
-  }
+		this._hasEvents = true
+	}
 
-  removeEvents (): void {
-    this.domElement.removeEventListener( 'contextmenu', this.onContextMenu )
+	removeEvents (): void {
+		this.domElement.removeEventListener( 'contextmenu', this.onContextMenu )
 
-    this.domElement.removeEventListener( 'pointerdown', this.onPointerDown )
-    this.domElement.removeEventListener( 'wheel', this.onMouseWheel )
+		this.domElement.removeEventListener( 'pointerdown', this.onPointerDown )
+		this.domElement.removeEventListener( 'wheel', this.onMouseWheel )
 
-    this.domElement.removeEventListener( 'touchstart', this.onTouchStart )
-    this.domElement.removeEventListener( 'touchend', this.onTouchEnd )
-    this.domElement.removeEventListener( 'touchmove', this.onTouchMove )
+		this.domElement.removeEventListener( 'touchstart', this.onTouchStart )
+		this.domElement.removeEventListener( 'touchend', this.onTouchEnd )
+		this.domElement.removeEventListener( 'touchmove', this.onTouchMove )
 
-    this._hasEvents = false
-  }
+		this._hasEvents = false
+	}
 
-  getPolarAngle () {
+	getPolarAngle () {
 		return this.spherical.phi
 	}
 
-  getAzimuthalAngle () {
+	getAzimuthalAngle () {
 		return this.spherical.theta
 	}
 
-  listenToKeyEvents (domElement: HTMLElement) {
+	listenToKeyEvents (domElement: HTMLElement) {
 		domElement.addEventListener('keydown', this.onKeyDown, PASSIVE)
 		this._domElementKeyEvents = domElement
 	}
@@ -230,132 +230,132 @@ export class OrbitControls extends EventDispatcher {
 		this.state = STATE.NONE
 	}
 
-  update () {
-    const { spherical } = this
-    const { position } = this.object
+	update () {
+		const { spherical } = this
+		const { position } = this.object
 
-    this.offset.copy(position).sub(this.target)
+		this.offset.copy(position).sub(this.target)
 
-    // rotate offset to "y-axis-is-up" space
-    this.offset.applyQuaternion(this.quat)
+		// rotate offset to "y-axis-is-up" space
+		this.offset.applyQuaternion(this.quat)
 
-    // angle from z-axis around y-axis
-    spherical.setFromVector3(this.offset)
+		// angle from z-axis around y-axis
+		spherical.setFromVector3(this.offset)
 
-    if (this.autoRotate && this.state === STATE.NONE) {
+		if (this.autoRotate && this.state === STATE.NONE) {
 
-      this.rotateLeft( this.getAutoRotationAngle() )
+			this.rotateLeft( this.getAutoRotationAngle() )
 
-    }
+		}
 
-    if ( this.enableDamping ) {
+		if ( this.enableDamping ) {
 
-      spherical.theta += this.sphericalDelta.theta * this.dampingFactor
-      spherical.phi += this.sphericalDelta.phi * this.dampingFactor
+			spherical.theta += this.sphericalDelta.theta * this.dampingFactor
+			spherical.phi += this.sphericalDelta.phi * this.dampingFactor
 
-    } else {
+		} else {
 
-      spherical.theta += this.sphericalDelta.theta
-      spherical.phi += this.sphericalDelta.phi
+			spherical.theta += this.sphericalDelta.theta
+			spherical.phi += this.sphericalDelta.phi
 
-    }
+		}
 
-    // restrict theta to be between desired limits
-    let min = this.minAzimuthAngle
-    let max = this.maxAzimuthAngle
+		// restrict theta to be between desired limits
+		let min = this.minAzimuthAngle
+		let max = this.maxAzimuthAngle
 
-    if ( isFinite( min ) && isFinite( max ) ) {
+		if ( isFinite( min ) && isFinite( max ) ) {
 
-      if ( min < - Math.PI ) min += twoPI; else if ( min > Math.PI ) min -= twoPI
+			if ( min < - Math.PI ) min += twoPI; else if ( min > Math.PI ) min -= twoPI
 
-      if ( max < - Math.PI ) max += twoPI; else if ( max > Math.PI ) max -= twoPI
+			if ( max < - Math.PI ) max += twoPI; else if ( max > Math.PI ) max -= twoPI
 
-      if ( min <= max ) {
+			if ( min <= max ) {
 
-        spherical.theta = Math.max( min, Math.min( max, spherical.theta ) )
+				spherical.theta = Math.max( min, Math.min( max, spherical.theta ) )
 
-      } else {
+			} else {
 
-        spherical.theta = ( spherical.theta > ( min + max ) / 2 ) ?
-          Math.max( min, spherical.theta ) :
-          Math.min( max, spherical.theta )
+				spherical.theta = ( spherical.theta > ( min + max ) / 2 ) ?
+					Math.max( min, spherical.theta ) :
+					Math.min( max, spherical.theta )
 
-      }
+			}
 
-    }
+		}
 
-    // restrict phi to be between desired limits
-    spherical.phi = Math.max( this.minPolarAngle, Math.min( this.maxPolarAngle, spherical.phi ) )
+		// restrict phi to be between desired limits
+		spherical.phi = Math.max( this.minPolarAngle, Math.min( this.maxPolarAngle, spherical.phi ) )
 
-    spherical.makeSafe()
+		spherical.makeSafe()
 
 
-    spherical.radius *= this.scale
+		spherical.radius *= this.scale
 
-    // restrict radius to be between desired limits
-    spherical.radius = Math.max( this.minDistance, Math.min( this.maxDistance, spherical.radius ) )
+		// restrict radius to be between desired limits
+		spherical.radius = Math.max( this.minDistance, Math.min( this.maxDistance, spherical.radius ) )
 
-    // move target to panned location
+		// move target to panned location
 
-    if ( this.enableDamping === true ) {
+		if ( this.enableDamping === true ) {
 
-      this.target.addScaledVector( this.panOffset, this.dampingFactor )
+			this.target.addScaledVector( this.panOffset, this.dampingFactor )
 
-    } else {
+		} else {
 
-      this.target.add( this.panOffset )
+			this.target.add( this.panOffset )
 
-    }
+		}
 
-    this.offset.setFromSpherical( spherical )
+		this.offset.setFromSpherical( spherical )
 
-    // rotate offset back to "camera-up-vector-is-up" space
-    this.offset.applyQuaternion( this.quatInverse )
+		// rotate offset back to "camera-up-vector-is-up" space
+		this.offset.applyQuaternion( this.quatInverse )
 
-    position.copy( this.target ).add( this.offset )
+		position.copy( this.target ).add( this.offset )
 
-    this.object.lookAt( this.target )
+		this.object.lookAt( this.target )
 
-    if ( this.enableDamping === true ) {
+		if ( this.enableDamping === true ) {
 
-      this.sphericalDelta.theta *= ( 1 - this.dampingFactor )
-      this.sphericalDelta.phi *= ( 1 - this.dampingFactor )
+			this.sphericalDelta.theta *= ( 1 - this.dampingFactor )
+			this.sphericalDelta.phi *= ( 1 - this.dampingFactor )
 
-      this.panOffset.multiplyScalar( 1 - this.dampingFactor )
+			this.panOffset.multiplyScalar( 1 - this.dampingFactor )
 
-    } else {
+		} else {
 
-      this.sphericalDelta.set( 0, 0, 0 )
+			this.sphericalDelta.set( 0, 0, 0 )
 
-      this.panOffset.set( 0, 0, 0 )
+			this.panOffset.set( 0, 0, 0 )
 
-    }
+		}
 
-    this.scale = 1
+		this.scale = 1
 
-    // update condition is:
-    // min(camera displacement, camera rotation in radians)^2 > EPS
-    // using small-angle approximation cos(x/2) = 1 - x^2 / 8
+		// update condition is:
+		// min(camera displacement, camera rotation in radians)^2 > EPS
+		// using small-angle approximation cos(x/2) = 1 - x^2 / 8
 
-    if ( this.zoomChanged ||
-      this.lastPosition.distanceToSquared( this.object.position ) > EPS ||
-      8 * ( 1 - this.lastQuaternion.dot( this.object.quaternion ) ) > EPS ) {
+		if ( this.zoomChanged ||
+			this.lastPosition.distanceToSquared( this.object.position ) > EPS ||
+			8 * ( 1 - this.lastQuaternion.dot( this.object.quaternion ) ) > EPS ) {
 
-      this.dispatchEvent( changeEvent )
+			this.dispatchEvent( changeEvent )
 
-      this.lastPosition.copy( this.object.position )
-      this.lastQuaternion.copy( this.object.quaternion )
-      this.zoomChanged = false
+			this.lastPosition.copy( this.object.position )
+			this.lastQuaternion.copy( this.object.quaternion )
+			this.zoomChanged = false
 
-      return true
+			return true
 
-    }
+		}
 
-    return false
+		return false
 
 	}
 
-  dispose () {
+	dispose () {
 		this.domElement.removeEventListener( 'contextmenu', this.onContextMenu )
 
 		this.domElement.removeEventListener( 'pointerdown', this.onPointerDown )
@@ -377,75 +377,75 @@ export class OrbitControls extends EventDispatcher {
 
 	}
 
-  getAutoRotationAngle() {
+	getAutoRotationAngle() {
 		return 2 * Math.PI / 60 / 60 * this.autoRotateSpeed
 	}
 
-  getZoomScale() {
+	getZoomScale() {
 		return Math.pow( 0.95, this.zoomSpeed )
 	}
 
-  rotateLeft( angle: number ) {
+	rotateLeft( angle: number ) {
 		this.sphericalDelta.theta -= angle
 	}
 
-  rotateUp( angle: number ) {
+	rotateUp( angle: number ) {
 		this.sphericalDelta.phi -= angle
 	}
 
-  panLeft( distance: number, objectMatrix: Matrix4 ) {
-    this.v.setFromMatrixColumn( objectMatrix, 0 ) // get X column of objectMatrix
-    this.v.multiplyScalar( - distance )
+	panLeft( distance: number, objectMatrix: Matrix4 ) {
+		this.v.setFromMatrixColumn( objectMatrix, 0 ) // get X column of objectMatrix
+		this.v.multiplyScalar( - distance )
 
-    this.panOffset.add( this.v )
+		this.panOffset.add( this.v )
 	}
 
-  panUp( distance: number, objectMatrix: Matrix4 ) {
+	panUp( distance: number, objectMatrix: Matrix4 ) {
 
-    if ( this.screenSpacePanning === true ) {
+		if ( this.screenSpacePanning === true ) {
 
-      this.v.setFromMatrixColumn( objectMatrix, 1 )
+			this.v.setFromMatrixColumn( objectMatrix, 1 )
 
-    } else {
+		} else {
 
-      this.v.setFromMatrixColumn( objectMatrix, 0 )
-      this.v.crossVectors( this.object.up, this.v )
+			this.v.setFromMatrixColumn( objectMatrix, 0 )
+			this.v.crossVectors( this.object.up, this.v )
 
-    }
+		}
 
-    this.v.multiplyScalar( distance )
+		this.v.multiplyScalar( distance )
 
-    this.panOffset.add( this.v )
+		this.panOffset.add( this.v )
 
-  }
+	}
 
-  pan( deltaX: number, deltaY: number ) {
-    const element = this.domElement
+	pan( deltaX: number, deltaY: number ) {
+		const element = this.domElement
 
-    if ( this.object instanceof PerspectiveCamera ) {
-      // perspective
-      const { position } = this.object
-      this.offset.copy( position ).sub( this.target )
-      let targetDistance = this.offset.length()
+		if ( this.object instanceof PerspectiveCamera ) {
+			// perspective
+			const { position } = this.object
+			this.offset.copy( position ).sub( this.target )
+			let targetDistance = this.offset.length()
 
-      // half of the fov is center to top of screen
-      targetDistance *= Math.tan( ( this.object.fov / 2 ) * Math.PI / 180.0 )
+			// half of the fov is center to top of screen
+			targetDistance *= Math.tan( ( this.object.fov / 2 ) * Math.PI / 180.0 )
 
-      // we use only clientHeight here so aspect ratio does not distort speed
-      this.panLeft( 2 * deltaX * targetDistance / element.clientHeight, this.object.matrix )
-      this.panUp( 2 * deltaY * targetDistance / element.clientHeight, this.object.matrix )
-    } else if ( this.object instanceof OrthographicCamera ) {
-      // orthographic
-      this.panLeft( deltaX * ( this.object.right - this.object.left ) / this.object.zoom / element.clientWidth, this.object.matrix )
-      this.panUp( deltaY * ( this.object.top - this.object.bottom ) / this.object.zoom / element.clientHeight, this.object.matrix )
-    } else {
-      // camera neither orthographic nor perspective
-      console.warn( 'WARNING: OrbitControls.js encountered an unknown camera type - pan disabled.' )
-      this.enablePan = false
-    }
-  }
+			// we use only clientHeight here so aspect ratio does not distort speed
+			this.panLeft( 2 * deltaX * targetDistance / element.clientHeight, this.object.matrix )
+			this.panUp( 2 * deltaY * targetDistance / element.clientHeight, this.object.matrix )
+		} else if ( this.object instanceof OrthographicCamera ) {
+			// orthographic
+			this.panLeft( deltaX * ( this.object.right - this.object.left ) / this.object.zoom / element.clientWidth, this.object.matrix )
+			this.panUp( deltaY * ( this.object.top - this.object.bottom ) / this.object.zoom / element.clientHeight, this.object.matrix )
+		} else {
+			// camera neither orthographic nor perspective
+			console.warn( 'WARNING: OrbitControls.js encountered an unknown camera type - pan disabled.' )
+			this.enablePan = false
+		}
+	}
 
-  dollyOut( dollyScale: number ) {
+	dollyOut( dollyScale: number ) {
 		if ( this.object instanceof PerspectiveCamera ) {
 			this.scale /= dollyScale
 		} else if ( this.object instanceof OrthographicCamera ) {
@@ -458,7 +458,7 @@ export class OrbitControls extends EventDispatcher {
 		}
 	}
 
-  dollyIn( dollyScale: number ) {
+	dollyIn( dollyScale: number ) {
 		if ( this.object instanceof PerspectiveCamera ) {
 			this.scale *= dollyScale
 		} else if ( this.object instanceof OrthographicCamera ) {
@@ -471,19 +471,19 @@ export class OrbitControls extends EventDispatcher {
 		}
 	}
 
-  handleMouseDownRotate( event: MouseEvent ) {
+	handleMouseDownRotate( event: MouseEvent ) {
 		this.rotateStart.set( event.clientX, event.clientY )
 	}
 
-  handleMouseDownDolly( event: MouseEvent ) {
+	handleMouseDownDolly( event: MouseEvent ) {
 		this.dollyStart.set( event.clientX, event.clientY )
 	}
 
-  handleMouseDownPan( event: MouseEvent ) {
+	handleMouseDownPan( event: MouseEvent ) {
 		this.panStart.set( event.clientX, event.clientY )
 	}
 
-  handleMouseMoveRotate( event: MouseEvent ) {
+	handleMouseMoveRotate( event: MouseEvent ) {
 		this.rotateEnd.set( event.clientX, event.clientY )
 		this.rotateDelta.subVectors( this.rotateEnd, this.rotateStart ).multiplyScalar( this.rotateSpeed )
 
@@ -495,7 +495,7 @@ export class OrbitControls extends EventDispatcher {
 		this.update()
 	}
 
-  handleMouseMoveDolly( event: MouseEvent ) {
+	handleMouseMoveDolly( event: MouseEvent ) {
 		this.dollyEnd.set( event.clientX, event.clientY )
 		this.dollyDelta.subVectors( this.dollyEnd, this.dollyStart )
 
@@ -509,7 +509,7 @@ export class OrbitControls extends EventDispatcher {
 		this.update()
 	}
 
-  handleMouseMovePan( event: MouseEvent ) {
+	handleMouseMovePan( event: MouseEvent ) {
 		this.panEnd.set( event.clientX, event.clientY )
 		this.panDelta.subVectors( this.panEnd, this.panStart ).multiplyScalar( this.panSpeed )
 		this.pan( this.panDelta.x, this.panDelta.y )
@@ -517,7 +517,7 @@ export class OrbitControls extends EventDispatcher {
 		this.update()
 	}
 
-  handleMouseWheel( event: MouseWheelEvent ) {
+	handleMouseWheel( event: WheelEvent ) {
 		if ( event.deltaY < 0 ) {
 			this.dollyIn( this.getZoomScale() )
 		} else if ( event.deltaY > 0 ) {
@@ -527,7 +527,7 @@ export class OrbitControls extends EventDispatcher {
 		this.update()
 	}
 
-  handleKeyDown( event: KeyboardEvent ) {
+	handleKeyDown( event: KeyboardEvent ) {
 		let needsUpdate = false
 
 		switch ( event.keyCode ) {
@@ -559,7 +559,7 @@ export class OrbitControls extends EventDispatcher {
 		}
 	}
 
-  handleTouchStartRotate( event: TouchEvent ) {
+	handleTouchStartRotate( event: TouchEvent ) {
 		if ( event.touches.length == 1 ) {
 			this.rotateStart.set( event.touches[ 0 ].pageX, event.touches[ 0 ].pageY )
 		} else {
@@ -570,7 +570,7 @@ export class OrbitControls extends EventDispatcher {
 		}
 	}
 
-  handleTouchStartPan( event: TouchEvent ) {
+	handleTouchStartPan( event: TouchEvent ) {
 		if ( event.touches.length == 1 ) {
 			this.panStart.set( event.touches[ 0 ].pageX, event.touches[ 0 ].pageY )
 		} else {
@@ -581,7 +581,7 @@ export class OrbitControls extends EventDispatcher {
 		}
 	}
 
-  handleTouchStartDolly( event: TouchEvent ) {
+	handleTouchStartDolly( event: TouchEvent ) {
 		const dx = event.touches[ 0 ].pageX - event.touches[ 1 ].pageX
 		const dy = event.touches[ 0 ].pageY - event.touches[ 1 ].pageY
 		const distance = Math.sqrt( dx * dx + dy * dy )
@@ -589,17 +589,17 @@ export class OrbitControls extends EventDispatcher {
 		this.dollyStart.set( 0, distance )
 	}
 
-  handleTouchStartDollyPan( event: TouchEvent ) {
+	handleTouchStartDollyPan( event: TouchEvent ) {
 		if ( this.enableZoom ) this.handleTouchStartDolly( event )
 		if ( this.enablePan ) this.handleTouchStartPan( event )
 	}
 
-  handleTouchStartDollyRotate( event: TouchEvent ) {
+	handleTouchStartDollyRotate( event: TouchEvent ) {
 		if ( this.enableZoom ) this.handleTouchStartDolly( event )
 		if ( this.enableRotate ) this.handleTouchStartRotate( event )
 	}
 
-  handleTouchMoveRotate( event: TouchEvent ) {
+	handleTouchMoveRotate( event: TouchEvent ) {
 		if ( event.touches.length == 1 ) {
 			this.rotateEnd.set( event.touches[ 0 ].pageX, event.touches[ 0 ].pageY )
 		} else {
@@ -618,7 +618,7 @@ export class OrbitControls extends EventDispatcher {
 		this.rotateStart.copy( this.rotateEnd )
 	}
 
-  handleTouchMovePan( event: TouchEvent ) {
+	handleTouchMovePan( event: TouchEvent ) {
 		if ( event.touches.length == 1 ) {
 			this.panEnd.set( event.touches[ 0 ].pageX, event.touches[ 0 ].pageY )
 		} else {
@@ -633,7 +633,7 @@ export class OrbitControls extends EventDispatcher {
 		this.panStart.copy( this.panEnd )
 	}
 
-  handleTouchMoveDolly( event: TouchEvent ) {
+	handleTouchMoveDolly( event: TouchEvent ) {
 		const dx = event.touches[ 0 ].pageX - event.touches[ 1 ].pageX
 		const dy = event.touches[ 0 ].pageY - event.touches[ 1 ].pageY
 		const distance = Math.sqrt( dx * dx + dy * dy )
@@ -644,17 +644,17 @@ export class OrbitControls extends EventDispatcher {
 		this.dollyStart.copy( this.dollyEnd )
 	}
 
-  handleTouchMoveDollyPan( event: TouchEvent ) {
+	handleTouchMoveDollyPan( event: TouchEvent ) {
 		if ( this.enableZoom ) this.handleTouchMoveDolly( event )
 		if ( this.enablePan ) this.handleTouchMovePan( event )
 	}
 
-  handleTouchMoveDollyRotate( event: TouchEvent ) {
+	handleTouchMoveDollyRotate( event: TouchEvent ) {
 		if ( this.enableZoom ) this.handleTouchMoveDolly( event )
 		if ( this.enableRotate ) this.handleTouchMoveRotate( event )
 	}
 
-  onPointerDown( event: PointerEvent ) {
+	onPointerDown( event: PointerEvent ) {
 		switch ( event.pointerType ) {
 			case 'mouse':
 			case 'pen':
@@ -665,7 +665,7 @@ export class OrbitControls extends EventDispatcher {
 		}
 	}
 
-  onPointerMove( event: PointerEvent ) {
+	onPointerMove( event: PointerEvent ) {
 		switch ( event.pointerType ) {
 			case 'mouse':
 			case 'pen':
@@ -676,7 +676,7 @@ export class OrbitControls extends EventDispatcher {
 		}
 	}
 
-  onPointerUp( event: PointerEvent ) {
+	onPointerUp( event: PointerEvent ) {
 		switch ( event.pointerType ) {
 			case 'mouse':
 			case 'pen':
@@ -687,7 +687,7 @@ export class OrbitControls extends EventDispatcher {
 		}
 	}
 
-  onMouseDown( event: PointerEvent ) {
+	onMouseDown( event: PointerEvent ) {
 		// Prevent the browser from scrolling.
 		event.preventDefault()
 
@@ -768,7 +768,7 @@ export class OrbitControls extends EventDispatcher {
 
 	}
 
-  onMouseMove( event: PointerEvent ) {
+	onMouseMove( event: PointerEvent ) {
 		event.preventDefault()
 
 		switch ( this.state ) {
@@ -794,14 +794,14 @@ export class OrbitControls extends EventDispatcher {
 
 	}
 
-  onMouseUp( event: PointerEvent ) {
+	onMouseUp() {
 		this.domElement.ownerDocument.removeEventListener( 'pointermove', this.onPointerMove )
 		this.domElement.ownerDocument.removeEventListener( 'pointerup', this.onPointerUp )
 		this.dispatchEvent( endEvent )
 		this.state = STATE.NONE
 	}
 
-  onMouseWheel( event: MouseWheelEvent ) {
+	onMouseWheel( event: WheelEvent ) {
 		if ( this.enableZoom === false || ( this.state !== STATE.NONE && this.state !== STATE.ROTATE ) ) return
 
 		event.preventDefault()
@@ -812,13 +812,13 @@ export class OrbitControls extends EventDispatcher {
 		this.dispatchEvent( endEvent )
 	}
 
-  onKeyDown( event: KeyboardEvent ) {
+	onKeyDown( event: KeyboardEvent ) {
 		if ( this.enablePan === false ) return
 
 		this.handleKeyDown( event )
 	}
 
-  onTouchStart( event: TouchEvent ) {
+	onTouchStart( event: TouchEvent ) {
 		event.preventDefault() // prevent scrolling
 
 		switch ( event.touches.length ) {
@@ -879,7 +879,7 @@ export class OrbitControls extends EventDispatcher {
 
 	}
 
-  onTouchMove( event: TouchEvent ) {
+	onTouchMove( event: TouchEvent ) {
 		event.preventDefault() // prevent scrolling
 		event.stopPropagation()
 
@@ -917,13 +917,12 @@ export class OrbitControls extends EventDispatcher {
 		}
 	}
 
-  onTouchEnd( event: TouchEvent ) {
+	onTouchEnd() {
 		this.dispatchEvent( endEvent )
 		this.state = STATE.NONE
-
 	}
 
-  onContextMenu( event: MouseEvent ) {
+	onContextMenu( event: MouseEvent ) {
 		event.preventDefault()
 	}
 }

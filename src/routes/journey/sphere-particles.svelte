@@ -62,7 +62,7 @@ onMount(async () => {
   pane.addInput(parameters, 'sphereSize', { min: 1, max: 100, step: 1 })
   pane.on('change', () => generate(gl.scene))
 
-  gl.setAnimationLoop((delta) => {
+  gl.setAnimationLoop(() => {
     controls.update()
   })
 })

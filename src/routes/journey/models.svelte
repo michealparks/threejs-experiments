@@ -38,9 +38,10 @@ onMount(async () => {
   })
   gl.scene.add(burger.scene)
 
-  gl.setAnimationLoop((delta) => {
+  gl.setAnimationLoop(() => {
     controls.update()
   })
+
   loadEnd()
 })
 

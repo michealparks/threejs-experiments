@@ -99,7 +99,7 @@ onMount(async () => {
 
   generateGalaxy()
 
-  gl.setAnimationLoop((delta) => {
+  gl.setAnimationLoop(() => {
     controls.update()
   })
 })

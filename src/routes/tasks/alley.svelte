@@ -1,5 +1,6 @@
 <script lang='ts'>
 
+import type * as THREE from 'three'
 import { onMount } from 'svelte'
 import { GL } from '$lib/gl'
 import { assets } from '$lib/assets'

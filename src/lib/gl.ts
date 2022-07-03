@@ -17,7 +17,7 @@ import {
   COLOR_AMBIENT_LIGHT,
 } from './constants'
 
-type Callback = { (...arg0: any[]): void }
+type Callback = { (...arg0: unknown[]): void }
 
 const intensity = 1.0
 

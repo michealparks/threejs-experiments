@@ -54,7 +54,7 @@ onMount(async () => {
   let idl = 0.0001
   let dl = 0.0001
 
-  const frame = (dt: number) => {
+  gl.setAnimationLoop(() => {
     l -= dl
     if (l < 0.0 || l > 1.0) {
       idl = -idl
@@ -71,9 +71,7 @@ onMount(async () => {
     
     fire.update()
     orbitControls.update()
-  }
-
-  gl.setAnimationLoop(frame)
+  })
 })
 
 </script>
