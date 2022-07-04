@@ -1,7 +1,6 @@
 <script lang='ts'>
 
 import * as THREE from 'three'
-import { onMount } from 'svelte'
 import { GL } from '$lib/gl'
 import vertexShader from './shaders/patterns/vert.glsl'
 import frag01 from './shaders/patterns/01.frag.glsl'

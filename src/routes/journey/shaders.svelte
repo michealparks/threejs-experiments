@@ -1,7 +1,6 @@
 <script lang='ts'>
 
 import * as THREE from 'three'
-import { onMount } from 'svelte'
 import { GL } from '$lib/gl'
 import { OrbitControls } from '$lib/orbit-controls'
 import vertexShader from './shaders/shaders.vert.glsl'

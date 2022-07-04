@@ -26,14 +26,14 @@ const init = async () => {
     assets.load('mug.glb'),
   ])
 
-  const numMugs = 300
+  const totalMugs = 300
   const mug = assets.get<{ scene: THREE.Scene }>('mug.glb')
   const mesh = mug.scene.getObjectByName('Mug') as THREE.Mesh
-  const instancedMesh = new THREE.InstancedMesh(mesh.geometry, mesh.material, numMugs)
+  const instancedMesh = new THREE.InstancedMesh(mesh.geometry, mesh.material, totalMugs)
   const matrix = new THREE.Matrix4()
 
   let index = 0
-  while (index < numMugs) {
+  while (index < totalMugs) {
     matrix.setPosition((Math.random() * 8) - 4, (Math.random() * 8) - 4, (Math.random() * 8) - 4)
     instancedMesh.setMatrixAt(index, matrix)
     index += 1

@@ -1,7 +1,7 @@
 <script lang='ts'>
 
 import * as THREE from 'three'
-import { onMount, onDestroy } from 'svelte'
+import { onDestroy } from 'svelte'
 import { GL } from '$lib/gl'
 import { COLORS } from '$lib/constants'
 import { createPointLight } from '$lib/util-three'

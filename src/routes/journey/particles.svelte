@@ -15,7 +15,7 @@ controls.autoRotate = true
 controls.minDistance = Number.NEGATIVE_INFINITY
 controls.enableZoom = false
 
-const cube = createCube(undefined, 0xffffff)
+const cube = createCube(undefined, 0xFF_FF_FF)
 gl.scene.add(cube)
 
 const light = createDirectionalLight()
