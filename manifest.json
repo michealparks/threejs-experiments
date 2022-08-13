@@ -28,7 +28,7 @@
     "src": "node_modules/@fontsource/fira-mono/files/fira-mono-all-400-normal.woff"
   },
   ".svelte-kit/runtime/client/start.js": {
-    "file": "_app/immutable/start-358eaa9d.js",
+    "file": "_app/immutable/start-6b7bff4d.js",
     "src": ".svelte-kit/runtime/client/start.js",
     "isEntry": true,
     "imports": [
@@ -62,7 +62,7 @@
     ]
   },
   "src/routes/__layout.svelte": {
-    "file": "_app/immutable/pages/__layout.svelte-cad6ad75.js",
+    "file": "_app/immutable/pages/__layout.svelte-e1a7f585.js",
     "src": "src/routes/__layout.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
@@ -118,36 +118,36 @@
     ]
   },
   "src/routes/alley.svelte": {
-    "file": "_app/immutable/pages/alley.svelte-521409b2.js",
+    "file": "_app/immutable/pages/alley.svelte-abe314b3.js",
     "src": "src/routes/alley.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-32ca3be3.js",
       "_camera-86d9f305.js",
-      "_lights-53de5191.js"
+      "_lights-0029dd0a.js"
     ]
   },
   "src/routes/baked.svelte": {
-    "file": "_app/immutable/pages/baked.svelte-664f8b61.js",
+    "file": "_app/immutable/pages/baked.svelte-2ac8c4ea.js",
     "src": "src/routes/baked.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-32ca3be3.js",
       "_camera-86d9f305.js",
-      "_lights-53de5191.js"
+      "_lights-0029dd0a.js"
     ]
   },
   "src/routes/campfire.svelte": {
-    "file": "_app/immutable/pages/campfire.svelte-66f98ad2.js",
+    "file": "_app/immutable/pages/campfire.svelte-20b1ac88.js",
     "src": "src/routes/campfire.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-32ca3be3.js",
       "_camera-86d9f305.js",
-      "_lights-53de5191.js",
+      "_lights-0029dd0a.js",
       "_util-343fee83.js",
       "_util-three-232ac56e.js"
     ]
@@ -164,7 +164,7 @@
     ]
   },
   "src/routes/index.svelte": {
-    "file": "_app/immutable/pages/index.svelte-8b19fa5d.js",
+    "file": "_app/immutable/pages/index.svelte-1a782a26.js",
     "src": "src/routes/index.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
@@ -172,76 +172,76 @@
       "_index-32ca3be3.js",
       "src/routes/portal.svelte",
       "_camera-86d9f305.js",
-      "_lights-53de5191.js"
+      "_lights-0029dd0a.js"
     ]
   },
   "src/routes/portal.svelte": {
-    "file": "_app/immutable/pages/portal.svelte-b904ed9a.js",
+    "file": "_app/immutable/pages/portal.svelte-904f6066.js",
     "src": "src/routes/portal.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-32ca3be3.js",
       "_camera-86d9f305.js",
-      "_lights-53de5191.js"
+      "_lights-0029dd0a.js"
     ]
   },
   "src/routes/instanced.svelte": {
-    "file": "_app/immutable/pages/instanced.svelte-e68d0604.js",
+    "file": "_app/immutable/pages/instanced.svelte-17768cd2.js",
     "src": "src/routes/instanced.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-32ca3be3.js",
       "_camera-86d9f305.js",
-      "_lights-53de5191.js"
+      "_lights-0029dd0a.js"
     ]
   },
   "src/routes/matrix.svelte": {
-    "file": "_app/immutable/pages/matrix.svelte-d5d536d4.js",
+    "file": "_app/immutable/pages/matrix.svelte-3c50401d.js",
     "src": "src/routes/matrix.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-32ca3be3.js",
       "_camera-86d9f305.js",
-      "_lights-53de5191.js",
+      "_lights-0029dd0a.js",
       "_constants-b8ef71ab.js",
       "_util-three-232ac56e.js"
     ]
   },
   "src/routes/models.svelte": {
-    "file": "_app/immutable/pages/models.svelte-91bb6a50.js",
+    "file": "_app/immutable/pages/models.svelte-5d8b0004.js",
     "src": "src/routes/models.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-32ca3be3.js",
       "_camera-86d9f305.js",
-      "_lights-53de5191.js"
+      "_lights-0029dd0a.js"
     ]
   },
   "src/routes/particles.svelte": {
-    "file": "_app/immutable/pages/particles.svelte-b60df5d0.js",
+    "file": "_app/immutable/pages/particles.svelte-969138dd.js",
     "src": "src/routes/particles.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-32ca3be3.js",
       "_camera-86d9f305.js",
-      "_lights-53de5191.js",
+      "_lights-0029dd0a.js",
       "_util-three-232ac56e.js"
     ]
   },
   "src/routes/planets.svelte": {
-    "file": "_app/immutable/pages/planets.svelte-8bfa838d.js",
+    "file": "_app/immutable/pages/planets.svelte-caa2e064.js",
     "src": "src/routes/planets.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-32ca3be3.js",
       "_camera-86d9f305.js",
-      "_lights-53de5191.js",
+      "_lights-0029dd0a.js",
       "_constants-b8ef71ab.js"
     ]
   },
@@ -257,26 +257,26 @@
     ]
   },
   "src/routes/raycaster.svelte": {
-    "file": "_app/immutable/pages/raycaster.svelte-f6a74829.js",
+    "file": "_app/immutable/pages/raycaster.svelte-770acb06.js",
     "src": "src/routes/raycaster.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-32ca3be3.js",
       "_camera-86d9f305.js",
-      "_lights-53de5191.js",
+      "_lights-0029dd0a.js",
       "_util-three-232ac56e.js"
     ]
   },
   "src/routes/room.svelte": {
-    "file": "_app/immutable/pages/room.svelte-829e92f7.js",
+    "file": "_app/immutable/pages/room.svelte-259be472.js",
     "src": "src/routes/room.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-32ca3be3.js",
       "_camera-86d9f305.js",
-      "_lights-53de5191.js"
+      "_lights-0029dd0a.js"
     ]
   },
   "src/routes/sea.svelte": {
@@ -301,7 +301,7 @@
     ]
   },
   "src/routes/shader.svelte": {
-    "file": "_app/immutable/pages/shader.svelte-cc424d68.js",
+    "file": "_app/immutable/pages/shader.svelte-9df8ad09.js",
     "src": "src/routes/shader.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
@@ -309,7 +309,7 @@
       "_index-32ca3be3.js",
       "_scene-cbea7370.js",
       "_camera-86d9f305.js",
-      "_lights-53de5191.js"
+      "_lights-0029dd0a.js"
     ]
   },
   "src/routes/shaders.svelte": {
@@ -344,7 +344,7 @@
     ]
   },
   "src/routes/terrain.svelte": {
-    "file": "_app/immutable/pages/terrain.svelte-36830b45.js",
+    "file": "_app/immutable/pages/terrain.svelte-bb0cc9c1.js",
     "src": "src/routes/terrain.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
@@ -352,7 +352,7 @@
       "_index-32ca3be3.js",
       "_scene-cbea7370.js",
       "_camera-86d9f305.js",
-      "_lights-53de5191.js"
+      "_lights-0029dd0a.js"
     ]
   },
   "_index-32ca3be3.js": {
@@ -373,8 +373,8 @@
   "_camera-86d9f305.js": {
     "file": "_app/immutable/chunks/camera-86d9f305.js"
   },
-  "_lights-53de5191.js": {
-    "file": "_app/immutable/chunks/lights-53de5191.js",
+  "_lights-0029dd0a.js": {
+    "file": "_app/immutable/chunks/lights-0029dd0a.js",
     "imports": [
       "_camera-86d9f305.js"
     ]
