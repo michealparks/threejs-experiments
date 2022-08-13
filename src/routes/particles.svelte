@@ -2,7 +2,7 @@
 
 import { assets, camera, lights, scene, update, run } from 'three-kit'
 import * as THREE from 'three'
-import { createCube, createDirectionalLight } from '$lib/util-three';
+import { createCube } from '$lib/util-three';
 
 camera.position.set(2,2,2)
 
@@ -12,7 +12,7 @@ scene.add(ambientLight)
 const cube = createCube(undefined, 0xFF_FF_FF)
 scene.add(cube)
 
-const light = createDirectionalLight()
+const light = lights.createDirectional()
 light.position.set(1, 1, -1)
 light.lookAt(new THREE.Vector3())
 light.intensity = 5

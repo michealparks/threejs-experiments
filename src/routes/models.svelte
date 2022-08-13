@@ -1,12 +1,12 @@
 <script lang='ts'>
 
-import { scene, assets, run } from 'three-kit'
+import { scene, assets, lights, run } from 'three-kit'
 import * as THREE from 'three'
-import { createDirectionalLight, createSpotLight } from '$lib/util-three'
+import { createSpotLight } from '$lib/util-three'
 
 const origin = new THREE.Vector3()
 
-const dirlight = createDirectionalLight()
+const dirlight = lights.createDirectional()
 dirlight.position.set(3, 3, 3)
 dirlight.lookAt(origin)
 dirlight.castShadow = true
