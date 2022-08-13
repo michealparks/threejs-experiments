@@ -4,8 +4,8 @@
   "type": "module",
   "scripts": {
     "start": "vite dev --host",
-    "build": "svelte-kit build --base='/threejs-experiments'",
-    "preview": "svelte-kit preview --host",
+    "build": "vite build",
+    "preview": "vite preview --host",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
     "lint": "eslint --ignore-path .gitignore ."
@@ -22,6 +22,7 @@
     "postprocessing": "^6.28.5",
     "svelte": "^3.49.0",
     "svelte-preprocess": "^4.10.7",
+    "terser": "^5.14.2",
     "three": "^0.143.0",
     "three-kit": "github:michealparks/three-kit",
     "vite": "^3.0.7",

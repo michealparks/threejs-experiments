@@ -9,7 +9,16 @@ const config = {
 
 	kit: {
 		adapter: adapter(),
+		prerender: {
+			default: true
+		},
 	},
+}
+
+if (process.env.NODE_ENV === 'production') {
+	config.kit.paths = {
+		base: '/threejs-experiments',
+	}
 }
 
 export default config
