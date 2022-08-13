@@ -1,10 +1,11 @@
 <script lang='ts'>
 
+import { camera, scene, update, run } from 'three-kit'
 import * as THREE from 'three'
-import { onDestroy } from 'svelte'
-import { GL } from '$lib/gl'
 import { COLORS } from '$lib/constants'
 import { createPointLight } from '$lib/util-three'
+
+let id: number
 
 const SIZES = { sun: 8 }
 const CAMERA_DISTANCE = 90
@@ -64,16 +65,13 @@ const planets = [
   }
 ]
 
-let id: number
-
-const gl = GL()
-gl.camera.position.set(0, 0, CAMERA_DISTANCE)
-gl.camera.lookAt(new THREE.Vector3())
+camera.position.set(0, 0, CAMERA_DISTANCE)
+camera.lookAt(new THREE.Vector3())
 
 const light = createPointLight()
 light.intensity = 50
 light.shadow.radius = 16
-gl.scene.add(light)
+scene.add(light)
 
 const objects: THREE.Object3D[] = []
 const radius = 1
@@ -81,7 +79,7 @@ const segments = 40
 const geo = new THREE.SphereBufferGeometry(radius, segments, segments)
 
 const solarOrbit = new THREE.Object3D()
-gl.scene.add(solarOrbit)
+scene.add(solarOrbit)
 objects.push(solarOrbit)
 
 {
@@ -95,7 +93,7 @@ objects.push(solarOrbit)
 for (const { name, scale, color, emissive, distance, moons } of planets) {
   const orbit = new THREE.Object3D()
   orbit.rotation.y = Math.random() * Math.PI * 2
-  gl.scene.add(orbit)
+  scene.add(orbit)
   objects.push(orbit)
 
   const mat = new THREE.MeshPhongMaterial({ color, emissive })
@@ -129,34 +127,30 @@ for (const { name, scale, color, emissive, distance, moons } of planets) {
   }
 }  
 
-const frame = (dt: number) => {
-  let index = 0
-  let l = objects.length
-
-  for (const mesh of objects) {
-    mesh.rotation.y += dt * (1.1 - (index / l))
-    index++
-  }
-}
-
 let view = 'side'
 
 id = window.setInterval(() => {
   if (view === 'side') {
-    gl.camera.position.set(0, CAMERA_DISTANCE, 0)
-    gl.camera.lookAt(0, 0, 0)
+    camera.position.set(0, CAMERA_DISTANCE, 0)
+    camera.lookAt(0, 0, 0)
     view = 'top'
   } else {
-    gl.camera.position.set(0, 0, CAMERA_DISTANCE)
-    gl.camera.lookAt(0, 0, 0)
+    camera.position.set(0, 0, CAMERA_DISTANCE)
+    camera.lookAt(0, 0, 0)
     view = 'side'
   }
 }, 5000)
 
-gl.setAnimationLoop(frame)
+update((time: number) => {
+  let index = 0
+  let l = objects.length
 
-onDestroy(() => {
-  clearInterval(id)
+  for (const mesh of objects) {
+    mesh.rotation.y = (time / 1000) * (1.1 - (index / l))
+    index++
+  }
 })
+
+run()
 
 </script>

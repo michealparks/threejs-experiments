@@ -1,30 +1,24 @@
 <script lang='ts'>
 
+import { scene, assets, run } from 'three-kit'
 import * as THREE from 'three'
-import { GL } from '$lib/gl'
-import { assets } from '$lib/assets'
-import { OrbitControls } from '$lib/orbit-controls'
 import { createDirectionalLight, createSpotLight } from '$lib/util-three'
-import { loading } from '$lib/loading';
 
 const origin = new THREE.Vector3()
-const gl = GL()
-const loadEnd = loading(gl.scene)
-const controls = new OrbitControls(gl.camera, gl.canvas)
 
 const dirlight = createDirectionalLight()
 dirlight.position.set(3, 3, 3)
 dirlight.lookAt(origin)
 dirlight.castShadow = true
 dirlight.intensity = 2
-gl.scene.add(dirlight)
+scene.add(dirlight)
 
 const spotlight = createSpotLight()
 spotlight.position.set(-3, 3, -3)
 spotlight.lookAt(origin)
 spotlight.castShadow = true
 spotlight.intensity = 2
-gl.scene.add(spotlight)
+scene.add(spotlight)
 
 const init = async () => {
   await assets.load('burger.glb')
@@ -36,13 +30,9 @@ const init = async () => {
     node.receiveShadow = true
   })
 
-  gl.scene.add(burger.scene)
+  scene.add(burger.scene)
 
-  gl.setAnimationLoop(() => {
-    controls.update()
-  })
-
-  loadEnd()
+  run()
 }
 
 init()

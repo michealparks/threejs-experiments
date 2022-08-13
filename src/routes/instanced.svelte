@@ -1,10 +1,8 @@
 <script lang='ts'>
 
+import { renderer, camera, lights, scene, assets, run } from 'three-kit'
 import * as THREE from 'three'
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader'
-import { GL } from '$lib/gl'
-import { assets } from '$lib/assets'
-import { OrbitControls } from '$lib/orbit-controls'
 
 const HDR = {
   overpass: 'https://threejs.org/examples/textures/equirectangular/pedestrian_overpass_1k.hdr',
@@ -13,14 +11,12 @@ const HDR = {
   sunset: 'https://threejs.org/examples/textures/equirectangular/venice_sunset_1k.hdr'
 }
 
-const gl = GL()
-gl.camera.position.set(1, 0.8, 1)
-gl.ambientLight.intensity = 0.5
-
-const orbitControls = new OrbitControls(gl.camera, document.body)
-orbitControls.autoRotate = true
-
 const init = async () => {
+  const ambientLight = lights.createAmbient()
+  scene.add(ambientLight)
+
+  camera.position.set(1, 0.8, 1)
+
   const [texture] = await Promise.all([
     new RGBELoader().loadAsync(HDR.sunset),
     assets.load('mug.glb'),
@@ -39,22 +35,19 @@ const init = async () => {
     index += 1
   }
 
-  gl.scene.add(instancedMesh)
+  scene.add(instancedMesh)
 
-
-  const pmremGenerator = new THREE.PMREMGenerator(gl.renderer)
+  const pmremGenerator = new THREE.PMREMGenerator(renderer)
   pmremGenerator.compileEquirectangularShader()
   const environmentMap = pmremGenerator.fromEquirectangular(texture).texture
 
-  gl.scene.background = environmentMap
-  gl.scene.environment = environmentMap
+  scene.background = environmentMap
+  scene.environment = environmentMap
 
   texture.dispose()
   pmremGenerator.dispose()
 
-  gl.setAnimationLoop(() => {
-    orbitControls.update()
-  })
+  run()
 }
 
 init()

@@ -1,9 +1,11 @@
 <script lang='ts'>
 
+import * as debug from 'three-kit/debug'
+import { scene, camera, run } from 'three-kit'
 import * as THREE from 'three'
-import { GL } from '$lib/gl'
-import { OrbitControls } from '$lib/orbit-controls'
-import Pane from '$lib/components/Pane.svelte'
+
+camera.position.set(0, 4, 4)
+camera.lookAt(0, 0, 0)
 
 const parameters = {
   count: 10_000,
@@ -17,18 +19,6 @@ const parameters = {
   outsideColor: '#1b3984',
 }
 
-const inputs = {
-  count: { min: 100, max: 1_000_000, step: 100 },
-  pointSize: { min: 0.001, max: 0.1, step: 0.001 },
-  radius: { min: 0.1, max: 10, step: 0.01 },
-  branches: { min: 2, max: 20, step: 1 },
-  spin: { min: -5, max: 5, step: 0.001 },
-  randomness: { min: 0, max: 2, step: 0.001 },
-  randomnessPower: { min: 1, max: 10, step: 0.001 },
-  insideColor: undefined,
-  outsideColor: undefined,
-}
-
 let geometry: THREE.BufferGeometry
 let material: THREE.PointsMaterial
 let points: THREE.Points
@@ -37,7 +27,7 @@ const generateGalaxy = () => {
   if (points) {
     geometry.dispose()
     material.dispose()
-    gl.scene.remove(points)
+    scene.remove(points)
   }
 
   geometry = new THREE.BufferGeometry()
@@ -52,9 +42,18 @@ const generateGalaxy = () => {
     const spinAngle = radius * parameters.spin
     const branchAngle = (index % parameters.branches) / parameters.branches * Math.PI * 2
 
-    const randomX = Math.pow(Math.random(), parameters.randomnessPower) * (Math.random() < 0.5 ? 1 : - 1) * parameters.randomness * radius
-    const randomY = Math.pow(Math.random(), parameters.randomnessPower) * (Math.random() < 0.5 ? 1 : - 1) * parameters.randomness * radius
-    const randomZ = Math.pow(Math.random(), parameters.randomnessPower) * (Math.random() < 0.5 ? 1 : - 1) * parameters.randomness * radius
+    const randomX = Math.pow(
+      Math.random(),
+      parameters.randomnessPower) * (Math.random() < 0.5 ? 1 : - 1
+    ) * parameters.randomness * radius
+    const randomY = Math.pow(
+      Math.random(),
+      parameters.randomnessPower) * (Math.random() < 0.5 ? 1 : - 1
+    ) * parameters.randomness * radius
+    const randomZ = Math.pow(
+      Math.random(),
+      parameters.randomnessPower
+    ) * (Math.random() < 0.5 ? 1 : - 1) * parameters.randomness * radius
 
     positions[index3 + 0] = Math.cos(branchAngle + spinAngle) * radius + randomX
     positions[index3 + 1] = randomY
@@ -80,24 +79,32 @@ const generateGalaxy = () => {
 
   points = new THREE.Points(geometry, material)
 
-  gl.scene.add(points)
+  scene.add(points)
 }
 
-const gl = GL()
-const controls = new OrbitControls(gl.camera, gl.canvas)
-controls.autoRotate = true
-controls.minDistance = Number.NEGATIVE_INFINITY
+const pane = debug.addPane('game')
+
+const inputs = {
+  count: { min: 100, max: 1_000_000, step: 100 },
+  pointSize: { min: 0.001, max: 0.1, step: 0.001 },
+  radius: { min: 0.1, max: 10, step: 0.01 },
+  branches: { min: 2, max: 20, step: 1 },
+  spin: { min: -5, max: 5, step: 0.001 },
+  randomness: { min: 0, max: 2, step: 0.001 },
+  randomnessPower: { min: 1, max: 10, step: 0.001 },
+  insideColor: undefined,
+  outsideColor: undefined,
+}
+
+const handleChange = () => {
+  generateGalaxy()
+}
+
+for (const [key, value] of Object.entries(inputs)) {
+  pane.addInput(parameters, key, value).on('change', handleChange)
+}
 
 generateGalaxy()
-
-gl.setAnimationLoop(() => {
-  controls.update()
-})
+run()
 
 </script>
-
-<Pane
-  {parameters}
-  {inputs}
-  on:change={() => generateGalaxy()}
-/>

@@ -1,14 +1,13 @@
 <script lang='ts'>
 
+import 'three-kit/debug'
+import { camera, renderer, scene, update, run } from 'three-kit'
 import * as THREE from 'three'
-import { GL } from '$lib/gl'
 import { createPointLight } from '$lib/util-three'
 import fragmentShader from './shaders/hello-shader.frag.glsl'
 
-const gl = GL()
-
-gl.camera.position.set(0, 0, 2)
-gl.scene.lookAt(new THREE.Vector3())
+camera.position.set(0, 0, 2)
+scene.lookAt(new THREE.Vector3())
 
 const uniforms = {
   ...THREE.UniformsLib.lights,
@@ -24,18 +23,21 @@ const cube = new THREE.Mesh(
     lights: true,
   })
 )
-gl.scene.add(cube)
+
+scene.add(cube)
 
 const light = createPointLight()
 light.position.set(-1, 2, 4)
 light.lookAt(new THREE.Vector3())
-gl.scene.add(light)
+scene.add(light)
 
-gl.setAnimationLoop((_dt: number, elapsed: number) => {
-  uniforms.resolution.value.set(gl.canvas.width, gl.canvas.height)
-  uniforms.time.value = elapsed
-  cube.rotation.x = elapsed
-  cube.rotation.y = elapsed
+update((time: number) => {
+  uniforms.resolution.value.set(renderer.domElement.width, renderer.domElement.height)
+  uniforms.time.value = time / 100
+  cube.rotation.x = time / 1000
+  cube.rotation.y = time / 1000
 })
+
+run()
 
 </script>

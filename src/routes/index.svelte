@@ -1,6 +1,6 @@
 <script lang='ts'>
 
-import Portal from './journey/portal.svelte'
+import Portal from './portal.svelte'
 
 </script>
 

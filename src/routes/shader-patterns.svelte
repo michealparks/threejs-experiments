@@ -1,7 +1,7 @@
 <script lang='ts'>
 
+import { scene, camera, update, run } from 'three-kit'
 import * as THREE from 'three'
-import { GL } from '$lib/gl'
 import vertexShader from './shaders/patterns/vert.glsl'
 import frag01 from './shaders/patterns/01.frag.glsl'
 import frag03 from './shaders/patterns/03.frag.glsl'
@@ -26,8 +26,7 @@ const frags = [
 ]
 
 const cubes: THREE.Mesh[] = []
-const gl = GL(undefined, 1)
-gl.camera.position.set(0, 4, 4)
+camera.position.set(0, 4, 4)
 
 for (const [index, fragmentShader] of frags.entries()) {
   const material = new THREE.ShaderMaterial({
@@ -44,19 +43,19 @@ for (const [index, fragmentShader] of frags.entries()) {
   cube.rotation.x += 0.5
   cube.rotation.y += 0.5
   cube.position.set(index * 2, 0, 0)
-  gl.scene.add(cube)
+  scene.add(cube)
   cubes.push(cube)
 }
 
-gl.camera.lookAt(cubes[0].position)
+camera.lookAt(cubes[0].position)
 
 const keys = new Set()
 
 let m = 0
 
-gl.setAnimationLoop((delta) => {
+update((time: number) => {
   for (const cube of cubes) {
-    cube.rotation.x += delta
+    cube.rotation.x = time / 1000
     ;(cube.material as THREE.ShaderMaterial).uniforms.time.value += 0.01
   }
 
@@ -75,7 +74,7 @@ gl.setAnimationLoop((delta) => {
 
   m /= 1.1
 
-  gl.camera.position.x += m
+  camera.position.x += m
 })
 
 window.addEventListener('keydown', (event) => {
@@ -85,5 +84,7 @@ window.addEventListener('keydown', (event) => {
 window.addEventListener('keyup', (event) => {
   keys.delete(event.key.toLowerCase())
 })
+
+run()
 
 </script>

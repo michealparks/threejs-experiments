@@ -1,10 +1,9 @@
 <script lang='ts'>
 
+import * as debug from 'three-kit/debug'
+import { scene, run } from 'three-kit'
 import * as THREE from 'three'
-import { GL } from '$lib/gl'
-import { OrbitControls } from '$lib/orbit-controls'
 import { randPointOnSphere } from '$lib/util';
-import Pane from '$lib/components/Pane.svelte'
 
 const parameters = {
   count: 1000,
@@ -16,6 +15,12 @@ const inputs = {
   count: { min: 100, max: 1_000_000, step: 100 },
   pointSize: { min: 0.001, max: 0.1, step: 0.001 },
   sphereSize: { min: 1, max: 100, step: 1 },
+}
+
+const pane = debug.addPane('game')
+
+for (const [key, value] of Object.entries(inputs)) {
+  pane.addInput(parameters, key, value)
 }
 
 let geometry: THREE.BufferGeometry
@@ -52,20 +57,7 @@ const generate = (scene: THREE.Scene) => {
   scene.add(points)
 }
 
-const gl = GL()
-const controls = new OrbitControls(gl.camera, gl.canvas)
-controls.minDistance = Number.NEGATIVE_INFINITY
-
-generate(gl.scene)
-
-gl.setAnimationLoop(() => {
-  controls.update()
-})
+generate(scene)
+run()
 
 </script>
-
-<Pane
-  {parameters}
-  {inputs}
-  on:change={() => generate(gl.scene)}
-/>

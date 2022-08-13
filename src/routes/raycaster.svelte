@@ -1,11 +1,13 @@
 <script lang='ts'>
 
+import { scene, camera, lights, update, run } from 'three-kit'
 import * as THREE from 'three'
-import { GL } from '$lib/gl'
 import { createSphere } from '$lib/util-three'
 
-const gl = GL()
-gl.camera.position.set(0, 0, 7)
+camera.position.set(0, 0, 7)
+
+const ambientLight = lights.createAmbient()
+scene.add(ambientLight)
 
 const raycaster = new THREE.Raycaster()
 const mousecaster = new THREE.Raycaster()
@@ -19,23 +21,23 @@ const s2 = createSphere(0.5)
 const s3 = createSphere(0.5)
 s1.position.x = -2
 s3.position.x = +2
-gl.scene.add(s1, s2, s3)
+scene.add(s1, s2, s3)
 
-gl.camera.lookAt(s2.position)
+camera.lookAt(s2.position)
 
 const mouse = new THREE.Vector2()
 
-gl.canvas.addEventListener('mousemove', (event) => {
+document.addEventListener('mousemove', (event) => {
   mouse.x = event.clientX / innerWidth * 2 - 1
   mouse.y = - (event.clientY / innerHeight) * 2 + 1
 }, { passive: true })
 
-gl.setAnimationLoop((_delta, elapsed) => {
-  s1.position.y = Math.sin(elapsed * 0.3) * 1.5
-  s2.position.y = Math.sin(elapsed * 0.8) * 1.5
-  s3.position.y = Math.sin(elapsed * 1.4) * 1.5
+update((time: number) => {
+  s1.position.y = Math.sin(time / 1000 * 0.3) * 1.5
+  s2.position.y = Math.sin(time / 1000 * 0.8) * 1.5
+  s3.position.y = Math.sin(time / 1000 * 1.4) * 1.5
 
-  mousecaster.setFromCamera(mouse, gl.camera)
+  mousecaster.setFromCamera(mouse, camera)
 
   const objectsToTest = [s1, s2, s3]
   const intersects = raycaster.intersectObjects(objectsToTest)
@@ -57,5 +59,7 @@ gl.setAnimationLoop((_delta, elapsed) => {
     }
   }
 })
+
+run()
 
 </script>

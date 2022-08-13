@@ -1,28 +1,22 @@
 <script lang='ts'>
 
+import { assets, camera, lights, scene, update, run } from 'three-kit'
 import * as THREE from 'three'
-import { GL } from '$lib/gl'
-import { assets } from '$lib/assets'
-import { OrbitControls } from '$lib/orbit-controls'
 import { createCube, createDirectionalLight } from '$lib/util-three';
 
-const gl = GL()
-gl.camera.position.set(2,2,2)
-gl.ambientLight.intensity = 0.5
+camera.position.set(2,2,2)
 
-const controls = new OrbitControls(gl.camera, document.body)
-controls.autoRotate = true
-controls.minDistance = Number.NEGATIVE_INFINITY
-controls.enableZoom = false
+const ambientLight = lights.createAmbient()
+scene.add(ambientLight)
 
 const cube = createCube(undefined, 0xFF_FF_FF)
-gl.scene.add(cube)
+scene.add(cube)
 
 const light = createDirectionalLight()
 light.position.set(1, 1, -1)
 light.lookAt(new THREE.Vector3())
 light.intensity = 5
-gl.scene.add(light)
+scene.add(light)
 
 const particlesGeometry = new THREE.BufferGeometry()
 const count = 10_000
@@ -35,7 +29,6 @@ for (let index = 0; index < count * 3; index += 1) {
 }
 
 const positionAttribute = new THREE.BufferAttribute(positions, 3)
-
 particlesGeometry.setAttribute('position', positionAttribute)
 particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
 
@@ -55,21 +48,21 @@ const init = async () => {
   particlesMaterial.vertexColors = true
 
   const particles = new THREE.Points(particlesGeometry, particlesMaterial)
-  gl.scene.add(particles)
-  gl.camera.lookAt(particles.position)
+  scene.add(particles)
+  camera.lookAt(particles.position)
 
-  gl.setAnimationLoop((_delta, elapsed) => {
+  update((time: number) => {
     for (let index = 0; index < count; index += 1) {
       const x = particlesGeometry.attributes.position.getX(index)
-      particlesGeometry.attributes.position.setY(index, Math.sin(elapsed + x))
+      particlesGeometry.attributes.position.setY(index, Math.sin(time / 1000 + x))
     }
 
-    cube.position.y = Math.sin(elapsed)
+    cube.position.y = Math.sin(time / 1000)
 
     particlesGeometry.attributes.position.needsUpdate = true 
-
-    controls.update()
   })
+
+  run()
 }
 
 init()

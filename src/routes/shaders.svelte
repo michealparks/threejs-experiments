@@ -1,22 +1,18 @@
 <script lang='ts'>
 
+import { camera, scene, update, run } from 'three-kit'
 import * as THREE from 'three'
-import { GL } from '$lib/gl'
-import { OrbitControls } from '$lib/orbit-controls'
 import vertexShader from './shaders/shaders.vert.glsl'
 import fragmentShader from './shaders/shaders.frag.glsl'
 
-const gl = GL(undefined, 1)
-gl.camera.position.set(2,2,2)
-
-const controls = new OrbitControls(gl.camera, gl.canvas)
+camera.position.set(2,2,2)
 
 const material = new THREE.ShaderMaterial({
   vertexShader,
   fragmentShader
 })
 
-const geometry = new THREE.BoxGeometry(1, 1, 1, 20, 20, 20 )
+const geometry = new THREE.BoxGeometry(1, 1, 1, 20, 20, 20)
 
 const count = geometry.attributes.position.count
 const randoms = new Float32Array(count)
@@ -28,13 +24,14 @@ for(let index = 0; index < count; index++) {
 geometry.setAttribute('aRandom', new THREE.BufferAttribute(randoms, 1))
 
 const cube = new THREE.Mesh(geometry, material)
-gl.scene.add(cube)
+scene.add(cube)
 
-gl.camera.lookAt(cube.position)
+camera.lookAt(cube.position)
 
-gl.setAnimationLoop((delta) => {
-  cube.rotation.x += delta
-  controls.update()
+update((time: number) => {
+  cube.rotation.x = time / 1000
 })
+
+run()
 
 </script>
