@@ -1,0 +1,1 @@
+const a=(a,t)=>Math.random()*(t-a)+a,t=a=>{const t=a*Math.sqrt(Math.random()),h=2*Math.random()*Math.PI;return[t*Math.cos(h),t*Math.sin(h)]},h=a=>{const t=Math.random(),h=Math.random(),M=2*t*Math.PI,n=Math.acos(2*h-1),o=Math.cbrt(Math.random()+a),r=Math.sin(M),s=Math.cos(M),c=Math.sin(n);return[o*c*s,o*c*r,o*Math.cos(n)]};export{t as a,h as b,a as r};
