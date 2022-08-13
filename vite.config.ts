@@ -19,7 +19,7 @@ export default defineConfig({
       exclude: 'node_modules/**',
     }),
   ],
-  envPrefix: 'THREE',
+  envPrefix: ['THREE', 'AMMO', 'APP'],
   build: {
     minify: 'terser',
   },

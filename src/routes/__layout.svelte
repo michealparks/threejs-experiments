@@ -20,7 +20,7 @@ pane.addInput(params, 'demo', {
   options: Object.fromEntries(entries),
 }).on('change', () => {
   window.localStorage.setItem('threeExperiments.demo', params.demo)
-  window.location.assign(`${window.location.href}/${params.demo}`)
+  window.location.assign(`${window.location.origin}${import.meta.env.APP_BASE}${params.demo}`)
 })
 
 </script>
