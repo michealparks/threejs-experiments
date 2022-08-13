@@ -1,0 +1,1 @@
+import{M as e,w as s,v as a,x as n,b as o,c as w}from"./camera-86d9f305.js";const r=(n=1,o=4500104)=>new e(new s(n,n,n),new a({color:o})),c=(s=1,a=16711680)=>new e(new n(s,16,16),new o({color:a})),t=(s=80,o=12)=>{const r=new a({color:2733814}),c=new n(s,o,o);return r.side=w,new e(c,r)};export{r as a,c as b,t as c};

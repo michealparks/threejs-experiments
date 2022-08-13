@@ -28,7 +28,7 @@
     "src": "node_modules/@fontsource/fira-mono/files/fira-mono-all-400-normal.woff"
   },
   ".svelte-kit/runtime/client/start.js": {
-    "file": "_app/immutable/start-fff42956.js",
+    "file": "_app/immutable/start-358eaa9d.js",
     "src": ".svelte-kit/runtime/client/start.js",
     "isEntry": true,
     "imports": [
@@ -62,15 +62,15 @@
     ]
   },
   "src/routes/__layout.svelte": {
-    "file": "_app/immutable/pages/__layout.svelte-54c66232.js",
+    "file": "_app/immutable/pages/__layout.svelte-cad6ad75.js",
     "src": "src/routes/__layout.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_preload-helper-37db6c57.js",
       "_index-32ca3be3.js",
-      "_scene-09a90b45.js",
-      "_camera-6498258f.js"
+      "_scene-cbea7370.js",
+      "_camera-86d9f305.js"
     ],
     "dynamicImports": [
       "src/routes/alley.svelte",
@@ -118,219 +118,219 @@
     ]
   },
   "src/routes/alley.svelte": {
-    "file": "_app/immutable/pages/alley.svelte-488b8350.js",
+    "file": "_app/immutable/pages/alley.svelte-521409b2.js",
     "src": "src/routes/alley.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-32ca3be3.js",
-      "_camera-6498258f.js",
-      "_lights-8dd5fc29.js"
+      "_camera-86d9f305.js",
+      "_lights-53de5191.js"
     ]
   },
   "src/routes/baked.svelte": {
-    "file": "_app/immutable/pages/baked.svelte-9af08689.js",
+    "file": "_app/immutable/pages/baked.svelte-664f8b61.js",
     "src": "src/routes/baked.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-32ca3be3.js",
-      "_camera-6498258f.js",
-      "_lights-8dd5fc29.js"
+      "_camera-86d9f305.js",
+      "_lights-53de5191.js"
     ]
   },
   "src/routes/campfire.svelte": {
-    "file": "_app/immutable/pages/campfire.svelte-3c6fbf32.js",
+    "file": "_app/immutable/pages/campfire.svelte-66f98ad2.js",
     "src": "src/routes/campfire.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-32ca3be3.js",
-      "_camera-6498258f.js",
-      "_lights-8dd5fc29.js",
+      "_camera-86d9f305.js",
+      "_lights-53de5191.js",
       "_util-343fee83.js",
-      "_util-three-873ce78b.js"
+      "_util-three-232ac56e.js"
     ]
   },
   "src/routes/galaxy-particles.svelte": {
-    "file": "_app/immutable/pages/galaxy-particles.svelte-dd80a5c2.js",
+    "file": "_app/immutable/pages/galaxy-particles.svelte-8bae097d.js",
     "src": "src/routes/galaxy-particles.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-32ca3be3.js",
-      "_scene-09a90b45.js",
-      "_camera-6498258f.js"
+      "_scene-cbea7370.js",
+      "_camera-86d9f305.js"
     ]
   },
   "src/routes/index.svelte": {
-    "file": "_app/immutable/pages/index.svelte-ccbaa73d.js",
+    "file": "_app/immutable/pages/index.svelte-8b19fa5d.js",
     "src": "src/routes/index.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-32ca3be3.js",
       "src/routes/portal.svelte",
-      "_camera-6498258f.js",
-      "_lights-8dd5fc29.js"
+      "_camera-86d9f305.js",
+      "_lights-53de5191.js"
     ]
   },
   "src/routes/portal.svelte": {
-    "file": "_app/immutable/pages/portal.svelte-8175e93a.js",
+    "file": "_app/immutable/pages/portal.svelte-b904ed9a.js",
     "src": "src/routes/portal.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-32ca3be3.js",
-      "_camera-6498258f.js",
-      "_lights-8dd5fc29.js"
+      "_camera-86d9f305.js",
+      "_lights-53de5191.js"
     ]
   },
   "src/routes/instanced.svelte": {
-    "file": "_app/immutable/pages/instanced.svelte-2da7a606.js",
+    "file": "_app/immutable/pages/instanced.svelte-e68d0604.js",
     "src": "src/routes/instanced.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-32ca3be3.js",
-      "_camera-6498258f.js",
-      "_lights-8dd5fc29.js"
+      "_camera-86d9f305.js",
+      "_lights-53de5191.js"
     ]
   },
   "src/routes/matrix.svelte": {
-    "file": "_app/immutable/pages/matrix.svelte-b1d0970c.js",
+    "file": "_app/immutable/pages/matrix.svelte-d5d536d4.js",
     "src": "src/routes/matrix.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-32ca3be3.js",
-      "_camera-6498258f.js",
-      "_lights-8dd5fc29.js",
-      "_constants-0c2300fe.js",
-      "_util-three-873ce78b.js"
+      "_camera-86d9f305.js",
+      "_lights-53de5191.js",
+      "_constants-b8ef71ab.js",
+      "_util-three-232ac56e.js"
     ]
   },
   "src/routes/models.svelte": {
-    "file": "_app/immutable/pages/models.svelte-9432e3ed.js",
+    "file": "_app/immutable/pages/models.svelte-91bb6a50.js",
     "src": "src/routes/models.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-32ca3be3.js",
-      "_camera-6498258f.js",
-      "_lights-8dd5fc29.js"
+      "_camera-86d9f305.js",
+      "_lights-53de5191.js"
     ]
   },
   "src/routes/particles.svelte": {
-    "file": "_app/immutable/pages/particles.svelte-98bf1d6f.js",
+    "file": "_app/immutable/pages/particles.svelte-b60df5d0.js",
     "src": "src/routes/particles.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-32ca3be3.js",
-      "_camera-6498258f.js",
-      "_lights-8dd5fc29.js",
-      "_util-three-873ce78b.js"
+      "_camera-86d9f305.js",
+      "_lights-53de5191.js",
+      "_util-three-232ac56e.js"
     ]
   },
   "src/routes/planets.svelte": {
-    "file": "_app/immutable/pages/planets.svelte-b55baba8.js",
+    "file": "_app/immutable/pages/planets.svelte-8bfa838d.js",
     "src": "src/routes/planets.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-32ca3be3.js",
-      "_camera-6498258f.js",
-      "_lights-8dd5fc29.js",
-      "_constants-0c2300fe.js"
+      "_camera-86d9f305.js",
+      "_lights-53de5191.js",
+      "_constants-b8ef71ab.js"
     ]
   },
   "src/routes/postprocessing.svelte": {
-    "file": "_app/immutable/pages/postprocessing.svelte-02509a66.js",
+    "file": "_app/immutable/pages/postprocessing.svelte-ad587b01.js",
     "src": "src/routes/postprocessing.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-32ca3be3.js",
-      "_camera-6498258f.js",
-      "_util-three-873ce78b.js"
+      "_camera-86d9f305.js",
+      "_util-three-232ac56e.js"
     ]
   },
   "src/routes/raycaster.svelte": {
-    "file": "_app/immutable/pages/raycaster.svelte-9706a2ff.js",
+    "file": "_app/immutable/pages/raycaster.svelte-f6a74829.js",
     "src": "src/routes/raycaster.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-32ca3be3.js",
-      "_camera-6498258f.js",
-      "_lights-8dd5fc29.js",
-      "_util-three-873ce78b.js"
+      "_camera-86d9f305.js",
+      "_lights-53de5191.js",
+      "_util-three-232ac56e.js"
     ]
   },
   "src/routes/room.svelte": {
-    "file": "_app/immutable/pages/room.svelte-16ffc211.js",
+    "file": "_app/immutable/pages/room.svelte-829e92f7.js",
     "src": "src/routes/room.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-32ca3be3.js",
-      "_camera-6498258f.js",
-      "_lights-8dd5fc29.js"
+      "_camera-86d9f305.js",
+      "_lights-53de5191.js"
     ]
   },
   "src/routes/sea.svelte": {
-    "file": "_app/immutable/pages/sea.svelte-115bd2fb.js",
+    "file": "_app/immutable/pages/sea.svelte-0d390aff.js",
     "src": "src/routes/sea.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-32ca3be3.js",
-      "_camera-6498258f.js",
-      "_scene-09a90b45.js"
+      "_camera-86d9f305.js",
+      "_scene-cbea7370.js"
     ]
   },
   "src/routes/shader-patterns.svelte": {
-    "file": "_app/immutable/pages/shader-patterns.svelte-5507b88e.js",
+    "file": "_app/immutable/pages/shader-patterns.svelte-e870d657.js",
     "src": "src/routes/shader-patterns.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-32ca3be3.js",
-      "_camera-6498258f.js"
+      "_camera-86d9f305.js"
     ]
   },
   "src/routes/shader.svelte": {
-    "file": "_app/immutable/pages/shader.svelte-57a5c8c9.js",
+    "file": "_app/immutable/pages/shader.svelte-cc424d68.js",
     "src": "src/routes/shader.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-32ca3be3.js",
-      "_scene-09a90b45.js",
-      "_camera-6498258f.js",
-      "_lights-8dd5fc29.js"
+      "_scene-cbea7370.js",
+      "_camera-86d9f305.js",
+      "_lights-53de5191.js"
     ]
   },
   "src/routes/shaders.svelte": {
-    "file": "_app/immutable/pages/shaders.svelte-4942be78.js",
+    "file": "_app/immutable/pages/shaders.svelte-9a03f409.js",
     "src": "src/routes/shaders.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-32ca3be3.js",
-      "_camera-6498258f.js"
+      "_camera-86d9f305.js"
     ]
   },
   "src/routes/sphere-particles.svelte": {
-    "file": "_app/immutable/pages/sphere-particles.svelte-4597fc10.js",
+    "file": "_app/immutable/pages/sphere-particles.svelte-1b02c93c.js",
     "src": "src/routes/sphere-particles.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-32ca3be3.js",
-      "_scene-09a90b45.js",
-      "_camera-6498258f.js",
+      "_scene-cbea7370.js",
+      "_camera-86d9f305.js",
       "_util-343fee83.js"
     ]
   },
@@ -344,15 +344,15 @@
     ]
   },
   "src/routes/terrain.svelte": {
-    "file": "_app/immutable/pages/terrain.svelte-28bba341.js",
+    "file": "_app/immutable/pages/terrain.svelte-36830b45.js",
     "src": "src/routes/terrain.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-32ca3be3.js",
-      "_scene-09a90b45.js",
-      "_camera-6498258f.js",
-      "_lights-8dd5fc29.js"
+      "_scene-cbea7370.js",
+      "_camera-86d9f305.js",
+      "_lights-53de5191.js"
     ]
   },
   "_index-32ca3be3.js": {
@@ -361,37 +361,37 @@
   "_preload-helper-37db6c57.js": {
     "file": "_app/immutable/chunks/preload-helper-37db6c57.js"
   },
-  "_scene-09a90b45.js": {
-    "file": "_app/immutable/chunks/scene-09a90b45.js",
+  "_scene-cbea7370.js": {
+    "file": "_app/immutable/chunks/scene-cbea7370.js",
     "imports": [
-      "_camera-6498258f.js"
+      "_camera-86d9f305.js"
     ],
     "css": [
       "_app/immutable/assets/scene-65d42dc7.css"
     ]
   },
-  "_camera-6498258f.js": {
-    "file": "_app/immutable/chunks/camera-6498258f.js"
+  "_camera-86d9f305.js": {
+    "file": "_app/immutable/chunks/camera-86d9f305.js"
   },
-  "_lights-8dd5fc29.js": {
-    "file": "_app/immutable/chunks/lights-8dd5fc29.js",
+  "_lights-53de5191.js": {
+    "file": "_app/immutable/chunks/lights-53de5191.js",
     "imports": [
-      "_camera-6498258f.js"
+      "_camera-86d9f305.js"
     ]
   },
-  "_util-three-873ce78b.js": {
-    "file": "_app/immutable/chunks/util-three-873ce78b.js",
+  "_util-three-232ac56e.js": {
+    "file": "_app/immutable/chunks/util-three-232ac56e.js",
     "imports": [
-      "_camera-6498258f.js"
+      "_camera-86d9f305.js"
     ]
   },
   "_util-343fee83.js": {
     "file": "_app/immutable/chunks/util-343fee83.js"
   },
-  "_constants-0c2300fe.js": {
-    "file": "_app/immutable/chunks/constants-0c2300fe.js",
+  "_constants-b8ef71ab.js": {
+    "file": "_app/immutable/chunks/constants-b8ef71ab.js",
     "imports": [
-      "_camera-6498258f.js"
+      "_camera-86d9f305.js"
     ]
   },
   "src/routes/__layout.css": {
