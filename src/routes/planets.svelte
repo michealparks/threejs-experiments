@@ -1,9 +1,8 @@
 <script lang='ts'>
 
-import { camera, scene, update, run } from 'three-kit'
+import { camera, scene, update, run, lights } from 'three-kit'
 import * as THREE from 'three'
 import { COLORS } from '$lib/constants'
-import { createPointLight } from '$lib/util-three'
 
 let id: number
 
@@ -68,7 +67,7 @@ const planets = [
 camera.position.set(0, 0, CAMERA_DISTANCE)
 camera.lookAt(new THREE.Vector3())
 
-const light = createPointLight()
+const light = lights.createPoint()
 light.intensity = 50
 light.shadow.radius = 16
 scene.add(light)

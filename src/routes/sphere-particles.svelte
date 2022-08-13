@@ -1,7 +1,7 @@
 <script lang='ts'>
 
 import * as debug from 'three-kit/debug'
-import { scene, run } from 'three-kit'
+import { scene, run, camera } from 'three-kit'
 import * as THREE from 'three'
 import { randPointOnSphere } from '$lib/util';
 
@@ -16,6 +16,8 @@ const inputs = {
   pointSize: { min: 0.001, max: 0.1, step: 0.001 },
   sphereSize: { min: 1, max: 100, step: 1 },
 }
+
+camera.position.set(0, 0, 5)
 
 const pane = debug.addPane('game')
 

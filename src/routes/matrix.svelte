@@ -1,19 +1,19 @@
 <script lang='ts'>
 
-import { scene, camera, update, run } from 'three-kit'
+import { scene, camera, lights, update, run } from 'three-kit'
 import * as THREE from 'three'
 import { COLORS } from '$lib/constants'
-import { createPointLight, createCube } from '$lib/util-three'
+import { createCube } from '$lib/util-three'
 
-const light1 = createPointLight()
+const light1 = lights.createPoint()
 light1.intensity = 100
 light1.position.set(0, 3, 0)
 
-const light2 = createPointLight()
+const light2 = lights.createPoint()
 light2.intensity = 50
 light2.position.set(0, 3, 2)
 
-const light3 = createPointLight()
+const light3 = lights.createPoint()
 light3.intensity = 10
 light3.position.set(2, 1, 2)
 

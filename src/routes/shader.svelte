@@ -1,9 +1,8 @@
 <script lang='ts'>
 
 import 'three-kit/debug'
-import { camera, renderer, scene, update, run } from 'three-kit'
+import { camera, renderer, scene, lights, update, run } from 'three-kit'
 import * as THREE from 'three'
-import { createPointLight } from '$lib/util-three'
 import fragmentShader from './shaders/hello-shader.frag.glsl'
 
 camera.position.set(0, 0, 2)
@@ -26,7 +25,7 @@ const cube = new THREE.Mesh(
 
 scene.add(cube)
 
-const light = createPointLight()
+const light = lights.createPoint()
 light.position.set(-1, 2, 4)
 light.lookAt(new THREE.Vector3())
 scene.add(light)
