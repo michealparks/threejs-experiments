@@ -1,1 +1,0 @@
-import{default as o}from"../components/error.svelte-56895261.js";export{o as component};

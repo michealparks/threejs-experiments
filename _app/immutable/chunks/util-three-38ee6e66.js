@@ -1,1 +1,0 @@
-import{f as n,m as e,k as s,n as o,M as a,o as w}from"./index-40248176.js";const r=(o=1,a=4500104)=>new n(new e(o,o,o),new s({color:a})),c=(e=1,s=16711680)=>new n(new o(e,16,16),new a({color:s})),t=(e=80,a=12)=>{const r=new s({color:2733814}),c=new o(e,a,a);return r.side=w,new n(c,r)};export{r as a,c as b,t as c};
