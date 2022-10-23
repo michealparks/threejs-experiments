@@ -2,8 +2,8 @@
 
 import { camera, scene, update, run } from 'three-kit'
 import * as THREE from 'three'
-import vertexShader from './shaders/shaders.vert.glsl'
-import fragmentShader from './shaders/shaders.frag.glsl'
+import vertexShader from '$lib/shaders/shaders.vert.glsl'
+import fragmentShader from '$lib/shaders/shaders.frag.glsl'
 
 camera.position.set(2,2,2)
 
