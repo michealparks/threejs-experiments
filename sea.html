@@ -5,26 +5,24 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 		<meta http-equiv="content-security-policy" content="">
-	<link rel="modulepreload" href="/threejs-experiments/_app/immutable/start-6b7bff4d.js">
-	<link rel="modulepreload" href="/threejs-experiments/_app/immutable/chunks/index-32ca3be3.js">
-	<link rel="modulepreload" href="/threejs-experiments/_app/immutable/chunks/preload-helper-37db6c57.js">
+		<link rel="modulepreload" href="/threejs-experiments/_app/immutable/start-942c0b75.js">
+		<link rel="modulepreload" href="/threejs-experiments/_app/immutable/chunks/index-f58f646f.js">
+		<link rel="modulepreload" href="/threejs-experiments/_app/immutable/chunks/singletons-6383e872.js">
+		<link rel="modulepreload" href="/threejs-experiments/_app/immutable/chunks/paths-6cd3a76e.js">
+		<link rel="modulepreload" href="/threejs-experiments/_app/immutable/chunks/preload-helper-aa6bc0ce.js">
 	</head>
 	<body>
 		<div id="svelte">
 		<script type="module" data-sveltekit-hydrate="45h">
-		import { set_public_env, start } from "/threejs-experiments/_app/immutable/start-6b7bff4d.js";
+			import { start } from "/threejs-experiments/_app/immutable/start-942c0b75.js";
 
-		set_public_env({});
-
-		start({
-			target: document.querySelector('[data-sveltekit-hydrate="45h"]').parentNode,
-			paths: {"base":"/threejs-experiments","assets":"/threejs-experiments"},
-			session: {},
-			route: true,
-			spa: true,
-			trailing_slash: "never",
-			hydrate: null
-		});
-	</script></div>
+			start({
+				env: {},
+				hydrate: null,
+				paths: {"base":"/threejs-experiments","assets":"/threejs-experiments"},
+				target: document.querySelector('[data-sveltekit-hydrate="45h"]').parentNode,
+				trailing_slash: "never"
+			});
+		</script></div>
 	</body>
 </html>
