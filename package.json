@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "start": "vite dev --host",
-    "build": "vite build",
+    "build": "vite build --base=/threejs-experiments/",
     "preview": "vite preview --host",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
