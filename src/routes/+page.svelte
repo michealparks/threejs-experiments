@@ -1,6 +1,6 @@
 <script lang='ts'>
 
-import Portal from './portal.svelte'
+import Portal from './portal/+page.svelte'
 
 </script>
 

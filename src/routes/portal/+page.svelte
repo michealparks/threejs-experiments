@@ -2,10 +2,10 @@
 
 import { scene, camera, lights, assets, update, run } from 'three-kit'
 import * as THREE from 'three'
-import firefliesVertShader from '../shaders/fireflies/vert.glsl'
-import firefliesFragShader from '../shaders/fireflies/frag.glsl'
-import portalVertShader from '../shaders/portal/vert.glsl'
-import portalFragShader from '../shaders/portal/frag.glsl'
+import firefliesVertShader from '$lib/shaders/fireflies/vert.glsl'
+import firefliesFragShader from '$lib/shaders/fireflies/frag.glsl'
+import portalVertShader from '$lib/shaders/portal/vert.glsl'
+import portalFragShader from '$lib/shaders/portal/frag.glsl'
 
 THREE.Object3D.DefaultMatrixAutoUpdate = false
 

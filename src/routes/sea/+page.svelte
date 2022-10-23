@@ -2,8 +2,8 @@
 
 import { scene, camera, update, run } from 'three-kit'
 import * as THREE from 'three'
-import vertexShader from '../shaders/water/vert.glsl'
-import fragmentShader from '../shaders/water/frag.glsl'
+import vertexShader from '$lib/shaders/water/vert.glsl'
+import fragmentShader from '$lib/shaders/water/frag.glsl'
 import { debug } from '$lib/debug'
 
 const pane = debug.addPane('game')
