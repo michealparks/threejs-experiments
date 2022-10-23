@@ -1,10 +1,10 @@
 <script lang='ts'>
 
 import { scene, camera, update, run } from 'three-kit'
-import * as debug from 'three-kit/debug'
 import * as THREE from 'three'
-import vertexShader from './shaders/water/vert.glsl'
-import fragmentShader from './shaders/water/frag.glsl'
+import vertexShader from '../shaders/water/vert.glsl'
+import fragmentShader from '../shaders/water/frag.glsl'
+import { debug } from '$lib/debug'
 
 const pane = debug.addPane('game')
 
@@ -29,10 +29,11 @@ const parameters = {
 }
 
 for (const input of Object.keys(parameters)) {
+  // @ts-expect-error :|
   pane.addInput(parameters, input).on('change', updateUniforms)
 }
 
-const geometry = new THREE.PlaneGeometry(6, 6, 512, 512)
+const geometry = new THREE.PlaneGeometry(10, 20, 512, 512)
 const material = new THREE.ShaderMaterial({
   vertexShader,
   fragmentShader,
@@ -46,6 +47,7 @@ for (const [key, value] of Object.entries(parameters)) {
 }
 
 scene.add(mesh)
+camera.position.set(4, 2, 0)
 camera.lookAt(mesh.position)
 
 update((time: number) => {

@@ -1,6 +1,6 @@
 <script lang='ts'>
 
-import * as debug from 'three-kit/debug'
+import { debug } from '$lib/debug'
 import '../app.css'
 
 const demos = import.meta.glob(['./*.svelte'])
@@ -9,7 +9,7 @@ const params = {
   demo: localStorage.getItem('threeExperiments.demo') ?? 'boxes',
 }
 
-const pane = debug.addPane('demos')
+const pane = debug.addPane('Demos')
 
 const entries = Object.keys(demos).filter(key => key.includes('index') === false).map(key => {
   const title = key.split('/')[1].replace('.svelte', '')

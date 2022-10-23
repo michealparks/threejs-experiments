@@ -33,13 +33,12 @@ particlesGeometry.setAttribute('position', positionAttribute)
 particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
 
 const init = async () => {
-  await assets.load('circle_01.png')
-
+  const map = await assets.loadTexture('circle_01.png')
   const particlesMaterial = new THREE.PointsMaterial()
   particlesMaterial.size = 0.075
   particlesMaterial.sizeAttenuation = true
   particlesMaterial.color = new THREE.Color('#ff88cc')
-  particlesMaterial.map = assets.get('circle_01.png') as THREE.Texture
+  particlesMaterial.map = map
   particlesMaterial.transparent = true
   particlesMaterial.alphaTest = 0.1
   particlesMaterial.depthTest = false

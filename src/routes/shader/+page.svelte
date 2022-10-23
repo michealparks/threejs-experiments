@@ -1,9 +1,8 @@
 <script lang='ts'>
 
-import 'three-kit/debug'
 import { camera, renderer, scene, lights, update, run } from 'three-kit'
 import * as THREE from 'three'
-import fragmentShader from './shaders/hello-shader.frag.glsl'
+import fragmentShader from '../shaders/hello-shader.frag.glsl'
 
 camera.position.set(0, 0, 2)
 scene.lookAt(new THREE.Vector3())

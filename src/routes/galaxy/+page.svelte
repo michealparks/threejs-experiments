@@ -1,6 +1,5 @@
 <script lang='ts'>
-
-import * as debug from 'three-kit/debug'
+import { debug } from '$lib/debug'
 import { scene, camera, run } from 'three-kit'
 import * as THREE from 'three'
 
@@ -82,7 +81,7 @@ const generateGalaxy = () => {
   scene.add(points)
 }
 
-const pane = debug.addPane('game')
+const pane = debug.addPane('Galaxy')
 
 const inputs = {
   count: { min: 100, max: 1_000_000, step: 100 },

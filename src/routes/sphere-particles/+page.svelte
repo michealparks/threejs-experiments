@@ -1,9 +1,9 @@
 <script lang='ts'>
 
-import * as debug from 'three-kit/debug'
 import { scene, run, camera } from 'three-kit'
 import * as THREE from 'three'
 import { randPointOnSphere } from '$lib/util';
+import { debug } from '$lib/debug'
 
 const parameters = {
   count: 1000,

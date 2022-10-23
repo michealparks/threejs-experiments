@@ -2,10 +2,12 @@
 
 import { scene, camera, lights, assets, update, run } from 'three-kit'
 import * as THREE from 'three'
-import firefliesVertShader from './shaders/fireflies/vert.glsl'
-import firefliesFragShader from './shaders/fireflies/frag.glsl'
-import portalVertShader from './shaders/portal/vert.glsl'
-import portalFragShader from './shaders/portal/frag.glsl'
+import firefliesVertShader from '../shaders/fireflies/vert.glsl'
+import firefliesFragShader from '../shaders/fireflies/frag.glsl'
+import portalVertShader from '../shaders/portal/vert.glsl'
+import portalFragShader from '../shaders/portal/frag.glsl'
+
+THREE.Object3D.DefaultMatrixAutoUpdate = false
 
 camera.position.set(2, 1, -3)
 camera.lookAt(0, 0, 0)
@@ -53,21 +55,19 @@ const createFireflies = (pixelRatio: number) => {
 }
 
 const init = async () => {
-  await Promise.all([
-    assets.load('portal.glb'),
-    assets.load('portal_2.jpg'),
+  const [portal, texture] = await Promise.all([
+    assets.loadGLTF('portal.glb'),
+    assets.loadTexture('portal_2.jpg'),
   ])
 
-  const portal = assets.get<{ scene: THREE.Scene }>('portal.glb')
-  const bakedTexture = assets.get<THREE.Texture>('portal_2.jpg')
-  bakedTexture.flipY = false
-  bakedTexture.encoding = THREE.sRGBEncoding
+  texture.flipY = false
+  texture.encoding = THREE.sRGBEncoding
 
-  const bakedMaterial = new THREE.MeshBasicMaterial({
-    map: bakedTexture
-  })
+  const bakedMaterial = new THREE.MeshBasicMaterial({ map: texture })
 
   portal.scene.traverse((node) => {
+    node.updateMatrix()
+
     if (node instanceof THREE.Mesh) {
       if (node.name === 'Portal') {
         node.material = portalLightMaterial

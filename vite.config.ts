@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import { sveltekit } from '@sveltejs/kit/vite';
 import ssl from '@vitejs/plugin-basic-ssl'
 import vitePluginString from 'vite-plugin-string'
+import define from './enviroment'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -23,4 +24,5 @@ export default defineConfig({
   build: {
     minify: 'terser',
   },
+  define,
 })

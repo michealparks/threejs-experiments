@@ -2,16 +2,16 @@
 
 import { scene, camera, update, run } from 'three-kit'
 import * as THREE from 'three'
-import vertexShader from './shaders/patterns/vert.glsl'
-import frag01 from './shaders/patterns/01.frag.glsl'
-import frag03 from './shaders/patterns/03.frag.glsl'
-import frag08 from './shaders/patterns/08.frag.glsl'
-import frag20 from './shaders/patterns/20.frag.glsl'
-import frag24 from './shaders/patterns/24.frag.glsl'
-import frag29 from './shaders/patterns/29.frag.glsl'
-import frag33 from './shaders/patterns/33.frag.glsl'
-import frag46 from './shaders/patterns/46.frag.glsl'
-import frag50 from './shaders/patterns/50.frag.glsl'
+import vertexShader from '../shaders/patterns/vert.glsl'
+import frag01 from '../shaders/patterns/01.frag.glsl'
+import frag03 from '../shaders/patterns/03.frag.glsl'
+import frag08 from '../shaders/patterns/08.frag.glsl'
+import frag20 from '../shaders/patterns/20.frag.glsl'
+import frag24 from '../shaders/patterns/24.frag.glsl'
+import frag29 from '../shaders/patterns/29.frag.glsl'
+import frag33 from '../shaders/patterns/33.frag.glsl'
+import frag46 from '../shaders/patterns/46.frag.glsl'
+import frag50 from '../shaders/patterns/50.frag.glsl'
 
 const frags = [
   frag01,

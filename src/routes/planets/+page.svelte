@@ -75,7 +75,7 @@ scene.add(light)
 const objects: THREE.Object3D[] = []
 const radius = 1
 const segments = 40
-const geo = new THREE.SphereBufferGeometry(radius, segments, segments)
+const geo = new THREE.SphereGeometry(radius, segments, segments)
 
 const solarOrbit = new THREE.Object3D()
 scene.add(solarOrbit)
@@ -98,7 +98,6 @@ for (const { name, scale, color, emissive, distance, moons } of planets) {
   const mat = new THREE.MeshPhongMaterial({ color, emissive })
   const planet = new THREE.Mesh(geo, mat)
   planet.name = name
-  
   planet.castShadow = true
   planet.receiveShadow = true
   planet.scale.multiplyScalar(scale)

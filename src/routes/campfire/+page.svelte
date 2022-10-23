@@ -7,6 +7,7 @@ import { createSkySphere } from '$lib/util-three'
 
 const init = async () => {
   camera.position.set(20, 4, 18)
+  camera.lookAt(0, 0, 0)
 
   const ambientLight = lights.createAmbient()
 
@@ -34,9 +35,7 @@ const init = async () => {
   let idl = 0.0001
   let dl = 0.0001
 
-  await assets.load('FloatingRockScene.glb')
-
-  const { scene: rockScene } = assets.get<{ scene: THREE.Scene }>('FloatingRockScene.glb')
+  const { scene: rockScene } = await assets.loadGLTF('FloatingRockScene.glb')
 
   fire.init(rockScene.getObjectByName('Fire')!, [
     rockScene.getObjectByName('Ember1') as THREE.Mesh,
@@ -60,7 +59,7 @@ const init = async () => {
     if (sky.material instanceof THREE.MeshPhongMaterial) {
       sky.material.color.setHSL(hsl.h, hsl.s, l)
     }
-    
+
     fire.update()
   })
 

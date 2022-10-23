@@ -16,14 +16,14 @@ const init = async () => {
   scene.add(ambientLight)
 
   camera.position.set(1, 0.8, 1)
+  camera.lookAt(0, 0, 0)
 
-  const [texture] = await Promise.all([
+  const [texture, mug] = await Promise.all([
     new RGBELoader().loadAsync(HDR.sunset),
-    assets.load('mug.glb'),
+    assets.loadGLTF('mug.glb'),
   ])
 
   const totalMugs = 300
-  const mug = assets.get<{ scene: THREE.Scene }>('mug.glb')
   const mesh = mug.scene.getObjectByName('Mug') as THREE.Mesh
   const instancedMesh = new THREE.InstancedMesh(mesh.geometry, mesh.material, totalMugs)
   const matrix = new THREE.Matrix4()

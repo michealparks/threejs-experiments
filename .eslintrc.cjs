@@ -14,7 +14,6 @@ module.exports = {
 	ignorePatterns: ['*.cjs'],
 	rules: {
 		'@typescript-eslint/no-non-null-assertion': 'off',
-
 		'unicorn/consistent-destructuring': 'off',
 		'unicorn/prefer-math-trunc': 'off',
 	},
