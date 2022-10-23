@@ -2,7 +2,15 @@
 
 import { debug } from '$lib/debug'
 import { base } from '$app/paths'
+import { assets } from 'three-kit'
 import '../app.css'
+
+if (base) {
+  assets.audioLoader.setPath(`${base}/${kit__DIR_AUDIO}`)
+  assets.fileLoader.setPath(`${base}/${kit__DIR_FILE}`)
+  assets.gltfLoader.setPath(`${base}/${kit__DIR_GLB}`)
+  assets.textureLoader.setPath(`${base}/${kit__DIR_TEXTURES}`)
+}
 
 const demos = import.meta.glob(['./**'])
 
