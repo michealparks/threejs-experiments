@@ -14,8 +14,6 @@ if (base) {
 
 const demos = import.meta.glob(['./**'])
 
-console.log(demos)
-
 const params = {
   demo: localStorage.getItem('threeExperiments.demo') ?? 'boxes',
 }
