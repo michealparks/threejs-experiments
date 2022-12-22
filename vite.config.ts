@@ -16,7 +16,7 @@ export default defineConfig({
   plugins: [
     sveltekit(),
     ssl(),
-    vitePluginString.default({
+    vitePluginString({
       exclude: 'node_modules/**',
     }),
   ],
