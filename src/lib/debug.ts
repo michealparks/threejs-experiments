@@ -1,5 +1,7 @@
 import * as THREE from 'three'
-import { camera, scene, renderer, composer } from 'three-kit'
-import Debug from 'three-debug'
+import { three } from 'trzy'
+import Inspector from 'three-inspect'
 
-export const debug = new Debug(THREE, scene, camera, renderer, composer)
+const { scene, camera, renderer } = three()
+
+export const debug = new Inspector({ THREE, scene, camera, renderer })

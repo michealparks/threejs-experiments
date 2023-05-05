@@ -12,14 +12,6 @@ body {
 	overflow: hidden;
 }
 
-canvas {
-	position: absolute;
-	top: 0;
-	left: 0;
-	height: 100vh !important;
-	width: 100vw !important;
-}
-
 #svelte {
 	min-height: 100vh;
 	display: grid;

@@ -1,10 +1,15 @@
 <script lang='ts'>
 
-import { scene, camera, update, run } from 'three-kit'
 import * as THREE from 'three'
+import { three } from 'trzy'
 import vertexShader from '$lib/shaders/water/vert.glsl'
 import fragmentShader from '$lib/shaders/water/frag.glsl'
 import { debug } from '$lib/debug'
+
+const { scene, camera, update } = three()
+
+const ambient = new THREE.AmbientLight(undefined, 1)
+scene.add(ambient)
 
 const pane = debug.addPane('game')
 
@@ -29,7 +34,6 @@ const parameters = {
 }
 
 for (const input of Object.keys(parameters)) {
-  // @ts-expect-error :|
   pane.addInput(parameters, input).on('change', updateUniforms)
 }
 
@@ -55,6 +59,5 @@ update((time: number) => {
 })
 
 updateUniforms()
-run()
 
 </script>

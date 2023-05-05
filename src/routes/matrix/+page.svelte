@@ -1,19 +1,24 @@
 <script lang='ts'>
 
-import { scene, camera, lights, update, run } from 'three-kit'
 import * as THREE from 'three'
+import { three } from 'trzy'
 import { COLORS } from '$lib/constants'
 import { createCube } from '$lib/util-three'
 
-const light1 = lights.createPoint()
+const { scene, camera, update } = three()
+
+const ambient = new THREE.AmbientLight(undefined, 0.3)
+scene.add(ambient)
+
+const light1 = new THREE.PointLight()
 light1.intensity = 100
 light1.position.set(0, 3, 0)
 
-const light2 = lights.createPoint()
+const light2 = new THREE.PointLight()
 light2.intensity = 50
 light2.position.set(0, 3, 2)
 
-const light3 = lights.createPoint()
+const light3 = new THREE.PointLight()
 light3.intensity = 10
 light3.position.set(2, 1, 2)
 
@@ -63,7 +68,5 @@ update(() => {
     cube.applyMatrix4(translateMatrix)
   }
 })
-
-run()
 
 </script>

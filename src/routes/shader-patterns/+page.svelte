@@ -1,7 +1,7 @@
 <script lang='ts'>
 
-import { scene, camera, update, run } from 'three-kit'
 import * as THREE from 'three'
+import { three } from 'trzy'
 import vertexShader from '$lib/shaders/patterns/vert.glsl'
 import frag01 from '$lib/shaders/patterns/01.frag.glsl'
 import frag03 from '$lib/shaders/patterns/03.frag.glsl'
@@ -12,6 +12,8 @@ import frag29 from '$lib/shaders/patterns/29.frag.glsl'
 import frag33 from '$lib/shaders/patterns/33.frag.glsl'
 import frag46 from '$lib/shaders/patterns/46.frag.glsl'
 import frag50 from '$lib/shaders/patterns/50.frag.glsl'
+
+const { scene, camera, update } = three()
 
 const frags = [
   frag01,
@@ -84,7 +86,5 @@ window.addEventListener('keydown', (event) => {
 window.addEventListener('keyup', (event) => {
   keys.delete(event.key.toLowerCase())
 })
-
-run()
 
 </script>

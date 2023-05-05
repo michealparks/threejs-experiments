@@ -1,23 +1,26 @@
 <script lang='ts'>
 
-import { scene, camera, lights, assets, update, run } from 'three-kit'
 import * as THREE from 'three'
+import { three, loadGLTF } from 'trzy'
 import { fire } from '$lib/fire'
 import { createSkySphere } from '$lib/util-three'
+
+const { scene, camera, update } = three()
 
 const init = async () => {
   camera.position.set(20, 4, 18)
   camera.lookAt(0, 0, 0)
 
-  const ambientLight = lights.createAmbient()
+  const ambient = new THREE.AmbientLight(undefined, 1)
+  scene.add(ambient)
 
-  const hemiLight = lights.createHemisphere()
+  const hemiLight = new THREE.HemisphereLight()
   hemiLight.color.setHSL(0.6, 1, 0.6)
   hemiLight.groundColor.setHSL(0.095, 1, 0.75)
   scene.add(hemiLight)
   hemiLight.position.set(0, 50, 0)
 
-  const directionalLight = lights.createDirectional()
+  const directionalLight = new THREE.DirectionalLight()
   directionalLight.color.setHSL(0.1, 1, 0.95)
   directionalLight.position.set(-1, 1.75, 1).multiplyScalar(30)
   scene.add(directionalLight)
@@ -35,7 +38,7 @@ const init = async () => {
   let idl = 0.0001
   let dl = 0.0001
 
-  const { scene: rockScene } = await assets.loadGLTF('FloatingRockScene.glb')
+  const { scene: rockScene } = await loadGLTF('glb/FloatingRockScene.glb')
 
   fire.init(rockScene.getObjectByName('Fire')!, [
     rockScene.getObjectByName('Ember1') as THREE.Mesh,
@@ -54,7 +57,7 @@ const init = async () => {
       if (l >= 1) l = 1
     }
 
-    ambientLight.intensity = l
+    ambient.intensity = l
 
     if (sky.material instanceof THREE.MeshPhongMaterial) {
       sky.material.color.setHSL(hsl.h, hsl.s, l)
@@ -62,8 +65,6 @@ const init = async () => {
 
     fire.update()
   })
-
-  run()
 }
 
 init()

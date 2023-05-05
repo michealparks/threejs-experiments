@@ -1,7 +1,10 @@
 <script lang='ts'>
-import { debug } from '$lib/debug'
-import { scene, camera, run } from 'three-kit'
+
 import * as THREE from 'three'
+import { three } from 'trzy'
+import { debug } from '$lib/debug'
+
+const { scene, camera } = three()
 
 camera.position.set(0, 4, 4)
 camera.lookAt(0, 0, 0)
@@ -104,6 +107,5 @@ for (const [key, value] of Object.entries(inputs)) {
 }
 
 generateGalaxy()
-run()
 
 </script>

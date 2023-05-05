@@ -1,8 +1,10 @@
 <script lang='ts'>
 
-import { renderer, camera, lights, scene, assets, run } from 'three-kit'
 import * as THREE from 'three'
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader'
+import { three, loadGLTF } from 'trzy'
+
+const { scene, camera, renderer } = three()
 
 const HDR = {
   overpass: 'https://threejs.org/examples/textures/equirectangular/pedestrian_overpass_1k.hdr',
@@ -12,15 +14,18 @@ const HDR = {
 }
 
 const init = async () => {
-  const ambientLight = lights.createAmbient()
+  const ambientLight = new THREE.AmbientLight()
   scene.add(ambientLight)
+
+  const directionalLight = new THREE.DirectionalLight()
+  scene.add(directionalLight)
 
   camera.position.set(1, 0.8, 1)
   camera.lookAt(0, 0, 0)
 
   const [texture, mug] = await Promise.all([
     new RGBELoader().loadAsync(HDR.sunset),
-    assets.loadGLTF('mug.glb'),
+    loadGLTF('glb/mug.glb'),
   ])
 
   const totalMugs = 300
@@ -43,11 +48,6 @@ const init = async () => {
 
   scene.background = environmentMap
   scene.environment = environmentMap
-
-  texture.dispose()
-  pmremGenerator.dispose()
-
-  run()
 }
 
 init()

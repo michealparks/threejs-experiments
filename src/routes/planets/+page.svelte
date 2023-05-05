@@ -1,8 +1,10 @@
 <script lang='ts'>
 
-import { camera, scene, update, run, lights } from 'three-kit'
 import * as THREE from 'three'
+import { three } from 'trzy'
 import { COLORS } from '$lib/constants'
+
+const { scene, camera, update } = three()
 
 let id: number
 
@@ -67,7 +69,7 @@ const planets = [
 camera.position.set(0, 0, CAMERA_DISTANCE)
 camera.lookAt(new THREE.Vector3())
 
-const light = lights.createPoint()
+const light = new THREE.PointLight()
 light.intensity = 50
 light.shadow.radius = 16
 scene.add(light)
@@ -127,7 +129,7 @@ for (const { name, scale, color, emissive, distance, moons } of planets) {
 
 let view = 'side'
 
-id = window.setInterval(() => {
+id = setInterval(() => {
   if (view === 'side') {
     camera.position.set(0, CAMERA_DISTANCE, 0)
     camera.lookAt(0, 0, 0)
@@ -148,7 +150,5 @@ update((time: number) => {
     index++
   }
 })
-
-run()
 
 </script>

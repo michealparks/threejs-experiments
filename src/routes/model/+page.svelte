@@ -1,7 +1,9 @@
 <script lang='ts'>
 
-import { scene, assets, lights, run, camera } from 'three-kit'
 import * as THREE from 'three'
+import { three, loadGLTF } from 'trzy'
+
+const { scene, camera } = three()
 
 const init = async () => {
   camera.position.set(-6, 8, 6)
@@ -9,13 +11,13 @@ const init = async () => {
 
   const origin = new THREE.Vector3()
 
-  const dirlight = lights.createDirectional()
+  const dirlight = new THREE.DirectionalLight()
   dirlight.shadow.normalBias = 0.01
   dirlight.position.set(3, 3, 3)
   dirlight.intensity = 1.9
   scene.add(dirlight)
 
-  const spotlight = lights.createSpot()
+  const spotlight =  new THREE.SpotLight()
   spotlight.shadow.normalBias = 0.01
   spotlight.position.set(3.5, 5, -3)
   spotlight.angle = 0.68
@@ -30,17 +32,15 @@ const init = async () => {
   floor.receiveShadow = true
   scene.add(floor)
 
-  const burger = await assets.loadGLTF('burger.glb')
+  const burger = await loadGLTF('glb/burger.glb')
 
   burger.scene.position.y = 0.8
-  burger.scene.traverse(node => {
+  burger.scene.traverse((node) => {
     node.castShadow = true
     node.receiveShadow = true
   })
 
   scene.add(burger.scene)
-
-  run()
 }
 
 init()

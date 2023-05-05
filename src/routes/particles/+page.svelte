@@ -1,18 +1,20 @@
 <script lang='ts'>
 
-import { assets, camera, lights, scene, update, run } from 'three-kit'
 import * as THREE from 'three'
-import { createCube } from '$lib/util-three';
+import { three, loadTexture } from 'trzy'
+import { createCube } from '$lib/util-three'
+
+const { scene, camera, update } = three()
 
 camera.position.set(2,2,2)
 
-const ambientLight = lights.createAmbient()
+const ambientLight = new THREE.AmbientLight()
 scene.add(ambientLight)
 
 const cube = createCube(undefined, 0xFF_FF_FF)
 scene.add(cube)
 
-const light = lights.createDirectional()
+const light = new THREE.DirectionalLight()
 light.position.set(1, 1, -1)
 light.lookAt(new THREE.Vector3())
 light.intensity = 5
@@ -33,7 +35,7 @@ particlesGeometry.setAttribute('position', positionAttribute)
 particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
 
 const init = async () => {
-  const map = await assets.loadTexture('circle_01.png')
+  const map = await loadTexture('textures/circle_01.png')
   const particlesMaterial = new THREE.PointsMaterial()
   particlesMaterial.size = 0.075
   particlesMaterial.sizeAttenuation = true
@@ -60,8 +62,6 @@ const init = async () => {
 
     particlesGeometry.attributes.position.needsUpdate = true 
   })
-
-  run()
 }
 
 init()

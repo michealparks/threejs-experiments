@@ -1,18 +1,20 @@
 <script lang='ts'>
 
-import { scene, camera, lights, assets, update, run } from 'three-kit'
 import * as THREE from 'three'
+import { three, loadGLTF, loadTexture } from 'trzy'
 import firefliesVertShader from '$lib/shaders/fireflies/vert.glsl'
 import firefliesFragShader from '$lib/shaders/fireflies/frag.glsl'
 import portalVertShader from '$lib/shaders/portal/vert.glsl'
 import portalFragShader from '$lib/shaders/portal/frag.glsl'
 
-THREE.Object3D.DefaultMatrixAutoUpdate = false
+const { scene, camera, update } = three()
+
+THREE.Object3D.DEFAULT_MATRIX_AUTO_UPDATE = false
 
 camera.position.set(2, 1, -3)
 camera.lookAt(0, 0, 0)
 
-const ambient = lights.createAmbient(undefined, 1)
+const ambient = new THREE.AmbientLight()
 scene.add(ambient)
 
 const poleLightMaterial = new THREE.MeshBasicMaterial({ color: 0xFF_FF_E5 })
@@ -56,8 +58,8 @@ const createFireflies = (pixelRatio: number) => {
 
 const init = async () => {
   const [portal, texture] = await Promise.all([
-    assets.loadGLTF('portal.glb'),
-    assets.loadTexture('portal_2.jpg'),
+    loadGLTF('glb/portal.glb'),
+    loadTexture('textures/portal_2.jpg'),
   ])
 
   texture.flipY = false
@@ -90,8 +92,6 @@ const init = async () => {
     fireflies.material.uniforms.uTime.value = time / 1000
     portalLightMaterial.uniforms.uTime.value = time / 1000
   })
-
-  run()
 }
 
 init()

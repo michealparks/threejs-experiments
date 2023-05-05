@@ -1,7 +1,9 @@
 <script lang='ts'>
 
-import { scene, assets, lights, run, camera, update } from 'three-kit'
 import * as THREE from 'three'
+import { three, loadGLTF } from 'trzy'
+
+const { scene, camera, update } = three()
 
 const init = async () => {
   camera.position.set(-6, 8, 6)
@@ -9,13 +11,13 @@ const init = async () => {
 
   const origin = new THREE.Vector3()
 
-  const dirlight = lights.createDirectional()
+  const dirlight = new THREE.DirectionalLight()
   dirlight.shadow.normalBias = 0.01
   dirlight.position.set(3, 3, 3)
   dirlight.intensity = 5
   scene.add(dirlight)
 
-  const spotlight = lights.createSpot()
+  const spotlight = new THREE.SpotLight()
   spotlight.shadow.normalBias = 0.01
   spotlight.position.set(3.5, 5, -3)
   spotlight.angle = 0.68
@@ -30,7 +32,7 @@ const init = async () => {
   floor.receiveShadow = true
   scene.add(floor)
 
-  const mesh = await assets.loadGLTF('building-2.glb')
+  const mesh = await loadGLTF('glb/building-2.glb')
   console.log(mesh.animations)
 
   // Create an AnimationMixer, and get the list of AnimationClip instances
@@ -53,14 +55,11 @@ const init = async () => {
 
   scene.add(mesh.scene)
 
-  run()
-
   let then = performance.now()
 
   update(() => {
     let now = performance.now()
     let delta = now - then
-    console.log(delta)
     mixer.update( delta / 1000 );
     then = now
   })

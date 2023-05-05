@@ -1,18 +1,18 @@
 <script lang='ts'>
 
-import { camera, lights, scene, assets, run } from 'three-kit'
+import * as THREE from 'three'
+import { three, loadGLTF } from 'trzy'
+
+const { scene, camera } = three()
 
 const init = async () => {
   camera.position.set(2, 2, 2)
   camera.lookAt(0, 0, 0)
 
-  const ambientLight = lights.createAmbient(undefined, 4)
-  scene.add(ambientLight)
+  scene.add(new THREE.AmbientLight(undefined, 4))
 
-  const { scene: chair } = await assets.loadGLTF('chair.glb')
+  const { scene: chair } = await loadGLTF('glb/chair.glb')
   scene.add(chair)
-
-  run()
 }
 
 init()

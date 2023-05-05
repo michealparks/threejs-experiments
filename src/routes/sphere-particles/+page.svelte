@@ -1,9 +1,11 @@
 <script lang='ts'>
 
-import { scene, run, camera } from 'three-kit'
 import * as THREE from 'three'
+import { three } from 'trzy'
 import { randPointOnSphere } from '$lib/util';
 import { debug } from '$lib/debug'
+
+const { scene, camera } = three()
 
 const parameters = {
   count: 1000,
@@ -60,6 +62,5 @@ const generate = (scene: THREE.Scene) => {
 }
 
 generate(scene)
-run()
 
 </script>

@@ -1,11 +1,13 @@
 <script lang='ts'>
 
 import * as THREE from 'three'
-import { camera, lights, scene, assets, run, renderer } from 'three-kit'
+import { three, loadGLTF } from 'trzy'
+
+const { scene, camera, renderer } = three()
 
 renderer.shadowMap.type = THREE.PCFSoftShadowMap
 
-const ambientLight = lights.createAmbient()
+const ambientLight = new THREE.AmbientLight()
 scene.add(ambientLight)
 ambientLight.intensity = 0.5
 
@@ -13,7 +15,7 @@ camera.position.set(-1, 3, -5)
 camera.lookAt(0, 0, 0)
 
 {
-  const light = lights.createRectArea(0xff0000)
+  const light = new THREE.RectAreaLight(0xff0000)
   light.rotateY(Math.PI / 2)
   light.intensity = 5
   light.width = 1.6
@@ -23,7 +25,8 @@ camera.lookAt(0, 0, 0)
 }
 
 {
-  const light = lights.createSpot(0x6f8eee)
+  const light = new THREE.SpotLight(0x6f8eee)
+  light.castShadow = true
   light.intensity = 3
   light.angle = 1.11
   light.decay = 0.16
@@ -37,18 +40,14 @@ camera.lookAt(0, 0, 0)
 }
 
 const init = async () => {
-  const { scene: room } = await assets.loadGLTF('room_1.glb')
+  const { scene: room } = await loadGLTF('glb/room_1.glb')
 
-  room.traverse(object => {
+  room.traverse((object) => {
     object.castShadow = true
     object.receiveShadow = true
   })
 
   scene.add(room)
-
-  THREE.Object3D.DefaultMatrixAutoUpdate = false
-
-  run()
 }
 
 init()
