@@ -1,1 +1,0 @@
-import{i as e,p as n,o as s,q as o,M as a,v as w}from"./index-ba1d3bc3.js";const r=(o=1,a=4500104)=>new e(new n(o,o,o),new s({color:a})),c=(n=1,s=16711680)=>new e(new o(n,16,16),new a({color:s})),t=(n=80,a=12)=>{const r=new s({color:2733814}),c=new o(n,a,a);return r.side=w,new e(c,r)};export{r as a,c as b,t as c};
