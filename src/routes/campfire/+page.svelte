@@ -8,8 +8,8 @@ import { createSkySphere } from '$lib/util-three'
 const { scene, camera, update } = three()
 
 const init = async () => {
-  camera.position.set(20, 4, 18)
-  camera.lookAt(0, 0, 0)
+  camera.current.position.set(20, 4, 18)
+  camera.current.lookAt(0, 0, 0)
 
   const ambient = new THREE.AmbientLight(undefined, 1)
   scene.add(ambient)

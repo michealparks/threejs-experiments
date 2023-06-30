@@ -6,8 +6,8 @@ import { three, loadGLTF } from 'trzy'
 const { scene, camera } = three()
 
 const init = async () => {
-  camera.position.set(-6, 8, 6)
-  camera.lookAt(0, 0, 0)
+  camera.current.position.set(-6, 8, 6)
+  camera.current.lookAt(0, 0, 0)
 
   const origin = new THREE.Vector3()
 

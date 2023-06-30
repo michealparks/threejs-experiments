@@ -56,12 +56,12 @@ while (index < numberCubes) {
 
 let x = 0
 
-camera.position.set(0, 1, 10)
-camera.lookAt(new THREE.Vector3())
+camera.current.position.set(0, 1, 10)
+camera.current.lookAt(new THREE.Vector3())
 
 update(() => {
   x += 0.05
-  camera.applyMatrix4(rotationMatrix)
+  camera.current.applyMatrix4(rotationMatrix)
 
   for (const [index, cube] of cubes.entries()) {
     cubeTranslation(index, Math.sin(x / 2) * 0.01)

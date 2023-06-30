@@ -6,7 +6,7 @@ import { createCube } from '$lib/util-three'
 
 const { scene, camera, update } = three()
 
-camera.position.set(2,2,2)
+camera.current.position.set(2,2,2)
 
 const ambientLight = new THREE.AmbientLight()
 scene.add(ambientLight)
@@ -50,9 +50,11 @@ const init = async () => {
 
   const particles = new THREE.Points(particlesGeometry, particlesMaterial)
   scene.add(particles)
-  camera.lookAt(particles.position)
+  camera.current.lookAt(particles.position)
 
-  update((time: number) => {
+  let time = 0
+  update((_ctx, delta) => {
+    time += delta
     for (let index = 0; index < count; index += 1) {
       const x = particlesGeometry.attributes.position.getX(index)
       particlesGeometry.attributes.position.setY(index, Math.sin(time / 1000 + x))

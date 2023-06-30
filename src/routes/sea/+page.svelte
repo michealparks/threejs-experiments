@@ -51,10 +51,12 @@ for (const [key, value] of Object.entries(parameters)) {
 }
 
 scene.add(mesh)
-camera.position.set(4, 2, 0)
-camera.lookAt(mesh.position)
+camera.current.position.set(4, 2, 0)
+camera.current.lookAt(mesh.position)
 
-update((time: number) => {
+let time = 0
+update((_ctx, delta) => {
+  time += delta
   material.uniforms.uTime.value = time / 1000
 })
 

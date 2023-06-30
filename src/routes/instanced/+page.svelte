@@ -20,8 +20,8 @@ const init = async () => {
   const directionalLight = new THREE.DirectionalLight()
   scene.add(directionalLight)
 
-  camera.position.set(1, 0.8, 1)
-  camera.lookAt(0, 0, 0)
+  camera.current.position.set(1, 0.8, 1)
+  camera.current.lookAt(0, 0, 0)
 
   const [texture, mug] = await Promise.all([
     new RGBELoader().loadAsync(HDR.sunset),

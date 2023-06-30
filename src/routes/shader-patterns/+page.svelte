@@ -28,7 +28,7 @@ const frags = [
 ]
 
 const cubes: THREE.Mesh[] = []
-camera.position.set(0, 4, 4)
+camera.current.position.set(0, 4, 4)
 
 for (const [index, fragmentShader] of frags.entries()) {
   const material = new THREE.ShaderMaterial({
@@ -49,13 +49,15 @@ for (const [index, fragmentShader] of frags.entries()) {
   cubes.push(cube)
 }
 
-camera.lookAt(cubes[0].position)
+camera.current.lookAt(cubes[0].position)
 
 const keys = new Set()
 
 let m = 0
+let time = 0
+update((_ctx, delta) => {
+  time += delta
 
-update((time: number) => {
   for (const cube of cubes) {
     cube.rotation.x = time / 1000
     ;(cube.material as THREE.ShaderMaterial).uniforms.time.value += 0.01
@@ -76,7 +78,7 @@ update((time: number) => {
 
   m /= 1.1
 
-  camera.position.x += m
+  camera.current.position.x += m
 })
 
 window.addEventListener('keydown', (event) => {

@@ -6,8 +6,8 @@ import { three, loadGLTF } from 'trzy'
 const { scene, camera } = three()
 
 const init = async () => {
-  camera.position.set(2, 2, 2)
-  camera.lookAt(0, 0, 0)
+  camera.current.position.set(2, 2, 2)
+  camera.current.lookAt(0, 0, 0)
 
   scene.add(new THREE.AmbientLight(undefined, 4))
 

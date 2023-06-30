@@ -6,7 +6,7 @@ import { createSphere } from '$lib/util-three'
 
 const { scene, camera, update } = three()
 
-camera.position.set(0, 0, 7)
+camera.current.position.set(0, 0, 7)
 
 const ambientLight = new THREE.AmbientLight()
 scene.add(ambientLight)
@@ -25,7 +25,7 @@ s1.position.x = -2
 s3.position.x = +2
 scene.add(s1, s2, s3)
 
-camera.lookAt(s2.position)
+camera.current.lookAt(s2.position)
 
 const mouse = new THREE.Vector2()
 
@@ -34,12 +34,14 @@ document.addEventListener('mousemove', (event) => {
   mouse.y = - (event.clientY / innerHeight) * 2 + 1
 }, { passive: true })
 
-update((time: number) => {
+let time = 0
+update((_ctx, delta) => {
+  time += delta
   s1.position.y = Math.sin(time / 1000 * 0.3) * 1.5
   s2.position.y = Math.sin(time / 1000 * 0.8) * 1.5
   s3.position.y = Math.sin(time / 1000 * 1.4) * 1.5
 
-  mousecaster.setFromCamera(mouse, camera)
+  mousecaster.setFromCamera(mouse, camera.current)
 
   const objectsToTest = [s1, s2, s3]
   const intersects = raycaster.intersectObjects(objectsToTest)

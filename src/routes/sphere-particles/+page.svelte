@@ -19,7 +19,7 @@ const inputs = {
   sphereSize: { min: 1, max: 100, step: 1 },
 }
 
-camera.position.set(0, 0, 5)
+camera.current.position.set(0, 0, 5)
 
 const pane = debug.addPane('game')
 

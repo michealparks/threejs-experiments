@@ -6,8 +6,8 @@ import { debug } from '$lib/debug'
 
 const { scene, camera } = three()
 
-camera.position.set(0, 4, 4)
-camera.lookAt(0, 0, 0)
+camera.current.position.set(0, 4, 4)
+camera.current.lookAt(0, 0, 0)
 
 const parameters = {
   count: 10_000,

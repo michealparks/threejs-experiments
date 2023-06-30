@@ -6,7 +6,7 @@ import fragmentShader from '$lib/shaders/hello-shader.frag.glsl'
 
 const { scene, camera, renderer, update } = three()
 
-camera.position.set(0, 0, 2)
+camera.current.position.set(0, 0, 2)
 scene.lookAt(new THREE.Vector3())
 
 const uniforms = {
@@ -31,7 +31,9 @@ light.position.set(-1, 2, 4)
 light.lookAt(new THREE.Vector3())
 scene.add(light)
 
-update((time: number) => {
+let time = 0
+update((_ctx, delta: number) => {
+  time += delta
   uniforms.resolution.value.set(renderer.domElement.width, renderer.domElement.height)
   uniforms.time.value = time / 100
   cube.rotation.x = time / 1000

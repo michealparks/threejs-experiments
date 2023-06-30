@@ -66,8 +66,8 @@ const planets = [
   }
 ]
 
-camera.position.set(0, 0, CAMERA_DISTANCE)
-camera.lookAt(new THREE.Vector3())
+camera.current.position.set(0, 0, CAMERA_DISTANCE)
+camera.current.lookAt(new THREE.Vector3())
 
 const light = new THREE.PointLight()
 light.intensity = 50
@@ -131,17 +131,19 @@ let view = 'side'
 
 id = setInterval(() => {
   if (view === 'side') {
-    camera.position.set(0, CAMERA_DISTANCE, 0)
-    camera.lookAt(0, 0, 0)
+    camera.current.position.set(0, CAMERA_DISTANCE, 0)
+    camera.current.lookAt(0, 0, 0)
     view = 'top'
   } else {
-    camera.position.set(0, 0, CAMERA_DISTANCE)
-    camera.lookAt(0, 0, 0)
+    camera.current.position.set(0, 0, CAMERA_DISTANCE)
+    camera.current.lookAt(0, 0, 0)
     view = 'side'
   }
 }, 5000)
 
-update((time: number) => {
+let time = 0
+update((_ctx, delta) => {
+  time += delta
   let index = 0
   let l = objects.length
 

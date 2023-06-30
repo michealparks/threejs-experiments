@@ -6,8 +6,8 @@ import { three, loadGLTF } from 'trzy'
 const { scene, camera, update } = three()
 
 const init = async () => {
-  camera.position.set(-6, 8, 6)
-  camera.lookAt(0, 0, 0)
+  camera.current.position.set(-6, 8, 6)
+  camera.current.lookAt(0, 0, 0)
 
   const origin = new THREE.Vector3()
 
@@ -57,11 +57,8 @@ const init = async () => {
 
   let then = performance.now()
 
-  update(() => {
-    let now = performance.now()
-    let delta = now - then
+  update((_ctx, delta) => {
     mixer.update( delta / 1000 );
-    then = now
   })
 }
 

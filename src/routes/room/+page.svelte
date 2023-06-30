@@ -11,8 +11,8 @@ const ambientLight = new THREE.AmbientLight()
 scene.add(ambientLight)
 ambientLight.intensity = 0.5
 
-camera.position.set(-1, 3, -5)
-camera.lookAt(0, 0, 0)
+camera.current.position.set(-1, 3, -5)
+camera.current.lookAt(0, 0, 0)
 
 {
   const light = new THREE.RectAreaLight(0xff0000)

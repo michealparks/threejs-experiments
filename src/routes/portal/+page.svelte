@@ -7,15 +7,16 @@ import firefliesFragShader from '$lib/shaders/fireflies/frag.glsl'
 import portalVertShader from '$lib/shaders/portal/vert.glsl'
 import portalFragShader from '$lib/shaders/portal/frag.glsl'
 
-const { scene, camera, update } = three()
+const { scene, camera, update, renderer } = three({
+  parameters: { antialias: true },
+})
 
+renderer.outputColorSpace = THREE.LinearSRGBColorSpace
+THREE.ColorManagement.enabled = false
 THREE.Object3D.DEFAULT_MATRIX_AUTO_UPDATE = false
 
-camera.position.set(2, 1, -3)
-camera.lookAt(0, 0, 0)
-
-const ambient = new THREE.AmbientLight()
-scene.add(ambient)
+camera.current.position.set(2, 1, -3)
+camera.current.lookAt(0, 0, 0)
 
 const poleLightMaterial = new THREE.MeshBasicMaterial({ color: 0xFF_FF_E5 })
 const portalLightMaterial = new THREE.ShaderMaterial({
@@ -63,7 +64,6 @@ const init = async () => {
   ])
 
   texture.flipY = false
-  texture.encoding = THREE.sRGBEncoding
 
   const bakedMaterial = new THREE.MeshBasicMaterial({ map: texture })
 
@@ -88,7 +88,9 @@ const init = async () => {
   const fireflies = createFireflies(devicePixelRatio)
   scene.add(fireflies)
 
-  update((time: number) => {
+  let time = 0
+  update((_cxt, delta) => {
+    time += delta
     fireflies.material.uniforms.uTime.value = time / 1000
     portalLightMaterial.uniforms.uTime.value = time / 1000
   })
